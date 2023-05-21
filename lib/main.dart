@@ -1,3 +1,5 @@
+import 'package:cyberbracy_mpt_original_front/const/theme_data.dart';
+import 'package:cyberbracy_mpt_original_front/sign_in/presentation/sign_in.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,12 +11,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      theme: themeData,
+      home: const SignIn(),
     );
   }
 }
