@@ -1,5 +1,6 @@
 import 'package:cyberbracy_mpt_original_front/const/theme_data.dart';
 import 'package:cyberbracy_mpt_original_front/sign_in/presentation/sign_in.dart';
+import 'package:cyberbracy_mpt_original_front/sign_up.dart/presentation/sign_up.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +14,14 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: themeData,
-      home: const SignIn(),
+      onGenerateRoute: (settings) {
+        return switch (settings.name!) {
+          "sign_in" => MaterialPageRoute(builder: (_) => const SignIn()),
+          "sign_up" => MaterialPageRoute(builder: (_) => const SignUp()),
+          _ => MaterialPageRoute(builder: (_) => Placeholder())
+        };
+      },
+      initialRoute: 'sign_in',
     );
   }
 }

@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import '../../const/images_url.dart';
 import '../../widget/text_filed_custom.dart';
 
-class SignIn extends StatelessWidget {
-  const SignIn({super.key});
+class SignUp extends StatelessWidget {
+  const SignUp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,27 +38,21 @@ class SignIn extends StatelessWidget {
                 title: "Регистрация",
                 hint: "Пароль",
               ),
-              const SizedBox(height: 25),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('Войти в систему'),
+              const SizedBox(height: 15),
+              const TextFieldCustom(
+                sufficIcon: Icons.visibility,
+                prefixIcon: Icons.lock,
+                title: "Регистрация",
+                hint: "Подтверждение пароля",
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 25),
               OutlinedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, 'sign_up');
-                },
+                onPressed: () {},
                 child: const Text(
-                  'Регистрация',
+                  'Отправить код',
                 ),
               ),
               const Spacer(),
-              const Center(
-                  child: Text(
-                'Забыли пароль?',
-                style: TextStyle(color: Color(0xFF848484)),
-              )),
-              const SizedBox(height: 15),
             ],
           ),
         ),
