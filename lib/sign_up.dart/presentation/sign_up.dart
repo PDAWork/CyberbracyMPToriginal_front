@@ -33,21 +33,23 @@ class SignUp extends StatelessWidget {
               ),
               const SizedBox(height: 15),
               const TextFieldCustom(
-                sufficIcon: Icons.visibility,
+                suffixIcon: Icons.visibility,
                 prefixIcon: Icons.lock,
                 title: "Регистрация",
                 hint: "Пароль",
               ),
               const SizedBox(height: 15),
               const TextFieldCustom(
-                sufficIcon: Icons.visibility,
+                suffixIcon: Icons.visibility,
                 prefixIcon: Icons.lock,
                 title: "Регистрация",
                 hint: "Подтверждение пароля",
               ),
               const SizedBox(height: 25),
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, "pin_verification");
+                },
                 child: const Text(
                   'Отправить код',
                 ),

@@ -19,8 +19,9 @@ class MainApp extends StatelessWidget {
         return switch (settings.name!) {
           "sign_in" => MaterialPageRoute(builder: (_) => const SignIn()),
           "sign_up" => MaterialPageRoute(builder: (_) => const SignUp()),
-          "pin_verification" =>
-            MaterialPageRoute(builder: (_) => const PinVerification()),
+          "pin_verification" => MaterialPageRoute(
+              builder: (_) => const PinVerification(),
+            ),
           _ => MaterialPageRoute(builder: (_) => const Placeholder())
         };
       },
