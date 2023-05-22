@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../const/colors_theme.dart';
 import '../../const/images_url.dart';
 import '../../widget/text_filed_custom.dart';
 
@@ -33,7 +34,7 @@ class SignIn extends StatelessWidget {
               ),
               const SizedBox(height: 15),
               const TextFieldCustom(
-                sufficIcon: Icons.visibility,
+                suffixIcon: Icons.visibility,
                 prefixIcon: Icons.lock,
                 title: "Регистрация",
                 hint: "Пароль",
@@ -53,11 +54,12 @@ class SignIn extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              const Center(
-                  child: Text(
-                'Забыли пароль?',
-                style: TextStyle(color: Color(0xFF848484)),
-              )),
+              Center(
+                child: Text(
+                  'Забыли пароль?',
+                  style: TextStyle(color: ColorTheme.grey),
+                ),
+              ),
               const SizedBox(height: 15),
             ],
           ),

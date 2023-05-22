@@ -1,39 +1,34 @@
+import 'package:cyberbracy_mpt_original_front/const/colors_theme.dart';
 import 'package:flutter/material.dart';
 
 ThemeData themeData = ThemeData(
-          outlinedButtonTheme: OutlinedButtonThemeData(
-            style: ButtonStyle(
-              fixedSize: const MaterialStatePropertyAll(
-                Size(50, 50),
-              ),
-              side: const MaterialStatePropertyAll(
-                BorderSide(
-                  color: Color(0xFFE04142),
-                  width: 2.0,
-                ),
-              ),
-              overlayColor: const MaterialStatePropertyAll(Color(0xFFFFDBDB)),
-              shape: MaterialStatePropertyAll(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-              foregroundColor:
-                  const MaterialStatePropertyAll(Color(0xFFE04142)),
-            ),
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ButtonStyle(
-              fixedSize: const MaterialStatePropertyAll(
-                Size(50, 50),
-              ),
-              backgroundColor:
-                  const MaterialStatePropertyAll(Color(0xFFE04142)),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-          ),
-        );
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: ButtonStyle(
+      fixedSize: const MaterialStatePropertyAll(Size(50, 50)),
+      side: MaterialStatePropertyAll(
+        BorderSide(
+          color: ColorTheme.red,
+          width: 2.0,
+        ),
+      ),
+      overlayColor: MaterialStatePropertyAll(ColorTheme.white),
+      shape: MaterialStatePropertyAll(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+      foregroundColor: MaterialStatePropertyAll(ColorTheme.red),
+    ),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      fixedSize: const MaterialStatePropertyAll(Size(50, 50)),
+      backgroundColor: MaterialStatePropertyAll(ColorTheme.red),
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+    ),
+  ),
+);

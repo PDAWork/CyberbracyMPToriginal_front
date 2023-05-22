@@ -1,15 +1,16 @@
+import 'package:cyberbracy_mpt_original_front/const/colors_theme.dart';
 import 'package:flutter/material.dart';
 
 class TextFieldCustom extends StatelessWidget {
   final IconData? prefixIcon;
-  final IconData? sufficIcon;
+  final IconData? suffixIcon;
   final String title;
   final String hint;
 
   const TextFieldCustom({
     super.key,
     this.prefixIcon,
-    this.sufficIcon,
+    this.suffixIcon,
     required this.title,
     required this.hint,
   });
@@ -25,25 +26,25 @@ class TextFieldCustom extends StatelessWidget {
                 prefixIcon,
                 color: Colors.black,
               ),
-        suffixIcon: sufficIcon == null
+        suffixIcon: suffixIcon == null
             ? null
             : Icon(
-                sufficIcon,
+                suffixIcon,
                 color: Colors.black,
               ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(color: Color(0xFFEFEEF1)),
+          borderSide: BorderSide(color: ColorTheme.white),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(color: Color(0xFFEFEEF1)),
+          borderSide: BorderSide(color: ColorTheme.white),
         ),
         border: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color(0xFFEFEEF1)),
+          borderSide: BorderSide(color: ColorTheme.white),
           borderRadius: BorderRadius.circular(15),
         ),
-        fillColor: const Color(0xFFEFEEF1),
+        fillColor: ColorTheme.white,
         filled: true,
       ),
     );
