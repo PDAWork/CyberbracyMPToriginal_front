@@ -1,8 +1,8 @@
-import 'package:cyberbracy_mpt_original_front/const/colors_theme.dart';
-import 'package:cyberbracy_mpt_original_front/const/custom_icon_icons.dart';
-import 'package:cyberbracy_mpt_original_front/const/images_url.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../const/colors_theme.dart';
+import '../../const/custom_icon_icons.dart';
+import '../../widget/app_bar_custom.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -17,38 +17,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leadingWidth: 130,
-        actions: [
-          Image.asset(
-            ImagesUrl.chat_bot,
-            width: 35,
-          ),
-          SizedBox(width: 15)
-        ],
-        leading: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 5),
-              child: SvgPicture.asset(
-                ImagesUrl.logo,
-                height: 35,
-              ),
-            ),
-            Text(
-              'Открытый\nконтроль',
-              style: TextStyle(color: Colors.black),
-            )
-          ],
-        ),
-
-        // title: Text('открытый\nконтроль',style: Theme.of(context).textTheme.titleSmall,),
-      ),
+      appBar:const AppBarCustom(),
       backgroundColor: ColorTheme.white,
       bottomNavigationBar: Container(
         margin: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
@@ -86,3 +55,4 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
