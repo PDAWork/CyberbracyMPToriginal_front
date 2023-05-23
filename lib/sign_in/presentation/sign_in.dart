@@ -41,7 +41,9 @@ class SignIn extends StatelessWidget {
               ),
               const SizedBox(height: 25),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, "home");
+                },
                 child: const Text('Войти в систему'),
               ),
               const SizedBox(height: 10),
