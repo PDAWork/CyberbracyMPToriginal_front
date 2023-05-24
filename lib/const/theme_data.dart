@@ -11,7 +11,7 @@ ThemeData themeData = ThemeData(
           width: 2.0,
         ),
       ),
-      overlayColor: MaterialStatePropertyAll(ColorTheme.white),
+      overlayColor: MaterialStatePropertyAll(ColorTheme.lightRed),
       shape: MaterialStatePropertyAll(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
