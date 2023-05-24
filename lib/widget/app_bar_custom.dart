@@ -1,3 +1,4 @@
+import 'package:cyberbracy_mpt_original_front/const/screen_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -19,11 +20,15 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.white,
       leadingWidth: title != null ? null : 130,
       actions: [
-        Image.asset(
-          ImagesUrl.chat_bot,
-          width: 35,
+        GestureDetector(
+          onTap: () =>
+              Navigator.of(context).pushNamed(ChatBotRoute().routeName),
+          child: Image.asset(
+            ImagesUrl.chat_bot,
+            width: 35,
+          ),
         ),
-        SizedBox(width: 15)
+        const SizedBox(width: 15)
       ],
       foregroundColor: ColorTheme.red,
       leading: title != null
