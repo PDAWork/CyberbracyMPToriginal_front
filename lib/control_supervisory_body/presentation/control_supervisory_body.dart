@@ -1,11 +1,13 @@
+import 'package:cyberbracy_mpt_original_front/control_supervisory_body/presentation/regulatory_acts.dart';
 import 'package:cyberbracy_mpt_original_front/control_supervisory_body/presentation/review.dart';
+import 'package:cyberbracy_mpt_original_front/control_supervisory_body/presentation/supervisory_cut.dart';
 import 'package:cyberbracy_mpt_original_front/widget/app_bar_custom.dart';
 import 'package:flutter/material.dart';
 
 import '../../const/colors_theme.dart';
 
 class ControlSupervisoryBody extends StatefulWidget {
- const  ControlSupervisoryBody({Key? key}) : super(key: key);
+  const ControlSupervisoryBody({Key? key}) : super(key: key);
 
   @override
   State<ControlSupervisoryBody> createState() => _ControlSupervisoryBodyState();
@@ -25,7 +27,9 @@ class _ControlSupervisoryBodyState extends State<ControlSupervisoryBody> {
         floatingActionButton: SizedBox(
           width: 155,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+
+            },
             child: const Row(
               children: [Icon(Icons.add), Text('Задать вопрос')],
             ),
@@ -37,11 +41,11 @@ class _ControlSupervisoryBodyState extends State<ControlSupervisoryBody> {
           bottom: TabBar(
             labelColor: Colors.black,
             isScrollable: true,
-            labelStyle:const TextStyle(
+            labelStyle: const TextStyle(
               fontSize: 12,
             ),
             indicatorColor: ColorTheme.red,
-            tabs:const [
+            tabs: const [
               Tab(
                 text: "Обзор",
               ),
@@ -54,12 +58,12 @@ class _ControlSupervisoryBodyState extends State<ControlSupervisoryBody> {
             ],
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           physics: BouncingScrollPhysics(),
           children: [
             Review(),
-            Text('2'),
-            Text('3'),
+            SupervisoryCut(),
+            RegulatoryActs(),
           ],
         ),
       ),
