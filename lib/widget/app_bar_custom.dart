@@ -6,10 +6,12 @@ import '../const/images_url.dart';
 
 class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
+  final PreferredSizeWidget? bottom;
 
   const AppBarCustom({
     super.key,
     this.title,
+    this.bottom,
   });
 
   @override
@@ -18,6 +20,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       backgroundColor: Colors.white,
       leadingWidth: title != null ? null : 130,
+      bottom: bottom,
       actions: [
         Image.asset(
           ImagesUrl.chat_bot,
@@ -56,6 +59,17 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
+  // @override
+  // Size get preferredSize => Size(
+  //     0, kToolbarHeight +   (bottom?.preferredSize.height ?? == null ? 0 : bottom!.preferredSize.height));
   @override
-  Size get preferredSize => const Size(0, kToolbarHeight);
+  Size get preferredSize =>
+      Size(0, _PreferredAppBarSize(bottom?.preferredSize.height).height);
+}
+
+class _PreferredAppBarSize extends Size {
+  _PreferredAppBarSize(this.bottomHeight)
+      : super.fromHeight(kToolbarHeight + (bottomHeight ?? 0));
+
+  final double? bottomHeight;
 }
