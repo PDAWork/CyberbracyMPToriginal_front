@@ -1,3 +1,4 @@
+import 'package:cyberbracy_mpt_original_front/const/screen_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -48,7 +49,8 @@ class SignUp extends StatelessWidget {
               const SizedBox(height: 25),
               OutlinedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, "pin_verification");
+                  Navigator.pushNamed(
+                      context, PinVerificationRoute().routeName);
                 },
                 child: const Text(
                   'Отправить код',

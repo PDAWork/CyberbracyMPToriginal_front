@@ -1,3 +1,4 @@
+import 'package:cyberbracy_mpt_original_front/const/screen_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -42,14 +43,14 @@ class SignIn extends StatelessWidget {
               const SizedBox(height: 25),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, "home");
+                  Navigator.pushNamed(context, HomeRoute().routeName);
                 },
                 child: const Text('Войти в систему'),
               ),
               const SizedBox(height: 10),
               OutlinedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, 'sign_up');
+                  Navigator.pushNamed(context, SignUpRoute().routeName);
                 },
                 child: const Text(
                   'Регистрация',

@@ -1,3 +1,5 @@
+import 'package:cyberbracy_mpt_original_front/chat_bot/presentation/chat_bot.dart';
+import 'package:cyberbracy_mpt_original_front/const/screen_routes.dart';
 import 'package:cyberbracy_mpt_original_front/const/theme_data.dart';
 import 'package:cyberbracy_mpt_original_front/home/presentation/home.dart';
 import 'package:cyberbracy_mpt_original_front/pin_verification/presentation/pin_verification.dart';
@@ -24,11 +26,14 @@ class MainApp extends StatelessWidget {
           "pin_verification" => MaterialPageRoute(
               builder: (_) => const PinVerification(),
             ),
-        "home" => MaterialPageRoute(builder: (_)=> const Home()),
+          "chat_bot" => MaterialPageRoute(
+              builder: (_) => const ChatBot(),
+            ),
+          "home" => MaterialPageRoute(builder: (_) => const Home()),
           _ => MaterialPageRoute(builder: (_) => const Placeholder())
         };
       },
-      initialRoute: 'sign_in',
+      initialRoute: 'chat_bot',
     );
   }
 }
