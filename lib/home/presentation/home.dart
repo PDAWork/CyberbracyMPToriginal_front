@@ -1,3 +1,4 @@
+import 'package:cyberbracy_mpt_original_front/home/presentation/control_body/control_body.dart';
 import 'package:flutter/material.dart';
 import '../../const/colors_theme.dart';
 import '../../const/custom_icon_icons.dart';
@@ -13,6 +14,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int currentIndex = 0;
   ScrollController controller = ScrollController();
+
+  List page = [ControlBody(),Placeholder(),Placeholder()];
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +46,14 @@ class _HomeState extends State<Home> {
               unselectedItemColor: Colors.white,
               items: const [
                 BottomNavigationBarItem(
-                  icon: Icon(CustomIcon.schedule),
-                  label: 'Расписание',
-                ),
-                BottomNavigationBarItem(
                   icon: Icon(CustomIcon.control),
                   label: 'Контроль',
                 ),
+                BottomNavigationBarItem(
+                  icon: Icon(CustomIcon.schedule),
+                  label: 'Расписание',
+                ),
+
                 BottomNavigationBarItem(
                   icon: Icon(CustomIcon.profile),
                   label: 'Профиль',
@@ -59,6 +63,7 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
+      body: page[currentIndex],
     );
   }
 }

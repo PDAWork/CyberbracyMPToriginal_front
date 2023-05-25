@@ -275,7 +275,10 @@ class _ChatBotState extends State<ChatBot> {
   Widget build(BuildContext context) {
     var currentUser = 'ripls';
     return Scaffold(
-      appBar: const AppBarCustom(),
+      appBar: const AppBarCustom(
+        isChatBot: true,
+        title: 'Бот-надзор',
+      ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Column(
