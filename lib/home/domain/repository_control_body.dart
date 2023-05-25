@@ -14,7 +14,7 @@ class RepositoryControlBody {
         (result.data as List).map((e) => ControlBodyModel.fromJson(e)).toList()
       );
     } on DioError catch (e) {
-      print(e.message!);
+      (e.message!);
       return ((false,e.message ?? "Ошибка"), <ControlBodyModel>[]);
     }
   }

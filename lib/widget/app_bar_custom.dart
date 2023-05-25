@@ -26,7 +26,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
               ? null
               : Navigator.of(context).pushNamed(ChatBotRoute().routeName),
           child: Image.asset(
-            ImagesUrl.chat_bot,
+            ImagesUrl.chatBot,
             width: 35,
           ),
         ),

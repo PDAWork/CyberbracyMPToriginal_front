@@ -15,7 +15,7 @@ class _HomeState extends State<Home> {
   int currentIndex = 0;
   ScrollController controller = ScrollController();
 
-  List page = [ControlBody(),Placeholder(),Placeholder()];
+  List page = [const ControlBody(),const Placeholder(),const Placeholder()];
 
   @override
   Widget build(BuildContext context) {

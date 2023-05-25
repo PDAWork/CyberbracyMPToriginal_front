@@ -1,4 +1,5 @@
 import 'package:cyberbracy_mpt_original_front/const/colors_theme.dart';
+import 'package:cyberbracy_mpt_original_front/const/screen_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,7 +32,7 @@ class ControlBody extends StatelessWidget {
                         onTap: () {
                           Navigator.pushNamed(
                             context,
-                            'control_supervisory_body',
+                           ControlSupervisoryRoute().routeName
                           );
                         },
                         child: Padding(
@@ -42,8 +43,10 @@ class ControlBody extends StatelessWidget {
                               Text(
                                 state.list[index].name,
                                 maxLines: 2,
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w500),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                               const SizedBox(height: 5),
                               Row(
@@ -108,7 +111,7 @@ class ControlBody extends StatelessWidget {
           );
         }
         if (state is ControlBodyLoad) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -117,7 +120,7 @@ class ControlBody extends StatelessWidget {
             child: Text(state.errorMesage),
           );
         }
-        return Placeholder();
+        return const Placeholder();
       },
     );
   }

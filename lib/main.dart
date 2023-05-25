@@ -34,7 +34,7 @@ class MainApp extends StatelessWidget {
               builder: (_) => const PinVerification(),
             ),
           "control_supervisory_body" => MaterialPageRoute(
-              builder: (_) => ControlSupervisoryBody(),
+              builder: (_) =>const ControlSupervisoryBody(),
             ),
           "chat_bot" => MaterialPageRoute(
               builder: (_) => const ChatBot(),
@@ -43,7 +43,7 @@ class MainApp extends StatelessWidget {
               builder: (_) => BlocProvider(
                 create: (context) =>
                     ControlBodyCubit(sl<RepositoryControlBody>())..init(),
-                child: Home(),
+                child:const Home(),
               ),
             ),
           _ => MaterialPageRoute(builder: (_) => const Placeholder())

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../const/colors_theme.dart';
 
 class ControlSupervisoryBody extends StatefulWidget {
-  ControlSupervisoryBody({Key? key}) : super(key: key);
+ const  ControlSupervisoryBody({Key? key}) : super(key: key);
 
   @override
   State<ControlSupervisoryBody> createState() => _ControlSupervisoryBodyState();
@@ -54,8 +54,8 @@ class _ControlSupervisoryBodyState extends State<ControlSupervisoryBody> {
             ],
           ),
         ),
-        body: TabBarView(
-          physics: const BouncingScrollPhysics(),
+        body: const TabBarView(
+          physics: BouncingScrollPhysics(),
           children: [
             Review(),
             Text('2'),
