@@ -94,27 +94,28 @@ class _ChatBotState extends State<ChatBot> {
                           return const SizedBox.shrink();
                         }
                         return ListView.separated(
-                          controller: _scrollController,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          separatorBuilder: (context, index) =>
-                              const SizedBox(height: 8),
-                          itemCount: messages.length,
-                          itemBuilder: (context, index) =>
-                              AnimationConfiguration.staggeredList(
-                            delay: Duration.zero,
-                            position: index,
-                            child: FadeInAnimation(
-                              child: MessageTile(
-                                messages[index].message,
-                                time: formateDate(messages[index].timestamp),
-                                sender: 'none',
-                                sentByMe: !messages[index].isBot,
-                                isCanceled: messages[index].isCanceled,
-                                // imageUrl: ImagesUrl.chat_bot,
-                              ),
-                            ),
-                          ),
-                        );
+                            controller: _scrollController,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: 8),
+                            itemCount: messages.length,
+                            itemBuilder: (context, index) {
+                              return AnimationConfiguration.staggeredList(
+                                delay: Duration.zero,
+                                position: index,
+                                child: FadeInAnimation(
+                                  child: MessageTile(
+                                    messages[index].message,
+                                    time:
+                                        formateDate(messages[index].timestamp),
+                                    sender: 'none',
+                                    sentByMe: !messages[index].isBot,
+                                    isCanceled: messages[index].isCanceled,
+                                    // imageUrl: ImagesUrl.chat_bot,
+                                  ),
+                                ),
+                              );
+                            });
                       },
                     ),
                   ),

@@ -1,5 +1,6 @@
 import 'package:cyberbracy_mpt_original_front/const/colors_theme.dart';
 import 'package:cyberbracy_mpt_original_front/const/images_url.dart';
+import 'package:cyberbracy_mpt_original_front/core/helper/html_parse.dart';
 import 'package:flutter/material.dart';
 
 class MessageTile extends StatelessWidget {
@@ -36,6 +37,10 @@ class MessageTile extends StatelessWidget {
 
     var messageTextStyle =
         TextStyle(color: sentByMe ? Colors.black : Colors.white);
+    final List<(String?, SpawnedWidgetElement)> listWidgets = [];
+    if (!sentByMe) {
+      listWidgets.addAll(HtmlMessageParse.parseMessage(message));
+    }
 
     return Column(
       crossAxisAlignment:
@@ -88,11 +93,33 @@ class MessageTile extends StatelessWidget {
                     ),
                   ),
                   padding: const EdgeInsets.all(8),
-                  child: Text(
-                    message,
-                    softWrap: true,
-                    style: messageTextStyle,
-                  ),
+                  child: sentByMe
+                      ? Text(
+                          message,
+                          softWrap: true,
+                          style: messageTextStyle,
+                        )
+                      : RichText(
+                          text: TextSpan(
+                            children: listWidgets.map(
+                              (e) {
+                                return switch (e.$2) {
+                                  SpawnedWidgetElement.simpleText =>
+                                    TextSpan(text: e.$1),
+                                  SpawnedWidgetElement.coloredText => TextSpan(
+                                      text: e.$1,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        // decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  SpawnedWidgetElement.newLine =>
+                                    const TextSpan(text: '\n'),
+                                };
+                              },
+                            ).toList(),
+                          ),
+                        ),
                 ),
               ),
             ),
