@@ -17,13 +17,9 @@ dependencies:
   get_it:
   pretty_dio_logger:
   pinput:
-  
   intl:
   equatable:
-  dio:
-  flutter_bloc:
   dartz:
-  get_it:
   flutter_staggered_animations:
   html:
 
