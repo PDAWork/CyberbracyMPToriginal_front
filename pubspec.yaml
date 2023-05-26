@@ -11,8 +11,11 @@ dependencies:
     sdk: flutter
   
   flutter_svg: ^2.0.6
-
-  # for otp
+  flutter_bloc:
+  dio:
+  flutter_pretty_dio_logger:
+  get_it:
+  pretty_dio_logger:
   pinput:
   intl:
 

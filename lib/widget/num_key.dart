@@ -20,7 +20,7 @@ class NumberKey extends StatelessWidget {
       width: 70,
       height: 70,
       decoration: BoxDecoration(
-        color: background ? Color.fromRGBO(210, 210, 219, 210) : null,
+        color: background ? const Color.fromRGBO(210, 210, 219, 210) : null,
         border: Border.all(color: Colors.red),
         borderRadius: BorderRadius.circular(15.0),
       ),

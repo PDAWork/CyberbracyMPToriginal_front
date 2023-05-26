@@ -48,7 +48,7 @@ class MessageTile extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset(
-                  ImagesUrl.chat_bot,
+                  ImagesUrl.chatBot,
                   height: 20,
                 ),
               ),
