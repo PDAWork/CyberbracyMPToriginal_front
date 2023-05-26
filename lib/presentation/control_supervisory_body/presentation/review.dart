@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../const/colors_theme.dart';
+import '../../../const/colors_theme.dart';
 
 class Review extends StatelessWidget {
   const Review({

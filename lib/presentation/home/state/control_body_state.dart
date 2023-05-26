@@ -8,13 +8,13 @@ class ControlBodyInitial extends ControlBodyState {}
 class ControlBodyLoad extends ControlBodyState {}
 
 class ControlBodySeccuse extends ControlBodyState {
-  final List<ControlBodyModel> list;
+  final List<ControlOrganEntity> list;
 
   ControlBodySeccuse(this.list);
 }
 
 class ControlBodyFailed extends ControlBodyState {
-  final List<ControlBodyModel> list;
+  final List<ControlOrganEntity> list;
   final String errorMesage;
 
   ControlBodyFailed(this.list, this.errorMesage);

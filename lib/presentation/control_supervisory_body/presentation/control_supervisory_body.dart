@@ -1,10 +1,10 @@
-import 'package:cyberbracy_mpt_original_front/control_supervisory_body/presentation/regulatory_acts.dart';
-import 'package:cyberbracy_mpt_original_front/control_supervisory_body/presentation/review.dart';
-import 'package:cyberbracy_mpt_original_front/control_supervisory_body/presentation/supervisory_cut.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/control_supervisory_body/presentation/regulatory_acts.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/control_supervisory_body/presentation/review.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/control_supervisory_body/presentation/supervisory_cut.dart';
 import 'package:cyberbracy_mpt_original_front/widget/app_bar_custom.dart';
 import 'package:flutter/material.dart';
 
-import '../../const/colors_theme.dart';
+import '../../../const/colors_theme.dart';
 
 class ControlSupervisoryBody extends StatefulWidget {
   const ControlSupervisoryBody({Key? key}) : super(key: key);

@@ -1,16 +1,17 @@
 import 'package:cyberbracy_mpt_original_front/const/theme_data.dart';
-import 'package:cyberbracy_mpt_original_front/home/domain/repository_control_body.dart';
-import 'package:cyberbracy_mpt_original_front/home/presentation/home.dart';
-import 'package:cyberbracy_mpt_original_front/home/state/control_body_cubit.dart';
-import 'package:cyberbracy_mpt_original_front/pin_verification/presentation/pin_verification.dart';
+import 'package:cyberbracy_mpt_original_front/domain/repositories/repository_control.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/home/presentation/home.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/home/state/control_body_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/pin_verification/presentation/pin_verification.dart';
 import 'package:cyberbracy_mpt_original_front/service_locator.dart';
-import 'package:cyberbracy_mpt_original_front/sign_in/presentation/sign_in.dart';
-import 'package:cyberbracy_mpt_original_front/sign_up.dart/presentation/sign_up.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/sign_in/presentation/sign_in.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/sign_up.dart/presentation/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'chat_bot/presentation/chat_bot.dart';
-import 'control_supervisory_body/presentation/control_supervisory_body.dart';
+import 'data/repositories/repository_control_body.dart';
+import 'presentation/chat_bot/presentation/chat_bot.dart';
+import 'presentation/control_supervisory_body/presentation/control_supervisory_body.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +35,7 @@ class MainApp extends StatelessWidget {
               builder: (_) => const PinVerification(),
             ),
           "control_supervisory_body" => MaterialPageRoute(
-              builder: (_) =>const ControlSupervisoryBody(),
+              builder: (_) => const ControlSupervisoryBody(),
             ),
           "chat_bot" => MaterialPageRoute(
               builder: (_) => const ChatBot(),
@@ -42,8 +43,8 @@ class MainApp extends StatelessWidget {
           "home" => MaterialPageRoute(
               builder: (_) => BlocProvider(
                 create: (context) =>
-                    ControlBodyCubit(sl<RepositoryControlBody>())..init(),
-                child:const Home(),
+                    ControlBodyCubit(sl<RepositoryControl>())..init(),
+                child: const Home(),
               ),
             ),
           _ => MaterialPageRoute(builder: (_) => const Placeholder())
