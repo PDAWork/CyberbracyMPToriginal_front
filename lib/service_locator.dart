@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-import 'data/repositories/repository_control_body.dart';
+import 'data/repositories/repository_control_impl.dart';
 import 'presentation/home/state/control_body_cubit.dart';
 
 final sl = GetIt.instance;
@@ -17,7 +17,6 @@ Future<void> init() async {
   // UseCase
 
   // Repository
-  sl.registerLazySingleton(() => RepositoryControlBody(sl()));
   sl.registerLazySingleton<RepositoryControl>(
       () => RepositoryControlImpl(sl()));
 

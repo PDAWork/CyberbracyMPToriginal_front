@@ -4,9 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
 
-import '../../../data/models/control_organ_model.dart';
-import '../../../data/repositories/repository_control_body.dart';
-
 part 'control_body_state.dart';
 
 class ControlBodyCubit extends Cubit<ControlBodyState> {
