@@ -8,6 +8,7 @@ class MessageTile extends StatelessWidget {
   final String sender;
   final String time;
   final String? imageUrl;
+  final bool isCanceled;
   MessageTile(
     this.message, {
     super.key,
@@ -15,6 +16,7 @@ class MessageTile extends StatelessWidget {
     this.imageUrl,
     required this.sender,
     required this.time,
+    this.isCanceled = false,
   }) {
     if (!sentByMe && imageUrl != null) {
       throw FlutterError(
@@ -40,6 +42,7 @@ class MessageTile extends StatelessWidget {
           sentByMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
       children: [
         Row(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment:
               sentByMe ? MainAxisAlignment.end : MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -48,35 +51,48 @@ class MessageTile extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset(
-                  ImagesUrl.chat_bot,
+                  ImagesUrl.chatBot,
                   height: 20,
                 ),
               ),
-            Flexible(
-              child: Container(
-                margin: sentByMe
-                    ? const EdgeInsets.only(
-                        left: 80,
-                      )
-                    : const EdgeInsets.only(
-                        right: 80,
-                      ),
-                decoration: BoxDecoration(
-                  color: sentByMe ? Colors.transparent : ColorTheme.red,
-                  border: sentByMe
-                      ? Border.all(color: ColorTheme.red)
-                      : const Border(),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(
-                      10,
+            if (sentByMe && isCanceled)
+              Row(
+                children: [
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Icon(
+                      Icons.close,
+                      size: 15,
+                      color: ColorTheme.darkRed,
                     ),
                   ),
-                ),
-                padding: const EdgeInsets.all(8),
-                child: Text(
-                  message,
-                  softWrap: true,
-                  style: messageTextStyle,
+                  const SizedBox(
+                    width: 4,
+                  ),
+                ],
+              ),
+            Flexible(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.6),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: sentByMe ? Colors.transparent : ColorTheme.red,
+                    border: sentByMe
+                        ? Border.all(color: ColorTheme.red)
+                        : const Border(),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(
+                        10,
+                      ),
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(8),
+                  child: Text(
+                    message,
+                    softWrap: true,
+                    style: messageTextStyle,
+                  ),
                 ),
               ),
             ),

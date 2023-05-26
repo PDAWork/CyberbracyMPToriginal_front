@@ -1,6 +1,6 @@
 import 'package:cyberbracy_mpt_original_front/chat_bot/data/datasource/remote_datasource.dart';
 import 'package:cyberbracy_mpt_original_front/chat_bot/data/datasource/remote_datasource_impl.dart';
-import 'package:cyberbracy_mpt_original_front/chat_bot/data/repository/char_repository_impl.dart';
+import 'package:cyberbracy_mpt_original_front/chat_bot/data/repository/chat_repository_impl.dart';
 import 'package:cyberbracy_mpt_original_front/chat_bot/domain/repositories/chat_repository.dart';
 import 'package:cyberbracy_mpt_original_front/chat_bot/domain/usecases/send_message.dart';
 import 'package:cyberbracy_mpt_original_front/chat_bot/presentation/cubit/chat_cubit.dart';

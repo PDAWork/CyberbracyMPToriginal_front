@@ -6,6 +6,7 @@ import 'package:cyberbracy_mpt_original_front/injection_container.dart';
 import 'package:cyberbracy_mpt_original_front/pin_verification/presentation/pin_verification.dart';
 import 'package:cyberbracy_mpt_original_front/sign_in/presentation/sign_in.dart';
 import 'package:cyberbracy_mpt_original_front/sign_up.dart/presentation/sign_up.dart';
+import 'package:cyberbracy_mpt_original_front/widget/show_message_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,6 +27,7 @@ class MainApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        scaffoldMessengerKey: SnackBarService.scaffoldKey,
         debugShowCheckedModeBanner: false,
         theme: themeData,
         onGenerateRoute: (settings) {

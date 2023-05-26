@@ -15,23 +15,30 @@ class ChatCubit extends Cubit<ChatState> {
   void sendMessage(int userId, String message) async {
     try {
       emit(ChatInitial());
-      messages.add(
-          MessageDto(message, DateTime.now().millisecondsSinceEpoch, false));
+      var myMessage = MessageDto(
+          message, DateTime.now().millisecondsSinceEpoch, false, false);
+      messages.add(myMessage);
       emit(const ChatLoaded());
+      emit(ChatInitial());
       var response =
           await _sendMessageUseCase.call(SendMessageParams(userId, message));
-      emit(ChatInitial());
       response.fold(
-        (error) => emit(
-          ChatError(error.toString()),
-        ),
+        (error) {
+          emit(ChatError(error.toString()));
+          var last = messages.last;
+          messages.removeLast();
+          last = myMessage.copyWith(isCanceled: true);
+          messages.add(last);
+        },
         (data) {
           messages.addAll(data);
           emit(const ChatLoaded());
         },
       );
     } catch (e) {
-      ChatError(e.toString());
+      emit(ChatError(e.toString()));
     }
   }
+
+  void getUserChat() {}
 }

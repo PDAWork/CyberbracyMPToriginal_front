@@ -20,7 +20,11 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       if (response.statusCode! >= 200 && response.statusCode! <= 299) {
         final List<Message> list = [];
         for (var element in response.data['text']) {
-          var map = {'message': element, 'bot': response.data['bot']};
+          var map = {
+            'message': element,
+            'timestamp': response.data['timestamp'],
+            'bot': response.data['bot']
+          };
           list.add(MessageDto.fromJson(map));
         }
         return list;
