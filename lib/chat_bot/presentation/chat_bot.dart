@@ -57,124 +57,130 @@ class _ChatBotState extends State<ChatBot> {
     messages = context.select((ChatCubit value) => value.messages);
 
     return Scaffold(
-      appBar: const AppBarCustom(),
+      appBar: const AppBarCustom(
+        isChatBot: true,
+        title: 'Бот-надзор',
+      ),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  FocusScope.of(context).unfocus();
-                  animateToEnd();
-                },
-                child: Scrollbar(
-                  interactive: false,
-                  controller: _scrollController,
-                  child: BlocConsumer<ChatCubit, ChatState>(
-                    listener: (context, state) {
-                      if (state is ChatError) {
-                        // SnackBarService.showErrorMessage(
-                        //   title: state.errorMessage,
-                        // );
-                      }
-                      if (state is ChatLoaded) {
-                        _textEditingController.text = '';
-                        Future.delayed(const Duration(milliseconds: 200),
-                            () => animateToEnd());
-                      }
-                    },
-                    builder: (context, state) {
-                      if (messages.isEmpty) {
-                        return const SizedBox.shrink();
-                      }
-                      return ListView.separated(
-                        controller: _scrollController,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 8),
-                        itemCount: messages.length,
-                        itemBuilder: (context, index) =>
-                            AnimationConfiguration.staggeredList(
-                          delay: Duration.zero,
-                          position: index,
-                          child: FadeInAnimation(
-                            child: MessageTile(
-                              messages[index].message,
-                              time: formateDate(messages[index].timestamp),
-                              sender: 'none',
-                              sentByMe: !messages[index].isBot,
-                              isCanceled: messages[index].isCanceled,
-                              // imageUrl: ImagesUrl.chat_bot,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: ChatTextField(
-                      controller: _textEditingController,
-                      onTap: () {
-                        animateToEnd();
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    FocusScope.of(context).unfocus();
+                    animateToEnd();
+                  },
+                  child: Scrollbar(
+                    interactive: false,
+                    controller: _scrollController,
+                    child: BlocConsumer<ChatCubit, ChatState>(
+                      listener: (context, state) {
+                        if (state is ChatError) {
+                          // SnackBarService.showErrorMessage(
+                          //   title: state.errorMessage,
+                          // );
+                        }
+                        if (state is ChatLoaded) {
+                          _textEditingController.text = '';
+                          Future.delayed(const Duration(milliseconds: 200),
+                              () => animateToEnd());
+                        }
                       },
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  Flexible(
-                    flex: 0,
-                    child: SizedBox(
-                      width: 45,
-                      height: 45,
-                      child: Stack(
-                        children: [
-                          Positioned.fill(
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: ColorTheme.red),
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: 2,
-                                  ),
-                                  Icon(
-                                    Icons.send,
-                                    size: 20,
-                                    color: Colors.white,
-                                  ),
-                                ],
+                      builder: (context, state) {
+                        if (messages.isEmpty) {
+                          return const SizedBox.shrink();
+                        }
+                        return ListView.separated(
+                          controller: _scrollController,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 8),
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) =>
+                              AnimationConfiguration.staggeredList(
+                            delay: Duration.zero,
+                            position: index,
+                            child: FadeInAnimation(
+                              child: MessageTile(
+                                messages[index].message,
+                                time: formateDate(messages[index].timestamp),
+                                sender: 'none',
+                                sentByMe: !messages[index].isBot,
+                                isCanceled: messages[index].isCanceled,
+                                // imageUrl: ImagesUrl.chat_bot,
                               ),
                             ),
                           ),
-                          SendButton(
-                            onTap: () {
-                              if (_textEditingController.text.isNotEmpty) {
-                                context.read<ChatCubit>().sendMessage(
-                                    1, _textEditingController.text);
-                              }
-                            },
-                          ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: ChatTextField(
+                        controller: _textEditingController,
+                        onTap: () {
+                          animateToEnd();
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    Flexible(
+                      flex: 0,
+                      child: SizedBox(
+                        width: 45,
+                        height: 45,
+                        child: Stack(
+                          children: [
+                            Positioned.fill(
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: ColorTheme.red),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 2,
+                                    ),
+                                    Icon(
+                                      Icons.send,
+                                      size: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SendButton(
+                              onTap: () {
+                                if (_textEditingController.text.isNotEmpty) {
+                                  context.read<ChatCubit>().sendMessage(
+                                      1, _textEditingController.text);
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

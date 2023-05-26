@@ -8,12 +8,10 @@ import '../const/images_url.dart';
 class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final PreferredSizeWidget? bottom;
+  final bool isChatBot;
 
-  const AppBarCustom({
-    super.key,
-    this.title,
-    this.bottom,
-  });
+  const AppBarCustom(
+      {super.key, this.title, this.bottom, this.isChatBot = false});
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +22,9 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
       bottom: bottom,
       actions: [
         GestureDetector(
-          onTap: () =>
-              Navigator.of(context).pushNamed(ChatBotRoute().routeName),
+          onTap: () => isChatBot
+              ? null
+              : Navigator.of(context).pushNamed(ChatBotRoute().routeName),
           child: Image.asset(
             ImagesUrl.chatBot,
             width: 35,
