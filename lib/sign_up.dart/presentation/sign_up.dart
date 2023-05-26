@@ -1,4 +1,4 @@
-import 'package:cyberbracy_mpt_original_front/const/screen_routes.dart';
+import 'package:cyberbracy_mpt_original_front/core/screen_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

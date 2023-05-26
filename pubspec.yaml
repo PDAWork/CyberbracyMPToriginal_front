@@ -14,7 +14,14 @@ dependencies:
 
   # for otp
   pinput:
+  
   intl:
+  equatable:
+  dio:
+  flutter_bloc:
+  dartz:
+  get_it:
+  flutter_staggered_animations:
 
 dev_dependencies:
   flutter_test:
