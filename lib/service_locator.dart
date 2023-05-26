@@ -4,15 +4,35 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
+import 'chat_bot/data/datasource/remote_datasource.dart';
+import 'chat_bot/data/datasource/remote_datasource_impl.dart';
+import 'chat_bot/data/repository/chat_repository_impl.dart';
+import 'chat_bot/domain/repositories/chat_repository.dart';
+import 'chat_bot/domain/usecases/send_message.dart';
+import 'chat_bot/presentation/cubit/chat_cubit.dart';
+import 'const/api_endpoints.dart';
+
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  sl.registerLazySingleton(() => ControlBodyCubit(sl()));
+  //Bloc instances
+  sl.registerFactory(() => ChatCubit(sl()));
+  sl.registerFactory(() => ControlBodyCubit(sl()));
 
+  //UseCase instances
+  sl.registerLazySingleton(() => SendMessage(sl()));
+
+  //Repository instances
+  sl.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(sl()));
   sl.registerLazySingleton(() => RepositoryControlBody(sl()));
 
+  //Datasource instances
+    sl.registerLazySingleton<ChatRemoteDataSource>(
+        () => ChatRemoteDataSourceImpl(sl()));
+
+  //
   sl.registerLazySingleton(
-    () => Dio()
+    () => Dio(BaseOptions(baseUrl: ApiEndpoints.hostUrl))
       ..interceptors.addAll(
         [
           PrettyDioLogger(

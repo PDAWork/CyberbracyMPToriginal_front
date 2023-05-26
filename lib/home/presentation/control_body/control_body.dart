@@ -1,8 +1,8 @@
 import 'package:cyberbracy_mpt_original_front/const/colors_theme.dart';
-import 'package:cyberbracy_mpt_original_front/const/screen_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/screen_routes.dart';
 import '../../state/control_body_cubit.dart';
 
 class ControlBody extends StatelessWidget {
@@ -32,7 +32,7 @@ class ControlBody extends StatelessWidget {
                         onTap: () {
                           Navigator.pushNamed(
                             context,
-                           ControlSupervisoryRoute().routeName
+                            ControlSupervisoryRoute().routeName,
                           );
                         },
                         child: Padding(

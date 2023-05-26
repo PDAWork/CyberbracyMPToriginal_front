@@ -31,11 +31,13 @@ class NumberKey extends StatelessWidget {
         ),
         focusColor: Colors.red,
         splashColor: Colors.red,
-        child:number == null ? Icon(icon): Text(
-          number!,
-          style: Theme.of(context).textTheme.headlineSmall,
-          textAlign: TextAlign.center,
-        ),
+        child: number == null
+            ? Icon(icon)
+            : Text(
+                number!,
+                style: Theme.of(context).textTheme.headlineSmall,
+                textAlign: TextAlign.center,
+              ),
       ),
     );
   }

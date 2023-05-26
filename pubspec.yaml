@@ -18,6 +18,10 @@ dependencies:
   pretty_dio_logger:
   pinput:
   intl:
+  equatable:
+  dartz:
+  flutter_staggered_animations:
+  html:
 
 dev_dependencies:
   flutter_test:
