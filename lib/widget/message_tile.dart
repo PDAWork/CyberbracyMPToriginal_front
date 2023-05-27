@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:cyberbracy_mpt_original_front/const/colors_theme.dart';
 import 'package:cyberbracy_mpt_original_front/const/images_url.dart';
-import 'package:cyberbracy_mpt_original_front/core/helper/html_parse.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MessageTile extends StatelessWidget {
   final bool sentByMe;
@@ -10,6 +13,9 @@ class MessageTile extends StatelessWidget {
   final String time;
   final String? imageUrl;
   final bool isCanceled;
+  final bool isButton;
+  final bool hasTable;
+
   MessageTile(
     this.message, {
     super.key,
@@ -18,6 +24,8 @@ class MessageTile extends StatelessWidget {
     required this.sender,
     required this.time,
     this.isCanceled = false,
+    this.isButton = false,
+    this.hasTable = false,
   }) {
     if (!sentByMe && imageUrl != null) {
       throw FlutterError(
@@ -37,11 +45,20 @@ class MessageTile extends StatelessWidget {
 
     var messageTextStyle =
         TextStyle(color: sentByMe ? Colors.black : Colors.white);
-    final List<(String?, SpawnedWidgetElement)> listWidgets = [];
+    var headlineTextStyle = TextStyle(
+      color: sentByMe ? Colors.black : Colors.white,
+    );
 
-    if (!sentByMe) {
-      listWidgets.addAll(HtmlMessageParse.parseMessage(message));
-    }
+    const borderRadius = BorderRadius.all(Radius.circular(10));
+
+    final botColor = [const Color(0xFFE13925), const Color(0xFFFF7D60)];
+
+    final userColor = [Colors.transparent, Colors.transparent];
+    // final List<(String?, SpawnedWidgetElement)> listWidgets = [];
+
+    // // if (!sentByMe) {
+    // //   listWidgets.addAll(HtmlMessageParse.parseMessage(message));
+    // // }
 
     return Column(
       crossAxisAlignment:
@@ -80,48 +97,58 @@ class MessageTile extends StatelessWidget {
             Flexible(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.6),
+                  maxWidth: MediaQuery.of(context).size.width *
+                      (hasTable ? 0.85 : 0.6),
+                ),
                 child: Container(
                   decoration: BoxDecoration(
                     color: sentByMe ? Colors.transparent : ColorTheme.red,
+                    gradient: LinearGradient(
+                      colors: sentByMe ? userColor : botColor,
+                    ),
                     border: sentByMe
                         ? Border.all(color: ColorTheme.red)
                         : const Border(),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(
-                        10,
-                      ),
-                    ),
+                    borderRadius: borderRadius,
                   ),
                   padding: const EdgeInsets.all(8),
-                  child: sentByMe
-                      ? Text(
-                          message,
-                          style: messageTextStyle,
-                        )
-                      : RichText(
-                          text: TextSpan(
-                            children: listWidgets.map(
-                              (e) {
-                                return switch (e.$2) {
-                                  SpawnedWidgetElement.simpleText => TextSpan(
-                                      text: e.$1,
-                                      style: messageTextStyle,
-                                    ),
-                                  SpawnedWidgetElement.coloredText => TextSpan(
-                                      text: e.$1,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        // decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  SpawnedWidgetElement.newLine =>
-                                    const TextSpan(text: '\n'),
-                                };
-                              },
-                            ).toList(),
-                          ),
-                        ),
+                  child: MarkdownBody(
+                    onTapLink: (text, href, title) {
+                      if (href != null) {
+                        launchUrl(
+                          Uri.parse(text),
+                          mode: LaunchMode.externalApplication,
+                        );
+                      }
+                    },
+                    styleSheet: MarkdownStyleSheet(
+                      horizontalRuleDecoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: borderRadius,
+                        border: Border.all(color: Colors.white, width: 2),
+                      ),
+                      a: TextStyle(
+                        background: Paint()
+                          ..color = ColorTheme.lightRed.withOpacity(.95),
+                        color: ColorTheme.darkRed,
+                      ),
+                      p: messageTextStyle,
+                      h1: headlineTextStyle,
+                      h2: headlineTextStyle,
+                      h3: headlineTextStyle,
+                      h4: headlineTextStyle,
+                      h5: headlineTextStyle,
+                      h6: headlineTextStyle,
+                      tableBody: const TextStyle(
+                        color: Colors.white,
+                      ),
+                      tableBorder: TableBorder.all(
+                        color: ColorTheme.lightRed,
+                      ),
+                    ),
+                    shrinkWrap: true,
+                    data: message,
+                  ),
                 ),
               ),
             ),
@@ -141,6 +168,58 @@ class MessageTile extends StatelessWidget {
               ),
           ],
         ),
+        if (!sentByMe && isButton)
+          Container(
+            margin: const EdgeInsets.only(left: 35, top: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                          height: 36,
+                          width: 218,
+                          decoration: BoxDecoration(
+                            color: ColorTheme.darkRed,
+                            borderRadius: borderRadius,
+                          ),
+                          child: const Align(
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                'Записаться на консультацию',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 36,
+                        width: 218,
+                        child: Material(
+                          clipBehavior: Clip.hardEdge,
+                          color: Colors.transparent,
+                          child: InkWell(
+                            splashColor: Colors.red.shade300.withOpacity(.3),
+                            borderRadius: borderRadius,
+                            onTap: () {},
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         Container(
           margin: sentByMe
               ? const EdgeInsets.only(right: 35, top: 8)

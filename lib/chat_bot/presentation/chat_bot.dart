@@ -6,7 +6,6 @@ import 'package:cyberbracy_mpt_original_front/widget/chat_text_field.dart';
 import 'package:cyberbracy_mpt_original_front/widget/message_tile.dart';
 import 'package:cyberbracy_mpt_original_front/widget/send_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:intl/intl.dart';
@@ -33,12 +32,8 @@ class _ChatBotState extends State<ChatBot> {
   ///Скролл в конец после после отправки
   void animateToEnd() {
     if (_scrollController.hasClients) {
-      WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback(
-        (timeStamp) => _scrollController.animateTo(
-            _scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeInOut),
-      );
+      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
     }
   }
 
@@ -78,16 +73,20 @@ class _ChatBotState extends State<ChatBot> {
     _textEditingController = TextEditingController();
     _scrollController.addListener(() => _scrollListener());
     var cubit = context.read<ChatCubit>();
-    cubit.getMaxPages(1).then((value) {
-      cubit.messages = [];
-      maxPage = cubit.maxPages;
-      cubit.getUserChat(1, page);
-      page++;
-      Future.delayed(
-          const Duration(milliseconds: 200),
-          () => _scrollController
-              .jumpTo(_scrollController.position.maxScrollExtent));
-    });
+    cubit.getMaxPages(1).then(
+      (value) {
+        cubit.messages = [];
+        maxPage = cubit.maxPages;
+        cubit.getUserChat(1, page);
+        page++;
+        if (_scrollController.hasClients) {
+          Future.delayed(
+              const Duration(milliseconds: 700),
+              () => _scrollController
+                  .jumpTo(_scrollController.position.maxScrollExtent));
+        }
+      },
+    );
     super.initState();
   }
 
@@ -166,6 +165,8 @@ class _ChatBotState extends State<ChatBot> {
                                     sender: 'none',
                                     sentByMe: !messages[index].isBot,
                                     isCanceled: messages[index].isCanceled,
+                                    isButton: messages[index].isButton,
+                                    hasTable: messages[index].hasTable,
                                     // imageUrl: ImagesUrl.chat_bot,
                                   ),
                                 ),

@@ -23,7 +23,13 @@ class ChatCubit extends Cubit<ChatState> {
     try {
       emit(ChatInitial());
       var myMessage = MessageDto(
-          message, DateTime.now().millisecondsSinceEpoch, false, false);
+        message,
+        DateTime.now().millisecondsSinceEpoch,
+        false,
+        false,
+        false,
+        false,
+      );
       messages.add(myMessage);
       emit(ChatLoaded());
       emit(ChatInitial());
