@@ -10,25 +10,14 @@ import 'package:cyberbracy_mpt_original_front/sign_up.dart/presentation/sign_up.
 import 'package:cyberbracy_mpt_original_front/widget/show_message_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
-
 import 'control_supervisory_body/presentation/control_supervisory_body.dart';
 import 'home/domain/repository_control_body.dart';
 import 'home/state/control_body_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  oneSignal();
   await init();
   runApp(const MainApp());
-}
-
-void oneSignal() {
-  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-  OneSignal.shared.setAppId('8ced7149-ca5f-471c-b828-23677f82feb7');
-  String userId = 'kanada.smirnov@gmail.com';
-  OneSignal.shared.setExternalUserId(userId);
-  OneSignal.shared.promptUserForPushNotificationPermission();
 }
 
 class MainApp extends StatelessWidget {
