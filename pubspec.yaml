@@ -22,6 +22,7 @@ dependencies:
   dartz:
   flutter_staggered_animations:
   html:
+  flutter_secure_storage: ^8.0.0
 
 dev_dependencies:
   flutter_test:

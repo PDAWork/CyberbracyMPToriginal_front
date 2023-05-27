@@ -1,4 +1,4 @@
-import 'package:cyberbracy_mpt_original_front/const/colors_theme.dart';
+import 'package:cyberbracy_mpt_original_front/core/const/colors_theme.dart';
 import 'package:flutter/material.dart';
 
 class TextFieldCustom extends StatelessWidget {
@@ -6,9 +6,13 @@ class TextFieldCustom extends StatelessWidget {
   final IconData? suffixIcon;
   final String title;
   final String hint;
+  final bool? isPassword;
+  final TextEditingController? textEditingController;
 
   const TextFieldCustom({
     super.key,
+    this.textEditingController,
+    this.isPassword = false,
     this.prefixIcon,
     this.suffixIcon,
     required this.title,
@@ -18,6 +22,8 @@ class TextFieldCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: isPassword!,
+      controller: textEditingController,
       decoration: InputDecoration(
         hintText: hint,
         prefixIcon: prefixIcon == null
