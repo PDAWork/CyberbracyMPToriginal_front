@@ -32,7 +32,10 @@ class ControlBody extends StatelessWidget {
                         onTap: () {
                           Navigator.pushNamed(
                             context,
-                           ControlSupervisoryRoute().routeName
+                            ControlSupervisoryRoute().routeName,
+                            arguments: {
+                              "lowName": state.list[index].lowName,
+                            },
                           );
                         },
                         child: Padding(

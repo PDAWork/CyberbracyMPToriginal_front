@@ -33,4 +33,8 @@ class ControlSupervisoryRoute implements ScreenRoute {
   @override
   String get routeName => "control_supervisory_body";
 }
+class RequirementsRoute implements ScreenRoute {
+  @override
+  String get routeName => "requirements";
+}
 

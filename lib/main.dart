@@ -1,8 +1,10 @@
 import 'package:cyberbracy_mpt_original_front/const/theme_data.dart';
-import 'package:cyberbracy_mpt_original_front/domain/repositories/repository_control.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/control_supervisory_body/state/control_supervisory_body_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/home/presentation/home.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/home/state/control_body_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/pin_verification/presentation/pin_verification.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/requirement/presentation/requirements.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/requirement/state/requirements_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/service_locator.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/sign_in/presentation/sign_in.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/sign_up.dart/presentation/sign_up.dart';
@@ -33,16 +35,35 @@ class MainApp extends StatelessWidget {
           "pin_verification" => MaterialPageRoute(
               builder: (_) => const PinVerification(),
             ),
-          "control_supervisory_body" => MaterialPageRoute(
-              builder: (_) => const ControlSupervisoryBody(),
-            ),
+          "control_supervisory_body" => MaterialPageRoute(builder: (_) {
+              String lowName =
+                  (settings.arguments as Map<String, String>)['lowName']!;
+              return BlocProvider(
+                create: (context) => sl<ControlSupervisoryBodyCubit>(),
+                child: ControlSupervisoryBody(
+                  lowName: lowName,
+                ),
+              );
+            }),
           "chat_bot" => MaterialPageRoute(
               builder: (_) => const ChatBot(),
             ),
+          "requirements" => MaterialPageRoute(
+              builder: (_) {
+                final String lowName =
+                    (settings.arguments as Map<String, dynamic>)['lowName'];
+                final int idControl =
+                    (settings.arguments as Map<String, dynamic>)['idControl'];
+                return BlocProvider(
+                  create: (context) =>
+                      sl<RequirementsCubit>()..init(lowName, idControl),
+                  child: const Requirements(),
+                );
+              },
+            ),
           "home" => MaterialPageRoute(
               builder: (_) => BlocProvider(
-                create: (context) =>
-                    ControlBodyCubit(sl<RepositoryControl>())..init(),
+                create: (_) => sl<ControlBodyCubit>()..init(),
                 child: const Home(),
               ),
             ),

@@ -1,21 +1,25 @@
+import 'package:cyberbracy_mpt_original_front/domain/entity/npas_entity.dart';
 import 'package:flutter/material.dart';
 
 import '../../../const/colors_theme.dart';
 
 class RegulatoryActs extends StatelessWidget {
+  final List<NpasEntity> npasEntity;
+
   const RegulatoryActs({
     super.key,
+    required this.npasEntity,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
-      itemCount: 15 + 1,
+      itemCount: npasEntity.length + 1,
       shrinkWrap: true,
       padding: const EdgeInsets.all(10),
       itemBuilder: (context, index) {
-        if (15 == index) {
+        if (npasEntity.length == index) {
           return Container(height: kBottomNavigationBarHeight + 10);
         }
         return Card(
@@ -27,11 +31,11 @@ class RegulatoryActs extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Приказ Федерального органа государственной власти от 31.03.2015 №526 "Об утверждении правил организации хранения, комплектования, учета и использования документов Архивного фонда Российской Федерации и других архивных документов в органах государственной власти, органах местного самоуправления и организациях (Зарегистрировано в Минюсте России 07.09.2015 N 38830)',
+                  Text(
+                    npasEntity[index].text,
                     maxLines: 4,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                     ),
@@ -41,15 +45,19 @@ class RegulatoryActs extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '07.04.2021',
+                        npasEntity[index].date,
                         style: TextStyle(
-                            fontSize: 12, color: ColorTheme.grey),
+                          fontSize: 12,
+                          color: ColorTheme.grey,
+                        ),
                       ),
                       const SizedBox(width: 3),
                       Text(
-                        '480 KB PDF',
+                        npasEntity[index].fileInfo,
                         style: TextStyle(
-                            fontSize: 12, color: ColorTheme.grey),
+                          fontSize: 12,
+                          color: ColorTheme.grey,
+                        ),
                       )
                     ],
                   ),
