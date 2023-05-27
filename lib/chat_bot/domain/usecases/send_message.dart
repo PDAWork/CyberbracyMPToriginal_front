@@ -1,7 +1,7 @@
 import 'package:cyberbracy_mpt_original_front/chat_bot/domain/entity/message.dart';
 import 'package:cyberbracy_mpt_original_front/chat_bot/domain/repositories/chat_repository.dart';
-import 'package:cyberbracy_mpt_original_front/core/error/failure.dart';
-import 'package:cyberbracy_mpt_original_front/core/usecase.dart';
+import '../../../../core/error/failure.dart';
+import '../../../../core/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 

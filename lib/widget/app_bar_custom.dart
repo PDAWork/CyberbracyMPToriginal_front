@@ -1,9 +1,9 @@
-import 'package:cyberbracy_mpt_original_front/core/screen_routes.dart';
+import '../../core/screen_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../const/colors_theme.dart';
-import '../const/images_url.dart';
+import '../core/const/colors_theme.dart';
+import '../core/const/images_url.dart';
 
 class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
