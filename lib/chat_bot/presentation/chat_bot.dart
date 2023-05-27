@@ -6,6 +6,7 @@ import 'package:cyberbracy_mpt_original_front/widget/chat_text_field.dart';
 import 'package:cyberbracy_mpt_original_front/widget/message_tile.dart';
 import 'package:cyberbracy_mpt_original_front/widget/send_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:intl/intl.dart';
@@ -47,18 +48,28 @@ class _ChatBotState extends State<ChatBot> {
   }
 
   void _scrollListener() {
-    if (_scrollController.position.extentBefore == 0 &&
+    if (_scrollController.position.extentAfter ==
+            _scrollController.position.maxScrollExtent &&
         delta > _scrollController.position.extentBefore &&
         (DateTime.now().millisecondsSinceEpoch - millis) > 400 &&
         page <= maxPage) {
       scrollOffset = _scrollController.offset;
       millis = DateTime.now().millisecondsSinceEpoch;
-      scrollPosition = _scrollController.position.pixels;
+
+      scrollPosition = _scrollController.position.extentAfter;
       context.read<ChatCubit>().getUserChat(1, page).then((value) {
         page++;
+        Future.delayed(const Duration(milliseconds: 400), () => scrollToPos());
       });
     }
     delta = _scrollController.position.extentBefore;
+  }
+
+  void scrollToPos() {
+    var max = _scrollController.position.maxScrollExtent;
+    _scrollController.animateTo(max - scrollPosition,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.fastEaseInToSlowEaseOut);
   }
 
   @override
@@ -67,20 +78,16 @@ class _ChatBotState extends State<ChatBot> {
     _textEditingController = TextEditingController();
     _scrollController.addListener(() => _scrollListener());
     var cubit = context.read<ChatCubit>();
-    cubit.getMaxPages(1).then(
-      (value) {
-        maxPage = cubit.maxPages;
-        cubit.getUserChat(1, page);
-        page++;
-        if (_scrollController.hasClients) {
-          Future.delayed(
-            const Duration(milliseconds: 200),
-            () => _scrollController
-                .jumpTo(_scrollController.position.maxScrollExtent),
-          );
-        }
-      },
-    );
+    cubit.getMaxPages(1).then((value) {
+      cubit.messages = [];
+      maxPage = cubit.maxPages;
+      cubit.getUserChat(1, page);
+      page++;
+      Future.delayed(
+          const Duration(milliseconds: 200),
+          () => _scrollController
+              .jumpTo(_scrollController.position.maxScrollExtent));
+    });
     super.initState();
   }
 
@@ -98,7 +105,7 @@ class _ChatBotState extends State<ChatBot> {
 
   @override
   Widget build(BuildContext context) {
-    // messages = context.select((ChatCubit value) => value._messages);
+    messages = context.select((ChatCubit value) => value.messages);
 
     return Scaffold(
       appBar: const AppBarCustom(
@@ -131,39 +138,39 @@ class _ChatBotState extends State<ChatBot> {
                         }
                         if (state is ChatLoaded) {
                           _textEditingController.text = '';
+                          Future.delayed(const Duration(milliseconds: 200),
+                              () => animateToEnd());
                         }
                       },
                       builder: (context, state) {
-                        if (state is ChatLoaded) {
-                          messages.addAll(state.message);
-                        }
                         if (messages.isEmpty) {
                           return const SizedBox.shrink();
                         }
                         return ListView.separated(
-                          key: const PageStorageKey('scroll'),
-                          controller: _scrollController,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          separatorBuilder: (context, index) =>
-                              const SizedBox(height: 8),
-                          itemCount: messages.length,
-                          itemBuilder: (context, index) {
-                            return AnimationConfiguration.staggeredList(
-                              delay: Duration.zero,
-                              position: index,
-                              child: FadeInAnimation(
-                                child: MessageTile(
-                                  messages[index].message,
-                                  time: formateDate(messages[index].timestamp),
-                                  sender: 'none',
-                                  sentByMe: !messages[index].isBot,
-                                  isCanceled: messages[index].isCanceled,
-                                  // imageUrl: ImagesUrl.chat_bot,
+                            cacheExtent: 99999999999999,
+                            key: const PageStorageKey('scroll'),
+                            controller: _scrollController,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: 8),
+                            itemCount: messages.length,
+                            itemBuilder: (context, index) {
+                              return AnimationConfiguration.staggeredList(
+                                delay: Duration.zero,
+                                position: index,
+                                child: FadeInAnimation(
+                                  child: MessageTile(
+                                    messages[index].message,
+                                    time:
+                                        formateDate(messages[index].timestamp),
+                                    sender: 'none',
+                                    sentByMe: !messages[index].isBot,
+                                    isCanceled: messages[index].isCanceled,
+                                    // imageUrl: ImagesUrl.chat_bot,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        );
+                              );
+                            });
                       },
                     ),
                   ),

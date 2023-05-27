@@ -14,30 +14,32 @@ class ChatCubit extends Cubit<ChatState> {
   final GetMaxPages _getMaxPages;
   ChatCubit(
       this._sendMessageUseCase, this._getMessageUseCase, this._getMaxPages)
-      : super(const ChatLoaded([]));
+      : super(ChatInitial());
 
-  final List<Message> _messages = [];
+  List<Message> messages = [];
   int maxPages = 0;
 
   void sendMessage(int userId, String message) async {
     try {
+      emit(ChatInitial());
       var myMessage = MessageDto(
           message, DateTime.now().millisecondsSinceEpoch, false, false);
-      _messages.add(myMessage);
-      emit(ChatLoaded(_messages));
+      messages.add(myMessage);
+      emit(ChatLoaded());
+      emit(ChatInitial());
       var response =
           await _sendMessageUseCase.call(SendMessageParams(userId, message));
       response.fold(
         (error) {
           emit(ChatError(error.toString()));
-          var last = _messages.last;
-          _messages.removeLast();
+          var last = messages.last;
+          messages.removeLast();
           last = myMessage.copyWith(isCanceled: true);
-          _messages.add(last);
+          messages.add(last);
         },
         (data) {
-          _messages.add(data);
-          emit(ChatLoaded(_messages));
+          messages.add(data);
+          emit(ChatLoaded());
         },
       );
     } catch (e) {
@@ -47,14 +49,15 @@ class ChatCubit extends Cubit<ChatState> {
 
   Future<void> getUserChat(int id, int page) async {
     try {
+      emit(ChatInitial());
       var response = await _getMessageUseCase.call(GetMessagesParams(id, page));
       response.fold(
         (error) {
           emit(ChatError(error.toString()));
         },
         (data) {
-          _messages.insertAll(0, data);
-          emit(ChatLoaded(_messages));
+          messages.insertAll(0, data);
+          emit(ChatPaginate());
         },
       );
     } catch (e) {

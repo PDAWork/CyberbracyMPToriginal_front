@@ -1,6 +1,7 @@
 import 'package:cyberbracy_mpt_original_front/chat_bot/presentation/chat_bot.dart';
 import 'package:cyberbracy_mpt_original_front/chat_bot/presentation/cubit/chat_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/const/theme_data.dart';
+import 'package:cyberbracy_mpt_original_front/core/scroll_behavior.dart';
 import 'package:cyberbracy_mpt_original_front/home/presentation/home.dart';
 import 'package:cyberbracy_mpt_original_front/pin_verification/presentation/pin_verification.dart';
 import 'package:cyberbracy_mpt_original_front/service_locator.dart';
@@ -42,6 +43,7 @@ class MainApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        scrollBehavior: ScrollWithoutSplash(),
         scaffoldMessengerKey: SnackBarService.scaffoldKey,
         debugShowCheckedModeBanner: false,
         theme: themeData,
