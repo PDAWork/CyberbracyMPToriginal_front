@@ -10,7 +10,7 @@ class MessageDto extends Message {
 
   factory MessageDto.fromJson(Map<String, dynamic> json) {
     return MessageDto(
-      json['message'],
+      json['text'],
       json['timestamp'],
       json['bot'],
       false,

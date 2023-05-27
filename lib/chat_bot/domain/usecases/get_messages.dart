@@ -5,22 +5,22 @@ import 'package:cyberbracy_mpt_original_front/core/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-class SendMessage extends UseCase<Message, SendMessageParams> {
+class GetMessages extends UseCase<List<Message>, GetMessagesParams> {
   final ChatRepository chatRepository;
 
-  SendMessage(this.chatRepository);
+  GetMessages(this.chatRepository);
   @override
-  Future<Either<Failure, Message>> call(SendMessageParams params) {
-    return chatRepository.sendMessage(params.userId, params.message);
+  Future<Either<Failure, List<Message>>> call(GetMessagesParams params) {
+    return chatRepository.getHistoryMessage(params.id, params.page);
   }
 }
 
-class SendMessageParams extends Equatable {
-  final int userId;
-  final String message;
+class GetMessagesParams extends Equatable {
+  final int id;
+  final int page;
 
-  const SendMessageParams(this.userId, this.message);
+  const GetMessagesParams(this.id, this.page);
 
   @override
-  List<Object?> get props => [userId, message];
+  List<Object?> get props => [id, page];
 }

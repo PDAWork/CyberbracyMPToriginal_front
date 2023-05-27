@@ -22,6 +22,7 @@ dependencies:
   dartz:
   flutter_staggered_animations:
   html:
+  onesignal_flutter:
 
 dev_dependencies:
   flutter_test:

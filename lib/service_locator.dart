@@ -1,3 +1,5 @@
+import 'package:cyberbracy_mpt_original_front/chat_bot/domain/usecases/get_max_pages.dart';
+import 'package:cyberbracy_mpt_original_front/chat_bot/domain/usecases/get_messages.dart';
 import 'package:cyberbracy_mpt_original_front/home/domain/repository_control_body.dart';
 import 'package:cyberbracy_mpt_original_front/home/state/control_body_cubit.dart';
 import 'package:dio/dio.dart';
@@ -16,19 +18,21 @@ final sl = GetIt.instance;
 
 Future<void> init() async {
   //Bloc instances
-  sl.registerFactory(() => ChatCubit(sl()));
+  sl.registerFactory(() => ChatCubit(sl(), sl(), sl()));
   sl.registerFactory(() => ControlBodyCubit(sl()));
 
   //UseCase instances
   sl.registerLazySingleton(() => SendMessage(sl()));
+  sl.registerLazySingleton(() => GetMessages(sl()));
+  sl.registerLazySingleton(() => GetMaxPages(sl()));
 
   //Repository instances
   sl.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(sl()));
   sl.registerLazySingleton(() => RepositoryControlBody(sl()));
 
   //Datasource instances
-    sl.registerLazySingleton<ChatRemoteDataSource>(
-        () => ChatRemoteDataSourceImpl(sl()));
+  sl.registerLazySingleton<ChatRemoteDataSource>(
+      () => ChatRemoteDataSourceImpl(sl()));
 
   //
   sl.registerLazySingleton(
@@ -38,7 +42,7 @@ Future<void> init() async {
           PrettyDioLogger(
             requestHeader: true,
             requestBody: true,
-            responseBody: false,
+            responseBody: true,
             error: true,
             compact: true,
             maxWidth: 90,

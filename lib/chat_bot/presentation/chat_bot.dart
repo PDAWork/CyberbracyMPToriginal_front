@@ -22,12 +22,22 @@ class _ChatBotState extends State<ChatBot> {
   late TextEditingController _textEditingController;
 
   List<Message> messages = [];
+  int page = 1;
+  int maxPage = 0;
+  double delta = 0;
+  int millis = 0;
+  double scrollOffset = 0;
+  double scrollPosition = 0;
 
   ///Скролл в конец после после отправки
   void animateToEnd() {
     if (_scrollController.hasClients) {
-      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
+      WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback(
+        (timeStamp) => _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeInOut),
+      );
     }
   }
 
@@ -36,13 +46,47 @@ class _ChatBotState extends State<ChatBot> {
         .format(DateTime.fromMillisecondsSinceEpoch(timestamp));
   }
 
+  void _scrollListener() {
+    if (_scrollController.position.extentBefore == 0 &&
+        delta > _scrollController.position.extentBefore &&
+        (DateTime.now().millisecondsSinceEpoch - millis) > 400 &&
+        page <= maxPage) {
+      scrollOffset = _scrollController.offset;
+      millis = DateTime.now().millisecondsSinceEpoch;
+      scrollPosition = _scrollController.position.pixels;
+      context.read<ChatCubit>().getUserChat(1, page).then((value) {
+        page++;
+      });
+    }
+    delta = _scrollController.position.extentBefore;
+  }
+
   @override
   void initState() {
     _scrollController = ScrollController();
     _textEditingController = TextEditingController();
-    WidgetsFlutterBinding.ensureInitialized()
-        .addPostFrameCallback((timeStamp) => animateToEnd());
+    _scrollController.addListener(() => _scrollListener());
+    var cubit = context.read<ChatCubit>();
+    cubit.getMaxPages(1).then(
+      (value) {
+        maxPage = cubit.maxPages;
+        cubit.getUserChat(1, page);
+        page++;
+        if (_scrollController.hasClients) {
+          Future.delayed(
+            const Duration(milliseconds: 200),
+            () => _scrollController
+                .jumpTo(_scrollController.position.maxScrollExtent),
+          );
+        }
+      },
+    );
     super.initState();
+  }
+
+  bool isHasNextPage(int curPage) {
+    var pageSize = 20;
+    return curPage * pageSize / 20 == 0;
   }
 
   @override
@@ -54,7 +98,7 @@ class _ChatBotState extends State<ChatBot> {
 
   @override
   Widget build(BuildContext context) {
-    messages = context.select((ChatCubit value) => value.messages);
+    // messages = context.select((ChatCubit value) => value._messages);
 
     return Scaffold(
       appBar: const AppBarCustom(
@@ -70,8 +114,10 @@ class _ChatBotState extends State<ChatBot> {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    FocusScope.of(context).unfocus();
-                    animateToEnd();
+                    if (MediaQuery.of(context).viewInsets.bottom != 0) {
+                      FocusScope.of(context).unfocus();
+                      animateToEnd();
+                    }
                   },
                   child: Scrollbar(
                     interactive: false,
@@ -85,37 +131,39 @@ class _ChatBotState extends State<ChatBot> {
                         }
                         if (state is ChatLoaded) {
                           _textEditingController.text = '';
-                          Future.delayed(const Duration(milliseconds: 200),
-                              () => animateToEnd());
                         }
                       },
                       builder: (context, state) {
+                        if (state is ChatLoaded) {
+                          messages.addAll(state.message);
+                        }
                         if (messages.isEmpty) {
                           return const SizedBox.shrink();
                         }
                         return ListView.separated(
-                            controller: _scrollController,
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(height: 8),
-                            itemCount: messages.length,
-                            itemBuilder: (context, index) {
-                              return AnimationConfiguration.staggeredList(
-                                delay: Duration.zero,
-                                position: index,
-                                child: FadeInAnimation(
-                                  child: MessageTile(
-                                    messages[index].message,
-                                    time:
-                                        formateDate(messages[index].timestamp),
-                                    sender: 'none',
-                                    sentByMe: !messages[index].isBot,
-                                    isCanceled: messages[index].isCanceled,
-                                    // imageUrl: ImagesUrl.chat_bot,
-                                  ),
+                          key: const PageStorageKey('scroll'),
+                          controller: _scrollController,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 8),
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) {
+                            return AnimationConfiguration.staggeredList(
+                              delay: Duration.zero,
+                              position: index,
+                              child: FadeInAnimation(
+                                child: MessageTile(
+                                  messages[index].message,
+                                  time: formateDate(messages[index].timestamp),
+                                  sender: 'none',
+                                  sentByMe: !messages[index].isBot,
+                                  isCanceled: messages[index].isCanceled,
+                                  // imageUrl: ImagesUrl.chat_bot,
                                 ),
-                              );
-                            });
+                              ),
+                            );
+                          },
+                        );
                       },
                     ),
                   ),
@@ -128,11 +176,14 @@ class _ChatBotState extends State<ChatBot> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: ChatTextField(
-                        controller: _textEditingController,
-                        onTap: () {
-                          animateToEnd();
-                        },
+                      child: SizedBox(
+                        height: 56,
+                        child: ChatTextField(
+                          controller: _textEditingController,
+                          onTap: () {
+                            animateToEnd();
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(

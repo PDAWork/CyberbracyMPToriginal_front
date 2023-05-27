@@ -38,6 +38,7 @@ class MessageTile extends StatelessWidget {
     var messageTextStyle =
         TextStyle(color: sentByMe ? Colors.black : Colors.white);
     final List<(String?, SpawnedWidgetElement)> listWidgets = [];
+
     if (!sentByMe) {
       listWidgets.addAll(HtmlMessageParse.parseMessage(message));
     }
@@ -96,7 +97,6 @@ class MessageTile extends StatelessWidget {
                   child: sentByMe
                       ? Text(
                           message,
-                          softWrap: true,
                           style: messageTextStyle,
                         )
                       : RichText(
@@ -104,8 +104,10 @@ class MessageTile extends StatelessWidget {
                             children: listWidgets.map(
                               (e) {
                                 return switch (e.$2) {
-                                  SpawnedWidgetElement.simpleText =>
-                                    TextSpan(text: e.$1),
+                                  SpawnedWidgetElement.simpleText => TextSpan(
+                                      text: e.$1,
+                                      style: messageTextStyle,
+                                    ),
                                   SpawnedWidgetElement.coloredText => TextSpan(
                                       text: e.$1,
                                       style: const TextStyle(
