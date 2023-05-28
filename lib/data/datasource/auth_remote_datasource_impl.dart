@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cyberbracy_mpt_original_front/core/const/api_endpoints.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../models/sign_in_model.dart';
 import '../models/sign_up_model.dart';

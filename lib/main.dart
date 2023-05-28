@@ -86,7 +86,7 @@ class MainApp extends StatelessWidget {
                 },
               ),
             'requirement_body' => MaterialPageRoute(
-                builder: (_) => RequirementBody(),
+                builder: (_) => const RequirementBody(),
               ),
             "home" => MaterialPageRoute(
                 builder: (_) => BlocProvider(
@@ -97,7 +97,7 @@ class MainApp extends StatelessWidget {
             _ => MaterialPageRoute(builder: (_) => const Placeholder())
           };
         },
-        initialRoute: 'home',
+        initialRoute: 'sign_in',
       ),
     );
   }
