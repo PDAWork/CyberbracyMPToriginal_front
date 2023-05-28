@@ -1,7 +1,7 @@
 import 'package:cyberbracy_mpt_original_front/chat_bot/data/datasource/remote_datasource.dart';
 import 'package:cyberbracy_mpt_original_front/chat_bot/data/models/message_dto.dart';
 import 'package:cyberbracy_mpt_original_front/chat_bot/domain/entity/message.dart';
-import 'package:cyberbracy_mpt_original_front/const/api_endpoints.dart';
+import 'package:cyberbracy_mpt_original_front/core/const/api_endpoints.dart';
 import 'package:cyberbracy_mpt_original_front/core/error/exception.dart';
 import 'package:dio/dio.dart';
 

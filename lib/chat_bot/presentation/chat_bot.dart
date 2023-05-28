@@ -1,6 +1,6 @@
 import 'package:cyberbracy_mpt_original_front/chat_bot/domain/entity/message.dart';
 import 'package:cyberbracy_mpt_original_front/chat_bot/presentation/cubit/chat_cubit.dart';
-import 'package:cyberbracy_mpt_original_front/const/colors_theme.dart';
+import 'package:cyberbracy_mpt_original_front/core/const/colors_theme.dart';
 import 'package:cyberbracy_mpt_original_front/widget/app_bar_custom.dart';
 import 'package:cyberbracy_mpt_original_front/widget/chat_text_field.dart';
 import 'package:cyberbracy_mpt_original_front/widget/message_tile.dart';

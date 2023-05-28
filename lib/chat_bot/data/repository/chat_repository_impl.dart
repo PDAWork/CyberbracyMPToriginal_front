@@ -1,7 +1,7 @@
 import 'package:cyberbracy_mpt_original_front/chat_bot/data/datasource/remote_datasource.dart';
 import 'package:cyberbracy_mpt_original_front/chat_bot/domain/entity/message.dart';
 import 'package:cyberbracy_mpt_original_front/chat_bot/domain/repositories/chat_repository.dart';
-import 'package:cyberbracy_mpt_original_front/core/error/failure.dart';
+import '../../../../core/error/failure.dart';
 import 'package:dartz/dartz.dart';
 
 class ChatRepositoryImpl implements ChatRepository {

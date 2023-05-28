@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../const/colors_theme.dart';
+import '../../core/const/colors_theme.dart';
 
 class Review extends StatelessWidget {
   const Review({
@@ -35,9 +35,9 @@ class Review extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               'Онопенко Ярослав Аксентьевич',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -106,7 +106,7 @@ class Review extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Россия, Москва, Профсоюзная улица, 80к2',
                   ),
                   const Text(
@@ -121,7 +121,7 @@ class Review extends StatelessWidget {
                   ),
                   ...List.generate(
                     7,
-                    (index) => Text('Понедельник 09:00 – 16:00'),
+                    (index) => const Text('Понедельник 09:00 – 16:00'),
                   )
                 ],
               ),

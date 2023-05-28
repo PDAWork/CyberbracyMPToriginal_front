@@ -1,15 +1,19 @@
+import 'package:cyberbracy_mpt_original_front/auth/presentation/pin_verification/controller/pin_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/auth/presentation/pin_verification/view/pin_verification.dart';
+import 'package:cyberbracy_mpt_original_front/auth/presentation/sign_in/view/sign_in.dart';
+import 'package:cyberbracy_mpt_original_front/auth/presentation/sign_up/controller/sign_up_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/auth/presentation/sign_up/view/sign_up.dart';
 import 'package:cyberbracy_mpt_original_front/chat_bot/presentation/chat_bot.dart';
 import 'package:cyberbracy_mpt_original_front/chat_bot/presentation/cubit/chat_cubit.dart';
-import 'package:cyberbracy_mpt_original_front/const/theme_data.dart';
 import 'package:cyberbracy_mpt_original_front/core/scroll_behavior.dart';
+import 'package:cyberbracy_mpt_original_front/core/const/theme_data.dart';
 import 'package:cyberbracy_mpt_original_front/home/presentation/home.dart';
-import 'package:cyberbracy_mpt_original_front/pin_verification/presentation/pin_verification.dart';
 import 'package:cyberbracy_mpt_original_front/service_locator.dart';
-import 'package:cyberbracy_mpt_original_front/sign_in/presentation/sign_in.dart';
-import 'package:cyberbracy_mpt_original_front/sign_up.dart/presentation/sign_up.dart';
 import 'package:cyberbracy_mpt_original_front/widget/show_message_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'auth/presentation/sign_in/controller/sign_in_cubit.dart';
 import 'control_supervisory_body/presentation/control_supervisory_body.dart';
 import 'home/domain/repository_control_body.dart';
 import 'home/state/control_body_cubit.dart';
@@ -30,6 +34,15 @@ class MainApp extends StatelessWidget {
         BlocProvider<ChatCubit>(
           create: (context) => sl(),
         ),
+        BlocProvider<SignInCubit>(
+          create: (context) => sl<SignInCubit>(),
+        ),
+        BlocProvider<SignUpCubit>(
+          create: (context) => sl<SignUpCubit>(),
+        ),
+        BlocProvider<PinCubit>(
+          create: (context) => sl<PinCubit>(),
+        )
       ],
       child: MaterialApp(
         scrollBehavior: ScrollWithoutSplash(),

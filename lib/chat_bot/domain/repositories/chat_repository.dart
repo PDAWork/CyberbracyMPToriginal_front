@@ -1,5 +1,5 @@
 import 'package:cyberbracy_mpt_original_front/chat_bot/domain/entity/message.dart';
-import 'package:cyberbracy_mpt_original_front/core/error/failure.dart';
+import '../../../../core/error/failure.dart';
 import 'package:dartz/dartz.dart';
 
 abstract interface class ChatRepository {

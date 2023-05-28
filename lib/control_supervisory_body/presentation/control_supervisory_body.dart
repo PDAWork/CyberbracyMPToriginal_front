@@ -4,7 +4,7 @@ import 'package:cyberbracy_mpt_original_front/control_supervisory_body/presentat
 import 'package:cyberbracy_mpt_original_front/widget/app_bar_custom.dart';
 import 'package:flutter/material.dart';
 
-import '../../const/colors_theme.dart';
+import '../../core/const/colors_theme.dart';
 
 class ControlSupervisoryBody extends StatefulWidget {
   const ControlSupervisoryBody({Key? key}) : super(key: key);
@@ -58,7 +58,7 @@ class _ControlSupervisoryBodyState extends State<ControlSupervisoryBody> {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           physics: BouncingScrollPhysics(),
           children: [
             Review(),
