@@ -52,7 +52,7 @@ class _PinVerificationState extends State<PinVerification> {
         if (state is PinLoadedState) {
           Navigator.pushNamedAndRemoveUntil(
             context,
-            HomeRoute().routeName,
+            SignInRoute().routeName,
             (route) => false,
           );
         }
