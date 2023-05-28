@@ -5,6 +5,7 @@ import 'package:cyberbracy_mpt_original_front/presentation/home/state/control_bo
 import 'package:cyberbracy_mpt_original_front/presentation/pin_verification/presentation/pin_verification.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement/presentation/requirements.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement/state/requirements_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/presentation/requirement_body.dart';
 import 'package:cyberbracy_mpt_original_front/service_locator.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/sign_in/presentation/sign_in.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/sign_up.dart/presentation/sign_up.dart';
@@ -60,6 +61,9 @@ class MainApp extends StatelessWidget {
                   child: const Requirements(),
                 );
               },
+            ),
+          'requirement_body' => MaterialPageRoute(
+              builder: (_) => RequirementBody(),
             ),
           "home" => MaterialPageRoute(
               builder: (_) => BlocProvider(
