@@ -1,10 +1,10 @@
-import 'package:cyberbracy_mpt_original_front/const/api_endpoints.dart';
 import 'package:cyberbracy_mpt_original_front/data/models/control_organ_head_model.dart';
 import 'package:cyberbracy_mpt_original_front/data/models/control_organ_model.dart';
 import 'package:cyberbracy_mpt_original_front/data/models/npas_model.dart';
 import 'package:cyberbracy_mpt_original_front/data/models/requirements_model.dart';
 import 'package:dio/dio.dart';
 
+import '../../core/const/api_endpoints.dart';
 import '../models/control_supervisory_organ_model.dart';
 
 abstract class ControlOrganDataSource {

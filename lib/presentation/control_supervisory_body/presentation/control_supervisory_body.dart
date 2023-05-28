@@ -7,7 +7,8 @@ import 'package:cyberbracy_mpt_original_front/widget/floating_action_button_supp
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../const/colors_theme.dart';
+import '../../../core/const/colors_theme.dart';
+
 
 class ControlSupervisoryBody extends StatefulWidget {
   const ControlSupervisoryBody({Key? key, required this.lowName})

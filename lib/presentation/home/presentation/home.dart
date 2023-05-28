@@ -1,7 +1,8 @@
 import 'package:cyberbracy_mpt_original_front/presentation/home/presentation/control_body/control_body.dart';
 import 'package:flutter/material.dart';
-import '../../../const/colors_theme.dart';
-import '../../../const/custom_icon_icons.dart';
+
+import '../../../core/const/colors_theme.dart';
+import '../../../core/const/custom_icon_icons.dart';
 import '../../../widget/app_bar_custom.dart';
 
 class Home extends StatefulWidget {

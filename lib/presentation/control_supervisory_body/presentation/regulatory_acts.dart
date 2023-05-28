@@ -1,7 +1,8 @@
 import 'package:cyberbracy_mpt_original_front/domain/entity/npas_entity.dart';
 import 'package:flutter/material.dart';
 
-import '../../../const/colors_theme.dart';
+import '../../../core/const/colors_theme.dart';
+
 
 class RegulatoryActs extends StatelessWidget {
   final List<NpasEntity> npasEntity;

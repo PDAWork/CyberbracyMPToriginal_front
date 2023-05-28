@@ -18,11 +18,25 @@ dependencies:
   pretty_dio_logger:
   pinput:
   intl:
+  equatable:
+  dartz:
+  flutter_staggered_animations:
+  html:
+  flutter_markdown:
+  url_launcher:
+  
+  flutter_secure_storage: ^8.0.0
+  flutter_native_splash: ^2.3.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+flutter_native_splash:
+  color: '#ffffff'
+  image: 'assets/logo.png'
+  android_12:
+    color: '#ffffff'
 
 flutter:
   uses-material-design: true

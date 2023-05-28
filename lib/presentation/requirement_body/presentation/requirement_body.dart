@@ -1,8 +1,9 @@
-import 'package:cyberbracy_mpt_original_front/const/colors_theme.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/presentation/npas.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/presentation/punishments.dart';
 import 'package:cyberbracy_mpt_original_front/widget/app_bar_custom.dart';
 import 'package:flutter/material.dart';
+
+import '../../../core/const/colors_theme.dart';
 
 class RequirementBody extends StatelessWidget {
   const RequirementBody({Key? key}) : super(key: key);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../const/colors_theme.dart';
+import '../../../core/const/colors_theme.dart';
+
 
 class Punishments extends StatelessWidget {
   const Punishments({Key? key}) : super(key: key);

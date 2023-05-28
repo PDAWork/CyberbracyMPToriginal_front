@@ -1,10 +1,11 @@
-import 'package:cyberbracy_mpt_original_front/const/colors_theme.dart';
 import 'package:cyberbracy_mpt_original_front/widget/app_bar_custom.dart';
 import 'package:cyberbracy_mpt_original_front/widget/chat_text_field.dart';
 import 'package:cyberbracy_mpt_original_front/widget/message_tile.dart';
 import 'package:cyberbracy_mpt_original_front/widget/send_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../../../core/const/colors_theme.dart';
 
 class ChatBot extends StatefulWidget {
   const ChatBot({super.key});

@@ -1,8 +1,9 @@
-import 'package:cyberbracy_mpt_original_front/const/screen_routes.dart';
 import 'package:cyberbracy_mpt_original_front/domain/entity/control_supervisory_organ_entity.dart';
 import 'package:flutter/material.dart';
 
-import '../../../const/colors_theme.dart';
+
+import '../../../core/screen_routes.dart';
+import '/../../core/const/colors_theme.dart';
 
 class SupervisoryCut extends StatelessWidget {
   const SupervisoryCut({

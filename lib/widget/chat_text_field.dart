@@ -1,12 +1,14 @@
-import 'package:cyberbracy_mpt_original_front/const/colors_theme.dart';
+import 'package:cyberbracy_mpt_original_front/core/const/colors_theme.dart';
 import 'package:flutter/material.dart';
 
 class ChatTextField extends StatelessWidget {
   const ChatTextField({
     super.key,
     required TextEditingController controller,
+    this.onTap,
   }) : _textEditingController = controller;
   final TextEditingController _textEditingController;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,11 @@ class ChatTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       height: query.size.height * 0.06,
       child: TextField(
+        textInputAction: TextInputAction.newline,
+        onTap: () {
+          Future.delayed(
+              const Duration(milliseconds: 500), () => onTap?.call());
+        },
         controller: _textEditingController,
         cursorColor: ColorTheme.red,
         textAlignVertical: TextAlignVertical.center,

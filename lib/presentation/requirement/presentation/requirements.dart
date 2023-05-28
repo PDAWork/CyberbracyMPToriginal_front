@@ -1,10 +1,11 @@
-import 'package:cyberbracy_mpt_original_front/const/colors_theme.dart';
-import 'package:cyberbracy_mpt_original_front/const/screen_routes.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement/state/requirements_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/widget/app_bar_custom.dart';
 import 'package:cyberbracy_mpt_original_front/widget/floating_action_button_support.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../core/const/colors_theme.dart';
+import '../../../core/screen_routes.dart';
 
 class Requirements extends StatelessWidget {
   const Requirements({Key? key}) : super(key: key);
