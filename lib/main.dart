@@ -1,22 +1,25 @@
-import 'package:cyberbracy_mpt_original_front/auth/presentation/pin_verification/controller/pin_cubit.dart';
-import 'package:cyberbracy_mpt_original_front/auth/presentation/pin_verification/view/pin_verification.dart';
-import 'package:cyberbracy_mpt_original_front/auth/presentation/sign_in/view/sign_in.dart';
-import 'package:cyberbracy_mpt_original_front/auth/presentation/sign_up/controller/sign_up_cubit.dart';
-import 'package:cyberbracy_mpt_original_front/auth/presentation/sign_up/view/sign_up.dart';
-import 'package:cyberbracy_mpt_original_front/chat_bot/presentation/chat_bot.dart';
-import 'package:cyberbracy_mpt_original_front/chat_bot/presentation/cubit/chat_cubit.dart';
-import 'package:cyberbracy_mpt_original_front/core/scroll_behavior.dart';
-import 'package:cyberbracy_mpt_original_front/core/const/theme_data.dart';
-import 'package:cyberbracy_mpt_original_front/home/presentation/home.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/auth/pin_verification/controller/pin_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/auth/pin_verification/view/pin_verification.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/auth/sign_in/controller/sign_in_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/auth/sign_in/view/sign_in.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/auth/sign_up/controller/sign_up_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/auth/sign_up/view/sign_up.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/chat_bot/presentation/chat_bot.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/chat_bot/presentation/cubit/chat_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/control_supervisory_body/presentation/control_supervisory_body.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/control_supervisory_body/state/control_supervisory_body_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/home/presentation/home.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/home/state/control_body_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/requirement/presentation/requirements.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/requirement/state/requirements_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/presentation/requirement_body.dart';
 import 'package:cyberbracy_mpt_original_front/service_locator.dart';
 import 'package:cyberbracy_mpt_original_front/widget/show_message_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'auth/presentation/sign_in/controller/sign_in_cubit.dart';
-import 'control_supervisory_body/presentation/control_supervisory_body.dart';
-import 'home/domain/repository_control_body.dart';
-import 'home/state/control_body_cubit.dart';
+import 'core/const/theme_data.dart';
+import 'core/scroll_behavior.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,23 +59,45 @@ class MainApp extends StatelessWidget {
             "pin_verification" => MaterialPageRoute(
                 builder: (_) => const PinVerification(),
               ),
+            "control_supervisory_body" => MaterialPageRoute(builder: (_) {
+                String lowName =
+                    (settings.arguments as Map<String, String>)['lowName']!;
+                return BlocProvider(
+                  create: (context) => sl<ControlSupervisoryBodyCubit>(),
+                  child: ControlSupervisoryBody(
+                    lowName: lowName,
+                  ),
+                );
+              }),
             "chat_bot" => MaterialPageRoute(
                 builder: (_) => const ChatBot(),
               ),
+            "requirements" => MaterialPageRoute(
+                builder: (_) {
+                  final String lowName =
+                      (settings.arguments as Map<String, dynamic>)['lowName'];
+                  final int idControl =
+                      (settings.arguments as Map<String, dynamic>)['idControl'];
+                  return BlocProvider(
+                    create: (context) =>
+                        sl<RequirementsCubit>()..init(lowName, idControl),
+                    child: const Requirements(),
+                  );
+                },
+              ),
+            'requirement_body' => MaterialPageRoute(
+                builder: (_) => RequirementBody(),
+              ),
             "home" => MaterialPageRoute(
                 builder: (_) => BlocProvider(
-                  create: (context) =>
-                      ControlBodyCubit(sl<RepositoryControlBody>())..init(),
+                  create: (_) => sl<ControlBodyCubit>()..init(),
                   child: const Home(),
                 ),
-              ),
-            "control_supervisory_body" => MaterialPageRoute(
-                builder: (_) => const ControlSupervisoryBody(),
               ),
             _ => MaterialPageRoute(builder: (_) => const Placeholder())
           };
         },
-        initialRoute: 'sign_in',
+        initialRoute: 'home',
       ),
     );
   }
