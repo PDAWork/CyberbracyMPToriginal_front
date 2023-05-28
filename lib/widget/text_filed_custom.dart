@@ -1,42 +1,65 @@
 import 'package:cyberbracy_mpt_original_front/core/const/colors_theme.dart';
+import 'package:cyberbracy_mpt_original_front/core/const/input_formaters.dart';
 import 'package:flutter/material.dart';
 
-class TextFieldCustom extends StatelessWidget {
+class TextFieldCustom extends StatefulWidget {
   final IconData? prefixIcon;
-  final IconData? suffixIcon;
+  IconData? suffixIcon;
+  final bool? isNumber;
   final String title;
   final String hint;
-  final bool? isPassword;
+  final bool isPassword;
   final TextEditingController? textEditingController;
 
-  const TextFieldCustom({
+  TextFieldCustom({
     super.key,
     this.textEditingController,
-    this.isPassword = false,
     this.prefixIcon,
     this.suffixIcon,
+    this.isNumber = false,
+    this.isPassword = false,
     required this.title,
     required this.hint,
   });
 
   @override
+  State<TextFieldCustom> createState() => _TextFieldCustomState();
+}
+
+class _TextFieldCustomState extends State<TextFieldCustom> {
+  bool showPassword = true;
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: isPassword!,
-      controller: textEditingController,
+      obscureText: widget.isPassword ? showPassword : false,
+      controller: widget.textEditingController,
+      inputFormatters: widget.isNumber! ? [maskNumberFormatter] : [],
       decoration: InputDecoration(
-        hintText: hint,
-        prefixIcon: prefixIcon == null
+        hintText: widget.hint,
+        prefixIcon: widget.prefixIcon == null
             ? null
             : Icon(
-                prefixIcon,
+                widget.prefixIcon,
                 color: Colors.black,
               ),
-        suffixIcon: suffixIcon == null
+        suffixIcon: widget.suffixIcon == null
             ? null
-            : Icon(
-                suffixIcon,
-                color: Colors.black,
+            : GestureDetector(
+                onTap: () {
+                  if (showPassword) {
+                    widget.suffixIcon = Icons.visibility;
+                    showPassword = false;
+                  } else {
+                    widget.suffixIcon = Icons.visibility_off;
+                    showPassword = true;
+                  }
+
+                  setState(() {});
+                },
+                child: Icon(
+                  widget.suffixIcon,
+                  color: Colors.black,
+                ),
               ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),

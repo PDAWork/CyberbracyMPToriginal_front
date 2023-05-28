@@ -24,6 +24,7 @@ dependencies:
   html:
   flutter_markdown:
   url_launcher:
+  mask_text_input_formatter:
   
   flutter_secure_storage: ^8.0.0
   flutter_native_splash: ^2.3.0
