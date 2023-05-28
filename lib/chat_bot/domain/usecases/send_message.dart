@@ -5,12 +5,12 @@ import '../../../../core/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-class SendMessage extends UseCase<List<Message>, SendMessageParams> {
+class SendMessage extends UseCase<Message, SendMessageParams> {
   final ChatRepository chatRepository;
 
   SendMessage(this.chatRepository);
   @override
-  Future<Either<Failure, List<Message>>> call(SendMessageParams params) {
+  Future<Either<Failure, Message>> call(SendMessageParams params) {
     return chatRepository.sendMessage(params.userId, params.message);
   }
 }

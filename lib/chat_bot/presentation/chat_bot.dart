@@ -22,12 +22,18 @@ class _ChatBotState extends State<ChatBot> {
   late TextEditingController _textEditingController;
 
   List<Message> messages = [];
+  int page = 1;
+  int maxPage = 0;
+  double delta = 0;
+  int millis = 0;
+  double scrollOffset = 0;
+  double scrollPosition = 0;
 
   ///Скролл в конец после после отправки
   void animateToEnd() {
     if (_scrollController.hasClients) {
       _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
+          duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
     }
   }
 
@@ -36,13 +42,57 @@ class _ChatBotState extends State<ChatBot> {
         .format(DateTime.fromMillisecondsSinceEpoch(timestamp));
   }
 
+  void _scrollListener() {
+    if (_scrollController.position.extentAfter ==
+            _scrollController.position.maxScrollExtent &&
+        delta > _scrollController.position.extentBefore &&
+        (DateTime.now().millisecondsSinceEpoch - millis) > 400 &&
+        page <= maxPage) {
+      scrollOffset = _scrollController.offset;
+      millis = DateTime.now().millisecondsSinceEpoch;
+
+      scrollPosition = _scrollController.position.extentAfter;
+      context.read<ChatCubit>().getUserChat(1, page).then((value) {
+        page++;
+        Future.delayed(const Duration(milliseconds: 400), () => scrollToPos());
+      });
+    }
+    delta = _scrollController.position.extentBefore;
+  }
+
+  void scrollToPos() {
+    var max = _scrollController.position.maxScrollExtent;
+    _scrollController.animateTo(max - scrollPosition,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.fastEaseInToSlowEaseOut);
+  }
+
   @override
   void initState() {
     _scrollController = ScrollController();
     _textEditingController = TextEditingController();
-    WidgetsFlutterBinding.ensureInitialized()
-        .addPostFrameCallback((timeStamp) => animateToEnd());
+    _scrollController.addListener(() => _scrollListener());
+    var cubit = context.read<ChatCubit>();
+    cubit.getMaxPages(1).then(
+      (value) {
+        cubit.messages = [];
+        maxPage = cubit.maxPages;
+        cubit.getUserChat(1, page);
+        page++;
+        if (_scrollController.hasClients) {
+          Future.delayed(
+              const Duration(milliseconds: 700),
+              () => _scrollController
+                  .jumpTo(_scrollController.position.maxScrollExtent));
+        }
+      },
+    );
     super.initState();
+  }
+
+  bool isHasNextPage(int curPage) {
+    var pageSize = 20;
+    return curPage * pageSize / 20 == 0;
   }
 
   @override
@@ -70,8 +120,10 @@ class _ChatBotState extends State<ChatBot> {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    FocusScope.of(context).unfocus();
-                    animateToEnd();
+                    if (MediaQuery.of(context).viewInsets.bottom != 0) {
+                      FocusScope.of(context).unfocus();
+                      animateToEnd();
+                    }
                   },
                   child: Scrollbar(
                     interactive: false,
@@ -94,27 +146,32 @@ class _ChatBotState extends State<ChatBot> {
                           return const SizedBox.shrink();
                         }
                         return ListView.separated(
-                          controller: _scrollController,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          separatorBuilder: (context, index) =>
-                              const SizedBox(height: 8),
-                          itemCount: messages.length,
-                          itemBuilder: (context, index) =>
-                              AnimationConfiguration.staggeredList(
-                            delay: Duration.zero,
-                            position: index,
-                            child: FadeInAnimation(
-                              child: MessageTile(
-                                messages[index].message,
-                                time: formateDate(messages[index].timestamp),
-                                sender: 'none',
-                                sentByMe: !messages[index].isBot,
-                                isCanceled: messages[index].isCanceled,
-                                // imageUrl: ImagesUrl.chat_bot,
-                              ),
-                            ),
-                          ),
-                        );
+                            cacheExtent: 99999999999999,
+                            key: const PageStorageKey('scroll'),
+                            controller: _scrollController,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: 8),
+                            itemCount: messages.length,
+                            itemBuilder: (context, index) {
+                              return AnimationConfiguration.staggeredList(
+                                delay: Duration.zero,
+                                position: index,
+                                child: FadeInAnimation(
+                                  child: MessageTile(
+                                    messages[index].message,
+                                    time:
+                                        formateDate(messages[index].timestamp),
+                                    sender: 'none',
+                                    sentByMe: !messages[index].isBot,
+                                    isCanceled: messages[index].isCanceled,
+                                    isButton: messages[index].isButton,
+                                    hasTable: messages[index].hasTable,
+                                    // imageUrl: ImagesUrl.chat_bot,
+                                  ),
+                                ),
+                              );
+                            });
                       },
                     ),
                   ),
@@ -127,11 +184,14 @@ class _ChatBotState extends State<ChatBot> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: ChatTextField(
-                        controller: _textEditingController,
-                        onTap: () {
-                          animateToEnd();
-                        },
+                      child: SizedBox(
+                        height: 56,
+                        child: ChatTextField(
+                          controller: _textEditingController,
+                          onTap: () {
+                            animateToEnd();
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(

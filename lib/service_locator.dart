@@ -1,3 +1,5 @@
+import 'package:cyberbracy_mpt_original_front/chat_bot/domain/usecases/get_max_pages.dart';
+import 'package:cyberbracy_mpt_original_front/chat_bot/domain/usecases/get_messages.dart';
 import 'package:cyberbracy_mpt_original_front/auth/data/datasource/remote_datasource/remote_datasource.dart';
 import 'package:cyberbracy_mpt_original_front/auth/data/repository/repository_impl.dart';
 import 'package:cyberbracy_mpt_original_front/auth/domian/repository/repository.dart';
@@ -26,7 +28,7 @@ final sl = GetIt.asNewInstance();
 
 Future<void> init() async {
   //Bloc instances
-  sl.registerFactory(() => ChatCubit(sl()));
+  sl.registerFactory(() => ChatCubit(sl(), sl(), sl()));
   sl.registerFactory(() => ControlBodyCubit(sl()));
   sl.registerFactory(() => SignInCubit(signIn: sl()));
   sl.registerFactory(() => SignUpCubit(signUp: sl()));
@@ -34,6 +36,8 @@ Future<void> init() async {
 
   //UseCase instances
   sl.registerLazySingleton(() => SendMessage(sl()));
+  sl.registerLazySingleton(() => GetMessages(sl()));
+  sl.registerLazySingleton(() => GetMaxPages(sl()));
   sl.registerLazySingleton(() => SignIn(signInRepository: sl()));
   sl.registerLazySingleton(() => SignUp(repository: sl()));
   sl.registerLazySingleton(() => Verification(repository: sl()));
@@ -58,7 +62,7 @@ Future<void> init() async {
           PrettyDioLogger(
             requestHeader: true,
             requestBody: true,
-            responseBody: false,
+            responseBody: true,
             error: true,
             compact: true,
             maxWidth: 90,

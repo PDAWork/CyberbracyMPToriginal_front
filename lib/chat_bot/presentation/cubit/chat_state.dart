@@ -15,8 +15,6 @@ class ChatError extends ChatState {
   const ChatError(this.errorMessage);
 }
 
-class ChatLoaded extends ChatState {
-  // final Message message;
+class ChatLoaded extends ChatState {}
 
-  const ChatLoaded();
-}
+class ChatPaginate extends ChatState {}
