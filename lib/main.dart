@@ -14,10 +14,13 @@ import 'package:cyberbracy_mpt_original_front/presentation/requirement/presentat
 import 'package:cyberbracy_mpt_original_front/presentation/requirement/state/requirements_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/presentation/requirement_body.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/state/requirement_body_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/support/cubit/support_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/support/support.dart';
 import 'package:cyberbracy_mpt_original_front/service_locator.dart';
 import 'package:cyberbracy_mpt_original_front/widget/show_message_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'core/const/theme_data.dart';
 import 'core/scroll_behavior.dart';
@@ -25,7 +28,7 @@ import 'core/scroll_behavior.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
-  runApp(const MainApp());
+  initializeDateFormatting().then((_) => runApp(const MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -49,6 +52,7 @@ class MainApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        localizationsDelegates: [],
         scrollBehavior: ScrollWithoutSplash(),
         scaffoldMessengerKey: SnackBarService.scaffoldKey,
         debugShowCheckedModeBanner: false,
@@ -101,6 +105,12 @@ class MainApp extends StatelessWidget {
                   );
                 },
               ),
+            "support" => MaterialPageRoute(
+                builder: (_) => BlocProvider(
+                  create: (context) => sl<SupportCubit>()..init(),
+                  child: Support(),
+                ),
+              ),
             "home" => MaterialPageRoute(
                 builder: (_) => BlocProvider(
                   create: (_) => sl<ControlBodyCubit>()..init(),
@@ -110,7 +120,7 @@ class MainApp extends StatelessWidget {
             _ => MaterialPageRoute(builder: (_) => const Placeholder())
           };
         },
-        initialRoute: 'sign_in',
+        initialRoute: 'home',
       ),
     );
   }

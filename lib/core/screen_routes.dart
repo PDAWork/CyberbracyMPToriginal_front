@@ -43,3 +43,7 @@ class RequirementsBodyRoute implements ScreenRoute {
   @override
   String get routeName => "requirement_body";
 }
+class SupportRoute implements ScreenRoute {
+  @override
+  String get routeName => "support";
+}

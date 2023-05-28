@@ -9,9 +9,15 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final PreferredSizeWidget? bottom;
   final bool isChatBot;
+  final bool isVisibilityChat;
 
-  const AppBarCustom(
-      {super.key, this.title, this.bottom, this.isChatBot = false});
+  const AppBarCustom({
+    super.key,
+    this.title,
+    this.bottom,
+    this.isChatBot = false,
+    this.isVisibilityChat = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +27,17 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
       leadingWidth: title != null ? null : 130,
       bottom: bottom,
       actions: [
-        GestureDetector(
-          onTap: () => isChatBot
-              ? null
-              : Navigator.of(context).pushNamed(ChatBotRoute().routeName),
-          child: Image.asset(
-            ImagesUrl.chatBot,
-            width: 35,
-          ),
-        ),
+        !isVisibilityChat
+            ? GestureDetector(
+                onTap: () => isChatBot
+                    ? null
+                    : Navigator.of(context).pushNamed(ChatBotRoute().routeName),
+                child: Image.asset(
+                  ImagesUrl.chatBot,
+                  width: 35,
+                ),
+              )
+            : SizedBox(),
         const SizedBox(width: 15)
       ],
       foregroundColor: ColorTheme.red,
