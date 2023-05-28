@@ -31,7 +31,7 @@ class ChatCubit extends Cubit<ChatState> {
         false,
         false,
       );
-      messages.add(myMessage);
+      messages.insert(0,myMessage);
       emit(ChatLoaded());
       emit(ChatInitial());
       var response =
@@ -40,12 +40,12 @@ class ChatCubit extends Cubit<ChatState> {
         (error) {
           emit(ChatError(error.toString()));
           var last = messages.last;
-          messages.removeLast();
+          messages.removeAt(0);
           last = myMessage.copyWith(isCanceled: true);
-          messages.add(last);
+          messages.insert(0,last);
         },
         (data) {
-          messages.add(data);
+          messages.insert(0,data);
           emit(ChatLoaded());
         },
       );
@@ -63,7 +63,7 @@ class ChatCubit extends Cubit<ChatState> {
           emit(ChatError(error.toString()));
         },
         (data) {
-          messages.insertAll(0, data);
+          messages.addAll(data.reversed);
           emit(ChatPaginate());
         },
       );

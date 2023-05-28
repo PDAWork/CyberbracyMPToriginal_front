@@ -33,6 +33,9 @@ class Punishments extends StatelessWidget {
                         fontSize: 14,
                       ),
                     ),
+                    Divider(
+                      color:ColorTheme.lightGrey
+                    ),
                     SizedBox(
                       height: 5,
                     ),
