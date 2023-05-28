@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../../core/const/colors_theme.dart';
 
-
 class Review extends StatelessWidget {
   final ControlOrganHeadEntity controlOrganHeadEntity;
 
@@ -106,8 +105,9 @@ class Review extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ...controlOrganHeadEntity.commonInfoList.map((e) {
-                      return Column(
+                    ...controlOrganHeadEntity.commonInfoList.map(
+                      (e) {
+                        return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -126,13 +126,17 @@ class Review extends StatelessWidget {
                             const SizedBox(
                               height: 5,
                             ),
-                          ]);
-                    })
+                          ],
+                        );
+                      },
+                    )
                   ],
                 ),
               ),
             ),
-            Container(height: kBottomNavigationBarHeight + 10,)
+            Container(
+              height: kBottomNavigationBarHeight + 10,
+            )
           ],
         ),
       ),

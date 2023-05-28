@@ -1,3 +1,4 @@
+import 'package:cyberbracy_mpt_original_front/presentation/consult_calendar/consult_calendar.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/home/presentation/control_body/control_body.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,11 @@ class _HomeState extends State<Home> {
   int currentIndex = 0;
   ScrollController controller = ScrollController();
 
-  List page = [const ControlBody(),const Placeholder(),const Placeholder()];
+  List page = [
+    const ControlBody(),
+    const ConsultCalendar(),
+    const Placeholder()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +59,6 @@ class _HomeState extends State<Home> {
                   icon: Icon(CustomIcon.schedule),
                   label: 'Расписание',
                 ),
-
                 BottomNavigationBarItem(
                   icon: Icon(CustomIcon.profile),
                   label: 'Профиль',

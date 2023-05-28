@@ -7,7 +7,7 @@ import '../../domain/entity/sign_in_entiti.dart';
 import '../../domain/entity/sign_up_entiti.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthRemoteDatasource remoteDatasource;
+  final AuthRemoteDataSource remoteDatasource;
 
   AuthRepositoryImpl({required this.remoteDatasource});
   @override

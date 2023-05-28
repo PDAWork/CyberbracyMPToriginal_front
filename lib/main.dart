@@ -6,6 +6,8 @@ import 'package:cyberbracy_mpt_original_front/presentation/auth/sign_up/controll
 import 'package:cyberbracy_mpt_original_front/presentation/auth/sign_up/view/sign_up.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/chat_bot/presentation/chat_bot.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/chat_bot/presentation/cubit/chat_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/consult_calendar/consult_calendar.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/consult_calendar/cubit/consult_calendar_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/control_supervisory_body/presentation/control_supervisory_body.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/control_supervisory_body/state/control_supervisory_body_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/home/presentation/home.dart';
@@ -17,6 +19,7 @@ import 'package:cyberbracy_mpt_original_front/service_locator.dart';
 import 'package:cyberbracy_mpt_original_front/widget/show_message_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'core/const/theme_data.dart';
 import 'core/scroll_behavior.dart';
@@ -24,7 +27,7 @@ import 'core/scroll_behavior.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
-  runApp(const MainApp());
+  initializeDateFormatting().then((_) => runApp(const MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -45,6 +48,9 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider<PinCubit>(
           create: (context) => sl<PinCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<ConsultCalendarCubit>(),
         )
       ],
       child: MaterialApp(
@@ -56,19 +62,23 @@ class MainApp extends StatelessWidget {
           return switch (settings.name!) {
             "sign_in" => MaterialPageRoute(builder: (_) => const SignIn()),
             "sign_up" => MaterialPageRoute(builder: (_) => const SignUp()),
+            "consult_calendar" =>
+              MaterialPageRoute(builder: (_) => const ConsultCalendar()),
             "pin_verification" => MaterialPageRoute(
                 builder: (_) => const PinVerification(),
               ),
-            "control_supervisory_body" => MaterialPageRoute(builder: (_) {
-                String lowName =
-                    (settings.arguments as Map<String, String>)['lowName']!;
-                return BlocProvider(
-                  create: (context) => sl<ControlSupervisoryBodyCubit>(),
-                  child: ControlSupervisoryBody(
-                    lowName: lowName,
-                  ),
-                );
-              }),
+            "control_supervisory_body" => MaterialPageRoute(
+                builder: (_) {
+                  String lowName =
+                      (settings.arguments as Map<String, String>)['lowName']!;
+                  return BlocProvider(
+                    create: (context) => sl<ControlSupervisoryBodyCubit>(),
+                    child: ControlSupervisoryBody(
+                      lowName: lowName,
+                    ),
+                  );
+                },
+              ),
             "chat_bot" => MaterialPageRoute(
                 builder: (_) => const ChatBot(),
               ),

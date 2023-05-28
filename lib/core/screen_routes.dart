@@ -29,6 +29,11 @@ class ChatBotRoute implements ScreenRoute {
   String get routeName => "chat_bot";
 }
 
+class ConsultTableRoute implements ScreenRoute {
+  @override
+  String get routeName => "consult_calendar";
+}
+
 class ControlSupervisoryRoute implements ScreenRoute {
   @override
   String get routeName => "control_supervisory_body";

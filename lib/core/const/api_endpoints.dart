@@ -1,9 +1,10 @@
 abstract final class ApiEndpoints {
-  static const String hostUrlFirst = 'http://46.243.201.240:3077/';
-  static const String hostUrlSecond = 'http://46.243.201.240:8000/';
+  static const String hostUrlKotlin = 'http://46.243.201.240:3077/';
+  static const String hostUrlPython = 'http://46.243.201.240:8000/';
+  static const String whoAmI = 'api/user/me';
   static const String message = 'user/onmessage';
   static const String controlOrganAll = 'data/org/list';
-   static const String maxPages = 'user/maxpages';
+  static const String maxPages = 'user/maxpages';
   static const String getMessageHistory = 'user/page';
   static const String signIn = 'api/token/';
   static const String signUp = 'api/user/create/';
@@ -24,5 +25,6 @@ abstract final class ApiEndpoints {
   static String npas(String lowName) {
     return 'data/org/npas?lowName=$lowName';
   }
- 
+
+  static String getConsultDates = 'user/consults/';
 }

@@ -1,4 +1,5 @@
 import 'package:cyberbracy_mpt_original_front/core/const/input_formaters.dart';
+import 'package:cyberbracy_mpt_original_front/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -28,6 +29,7 @@ class _SignUpState extends State<SignUp> {
     return BlocConsumer<SignUpCubit, SignUpState>(
       listener: (context, state) {
         if (state is SignUpLoadedState) {
+          sl.registerLazySingleton(() => state.signUpEntity);
           Navigator.pushNamed(context, PinVerificationRoute().routeName);
         }
       },
@@ -96,13 +98,15 @@ class _SignUpState extends State<SignUp> {
                 const SizedBox(height: 25),
                 OutlinedButton(
                   onPressed: () {
-                    if (passwordController.text == repeatPassword.text && emailController.text.contains('@')) {
+                    if (passwordController.text == repeatPassword.text &&
+                        emailController.text.contains('@')) {
                       context.read<SignUpCubit>().signUpUser(
                             email: emailController.text,
                             password: passwordController.text,
                             firstName: nameController.text,
                             lastName: lastNameController.text,
-                            phoneNumber: '+7${maskNumberFormatter.getUnmaskedText()}',
+                            phoneNumber:
+                                '+7${maskNumberFormatter.getUnmaskedText()}',
                           );
                     }
                   },

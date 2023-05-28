@@ -1,13 +1,24 @@
 import 'package:cyberbracy_mpt_original_front/data/datasource/auth_remote_datasource.dart';
 import 'package:cyberbracy_mpt_original_front/data/datasource/auth_remote_datasource_impl.dart';
+import 'package:cyberbracy_mpt_original_front/data/datasource/consult_calendar_remote_datasource.dart';
+import 'package:cyberbracy_mpt_original_front/data/datasource/consult_calendar_remote_datasource_impl.dart';
 import 'package:cyberbracy_mpt_original_front/data/datasource/control_organ_data_source.dart';
+import 'package:cyberbracy_mpt_original_front/data/datasource/who_am_i_remote_datasource.dart';
+import 'package:cyberbracy_mpt_original_front/data/datasource/who_am_i_remote_datasource_impl.dart';
 import 'package:cyberbracy_mpt_original_front/data/repositories/auth_repository_impl.dart';
+import 'package:cyberbracy_mpt_original_front/data/repositories/consult_calendar_repository_impl.dart';
+import 'package:cyberbracy_mpt_original_front/data/repositories/who_am_i_repository_impl.dart';
 import 'package:cyberbracy_mpt_original_front/domain/repositories/auth_repository.dart';
+import 'package:cyberbracy_mpt_original_front/domain/repositories/consult_calendar.dart';
 import 'package:cyberbracy_mpt_original_front/domain/repositories/repository_control.dart';
+import 'package:cyberbracy_mpt_original_front/domain/repositories/who_am_i.dart';
+import 'package:cyberbracy_mpt_original_front/domain/uses/get_consult_dates.dart';
+import 'package:cyberbracy_mpt_original_front/domain/uses/who_am_i.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/auth/pin_verification/controller/pin_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/auth/sign_in/controller/sign_in_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/auth/sign_up/controller/sign_up_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/chat_bot/presentation/cubit/chat_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/consult_calendar/cubit/consult_calendar_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/control_supervisory_body/state/control_supervisory_body_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement/state/requirements_cubit.dart';
 import 'package:dio/dio.dart';
@@ -35,7 +46,8 @@ Future<void> init() async {
 
   sl.registerFactory(() => ChatCubit(sl(), sl(), sl()));
   sl.registerFactory(() => ControlBodyCubit(sl()));
-  sl.registerFactory(() => SignInCubit(signIn: sl()));
+  sl.registerFactory(() => SignInCubit(signIn: sl(), sl()));
+  sl.registerFactory(() => ConsultCalendarCubit(sl()));
   sl.registerFactory(() => SignUpCubit(signUp: sl()));
   sl.registerFactory(() => PinCubit(verification: sl()));
   sl.registerFactory(() => ControlSupervisoryBodyCubit(sl()));
@@ -45,6 +57,8 @@ Future<void> init() async {
 
   sl.registerLazySingleton(() => SendMessage(sl()));
   sl.registerLazySingleton(() => GetMessages(sl()));
+  sl.registerLazySingleton(() => WhoAmI(sl()));
+  sl.registerLazySingleton(() => GetConsultDates(sl()));
   sl.registerLazySingleton(() => GetMaxPages(sl()));
   sl.registerLazySingleton(() => SignIn(signInRepository: sl()));
   sl.registerLazySingleton(() => SignUp(repository: sl()));
@@ -56,11 +70,18 @@ Future<void> init() async {
       () => AuthRepositoryImpl(remoteDatasource: sl()));
   sl.registerLazySingleton<RepositoryControl>(
       () => RepositoryControlImpl(sl()));
+  sl.registerLazySingleton<ConsultCalendarRepository>(
+      () => ConsultCalendarRepositoryImpl(sl()));
+  sl.registerLazySingleton<WhoAmIRepository>(() => WhoAmIRepositoryImpl(sl()));
 
   // DataSource
   sl.registerLazySingleton<ChatRemoteDataSource>(
       () => ChatRemoteDataSourceImpl(sl.get(instanceName: 'api_first')));
-  sl.registerLazySingleton<AuthRemoteDatasource>(
+  sl.registerLazySingleton<ConsultCalendarRemoteDataSource>(() =>
+      ConsultCalendarRemoteDataSourceImpl(sl.get(instanceName: 'api_first')));
+  sl.registerLazySingleton<WhoAmIRemoteDataSource>(
+      () => WhoAmIRemoteDataSourceImpl(sl.get(instanceName: 'api_second')));
+  sl.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDatasourceImpl(sl.get(instanceName: 'api_second')));
   sl.registerLazySingleton<ControlOrganDataSource>(
     () => ControlOrganDataSourceImpl(sl.get(instanceName: 'api_first')),
@@ -68,23 +89,7 @@ Future<void> init() async {
 
   // Core
   sl.registerLazySingleton(
-    () => Dio(BaseOptions(baseUrl: ApiEndpoints.hostUrlFirst))
-      ..interceptors.addAll(
-        [
-          PrettyDioLogger(
-            requestHeader: true,
-            requestBody: true,
-            responseBody: true,
-            error: true,
-            compact: true,
-            maxWidth: 90,
-          ),
-        ],
-      ),
-    instanceName: 'api_first'
-  );
-  sl.registerLazySingleton(
-          () => Dio(BaseOptions(baseUrl: ApiEndpoints.hostUrlSecond))
+      () => Dio(BaseOptions(baseUrl: ApiEndpoints.hostUrlKotlin))
         ..interceptors.addAll(
           [
             PrettyDioLogger(
@@ -97,6 +102,20 @@ Future<void> init() async {
             ),
           ],
         ),
-      instanceName: 'api_second'
-  );
+      instanceName: 'api_first');
+  sl.registerLazySingleton(
+      () => Dio(BaseOptions(baseUrl: ApiEndpoints.hostUrlPython))
+        ..interceptors.addAll(
+          [
+            PrettyDioLogger(
+              requestHeader: true,
+              requestBody: true,
+              responseBody: true,
+              error: true,
+              compact: true,
+              maxWidth: 90,
+            ),
+          ],
+        ),
+      instanceName: 'api_second');
 }
