@@ -9,7 +9,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/const/colors_theme.dart';
 
-
 class ControlSupervisoryBody extends StatefulWidget {
   const ControlSupervisoryBody({Key? key, required this.lowName})
       : super(key: key);
@@ -70,7 +69,7 @@ class _ControlSupervisoryBodyState extends State<ControlSupervisoryBody> {
                     items: state.controlSupervisoryOrganEntity,
                     lowName: widget.lowName,
                   ),
-                  RegulatoryActs(npasEntity:  state.npasEntity),
+                  RegulatoryActs(npasEntity: state.npasEntity),
                 ],
               );
             }
@@ -79,7 +78,9 @@ class _ControlSupervisoryBodyState extends State<ControlSupervisoryBody> {
                 child: CircularProgressIndicator(),
               );
             }
-            return const Placeholder();
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           },
         ),
       ),

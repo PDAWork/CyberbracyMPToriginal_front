@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
   List page = [
     const ControlBody(),
     const ConsultCalendar(),
-    const Placeholder()
+    const Center(child: CircularProgressIndicator()),
   ];
 
   @override

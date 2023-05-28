@@ -5,7 +5,6 @@ abstract final class ApiEndpoints {
   static const String message = 'user/onmessage';
   static const String controlOrganAll = 'data/org/list';
   static const String maxPages = 'user/maxpages';
-  static const String maxPages = 'user/maxpages';
   static const String getMessageHistory = 'user/page';
   static const String signIn = 'api/token/';
   static const String signUp = 'api/user/create/';

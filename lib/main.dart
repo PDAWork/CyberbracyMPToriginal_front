@@ -126,10 +126,14 @@ class MainApp extends StatelessWidget {
                   child: const Home(),
                 ),
               ),
-            _ => MaterialPageRoute(builder: (_) => const Placeholder())
+            _ => MaterialPageRoute(
+                builder: (_) => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
           };
         },
-        initialRoute: 'home',
+        initialRoute: 'sign_in',
       ),
     );
   }

@@ -122,7 +122,9 @@ class Requirements extends StatelessWidget {
               },
             );
           }
-          return const Placeholder();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         },
       ),
     );

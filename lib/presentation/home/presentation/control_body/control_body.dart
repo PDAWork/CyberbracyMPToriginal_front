@@ -123,7 +123,9 @@ class ControlBody extends StatelessWidget {
             child: Text(state.errorMesage),
           );
         }
-        return const Placeholder();
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
       },
     );
   }
