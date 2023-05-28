@@ -13,6 +13,7 @@ import 'package:cyberbracy_mpt_original_front/presentation/home/state/control_bo
 import 'package:cyberbracy_mpt_original_front/presentation/requirement/presentation/requirements.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement/state/requirements_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/presentation/requirement_body.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/state/requirement_body_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/service_locator.dart';
 import 'package:cyberbracy_mpt_original_front/widget/show_message_error.dart';
 import 'package:flutter/material.dart';
@@ -81,12 +82,24 @@ class MainApp extends StatelessWidget {
                   return BlocProvider(
                     create: (context) =>
                         sl<RequirementsCubit>()..init(lowName, idControl),
-                    child: const Requirements(),
+                    child: Requirements(lowName: lowName, idControl: idControl),
                   );
                 },
               ),
             'requirement_body' => MaterialPageRoute(
-                builder: (_) => RequirementBody(),
+                builder: (_) {
+                  final String lowName =
+                      (settings.arguments as Map<String, dynamic>)['lowName'];
+                  final int idControl =
+                      (settings.arguments as Map<String, dynamic>)['idControl'];
+                  final int idRequire =
+                      (settings.arguments as Map<String, dynamic>)['idRequire'];
+                  return BlocProvider(
+                    create: (context) => sl<RequirementBodyCubit>()
+                      ..init(lowName, idControl, idRequire),
+                    child: const RequirementBody(),
+                  );
+                },
               ),
             "home" => MaterialPageRoute(
                 builder: (_) => BlocProvider(

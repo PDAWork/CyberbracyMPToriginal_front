@@ -8,7 +8,14 @@ import '../../../core/const/colors_theme.dart';
 import '../../../core/screen_routes.dart';
 
 class Requirements extends StatelessWidget {
-  const Requirements({Key? key}) : super(key: key);
+  final String lowName;
+  final int idControl;
+
+  const Requirements({
+    Key? key,
+    required this.lowName,
+    required this.idControl,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +43,14 @@ class Requirements extends StatelessWidget {
                     borderRadius: BorderRadius.circular(4),
                     onTap: () {
                       Navigator.pushNamed(
-                          context, RequirementsBodyRoute().routeName);
+                        context,
+                        RequirementsBodyRoute().routeName,
+                        arguments: {
+                          'lowName': lowName,
+                          'idControl': idControl,
+                          'idRequire': state.requirements[index].idRequire,
+                        },
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(10),

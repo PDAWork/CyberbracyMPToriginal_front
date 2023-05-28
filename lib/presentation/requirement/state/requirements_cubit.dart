@@ -1,7 +1,7 @@
 import 'package:cyberbracy_mpt_original_front/domain/entity/requirements_entity.dart';
 import 'package:cyberbracy_mpt_original_front/domain/repositories/repository_control.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
+import "package:meta/meta.dart";
 
 part 'requirements_state.dart';
 

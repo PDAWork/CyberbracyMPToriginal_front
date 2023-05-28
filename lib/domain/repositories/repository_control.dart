@@ -4,6 +4,7 @@ import 'package:cyberbracy_mpt_original_front/domain/entity/requirements_entity.
 
 import '../entity/control_organ_entity.dart';
 import '../entity/control_organ_head_entity.dart';
+import '../entity/requirement_body_entity.dart';
 
 abstract class RepositoryControl {
   /// Получить список органов контроля
@@ -25,4 +26,10 @@ abstract class RepositoryControl {
 
   /// Получить список НПА организации
   Future<List<NpasEntity>> npasAll(String lowName);
+
+  Future<RequirementBodyEntity?> requirementBodyEntityAll(
+    String lowName,
+    int idControl,
+    int idRequire,
+  );
 }
