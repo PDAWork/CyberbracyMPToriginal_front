@@ -1,4 +1,4 @@
-import 'package:cyberbracy_mpt_original_front/domain/repositories/repository.dart';
+import 'package:cyberbracy_mpt_original_front/domain/repositories/auth_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
@@ -7,7 +7,7 @@ import '../../../core/usecase.dart';
 import '../entity/sign_in_entiti.dart';
 
 class SignIn extends UseCase<SignInEntity, SignInParams> {
-  final Repository signInRepository;
+  final AuthRepository signInRepository;
 
   SignIn({required this.signInRepository});
 

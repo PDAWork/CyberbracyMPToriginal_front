@@ -1,11 +1,11 @@
 
-import 'package:cyberbracy_mpt_original_front/domain/repositories/repository.dart';
+import 'package:cyberbracy_mpt_original_front/domain/repositories/auth_repository.dart';
 import 'package:cyberbracy_mpt_original_front/core/error/failure.dart';
 import 'package:cyberbracy_mpt_original_front/core/usecase.dart';
 import 'package:dartz/dartz.dart';
 
 class Verification extends UseCase<void, VerificationParams>{
-  final Repository repository;
+  final AuthRepository repository;
 
   Verification({required this.repository});
   @override

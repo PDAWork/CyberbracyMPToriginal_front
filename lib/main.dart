@@ -97,7 +97,7 @@ class MainApp extends StatelessWidget {
             _ => MaterialPageRoute(builder: (_) => const Placeholder())
           };
         },
-        initialRoute: 'sign_in',
+        initialRoute: 'home',
       ),
     );
   }

@@ -1,4 +1,4 @@
-import 'package:cyberbracy_mpt_original_front/domain/repositories/repository.dart';
+import 'package:cyberbracy_mpt_original_front/domain/repositories/auth_repository.dart';
 import 'package:cyberbracy_mpt_original_front/core/error/failure.dart';
 import 'package:cyberbracy_mpt_original_front/core/usecase.dart';
 import 'package:dartz/dartz.dart';
@@ -6,7 +6,7 @@ import 'package:dartz/dartz.dart';
 import '../entity/sign_up_entiti.dart';
 
 class SignUp extends UseCase<SignUpEntity, SignUpParams> {
-  final Repository repository;
+  final AuthRepository repository;
 
   SignUp({required this.repository});
   @override

@@ -1,12 +1,12 @@
 import 'package:cyberbracy_mpt_original_front/data/datasource/auth_remote_datasource.dart';
-import 'package:cyberbracy_mpt_original_front/domain/repositories/repository.dart';
+import 'package:cyberbracy_mpt_original_front/domain/repositories/auth_repository.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../core/error/failure.dart';
 import '../../domain/entity/sign_in_entiti.dart';
 import '../../domain/entity/sign_up_entiti.dart';
 
-class AuthRepositoryImpl implements Repository {
+class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDatasource remoteDatasource;
 
   AuthRepositoryImpl({required this.remoteDatasource});

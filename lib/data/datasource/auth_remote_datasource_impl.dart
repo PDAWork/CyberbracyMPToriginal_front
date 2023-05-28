@@ -10,23 +10,10 @@ import '../models/sign_up_model.dart';
 import 'auth_remote_datasource.dart';
 
 class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
-  Dio dio = Dio();
+  final Dio dio;
   final storage = const FlutterSecureStorage();
 
-  AuthRemoteDatasourceImpl() {
-    dio = Dio(BaseOptions(baseUrl: 'http://46.243.201.240:8000/'));
-    dio.interceptors.add(
-      PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
-        responseBody: true,
-        responseHeader: false,
-        error: true,
-        compact: true,
-        maxWidth: 90,
-      ),
-    );
-  }
+  AuthRemoteDatasourceImpl(this.dio);
 
   @override
   Future<SignInModel> signIn(

@@ -1,3 +1,4 @@
+import 'package:cyberbracy_mpt_original_front/data/datasource/auth_remote_datasource_impl.dart';
 import 'package:cyberbracy_mpt_original_front/data/datasource/control_organ_data_source.dart';
 import 'package:cyberbracy_mpt_original_front/domain/repositories/repository_control.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/auth/pin_verification/controller/pin_cubit.dart';
@@ -8,7 +9,7 @@ import 'package:cyberbracy_mpt_original_front/presentation/control_supervisory_b
 import 'package:cyberbracy_mpt_original_front/presentation/requirement/state/requirements_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/data/datasource/auth_remote_datasource.dart';
 import 'package:cyberbracy_mpt_original_front/data/repositories/auth_repository_impl.dart';
-import 'package:cyberbracy_mpt_original_front/domain/repositories/repository.dart';
+import 'package:cyberbracy_mpt_original_front/domain/repositories/auth_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -32,13 +33,13 @@ final sl = GetIt.instance;
 Future<void> init() async {
   // Bloc / Cubit
 
-  sl.registerFactory(() => ControlBodyCubit(sl()));
-  sl.registerFactory(() => ControlSupervisoryBodyCubit(sl()));
-  sl.registerFactory(() => RequirementsCubit(sl()));
   sl.registerFactory(() => ChatCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => ControlBodyCubit(sl()));
   sl.registerFactory(() => SignInCubit(signIn: sl()));
   sl.registerFactory(() => SignUpCubit(signUp: sl()));
   sl.registerFactory(() => PinCubit(verification: sl()));
+  sl.registerFactory(() => ControlSupervisoryBodyCubit(sl()));
+  sl.registerFactory(() => RequirementsCubit(sl()));
 
   // UseCase
 
@@ -50,23 +51,24 @@ Future<void> init() async {
   sl.registerLazySingleton(() => Verification(repository: sl()));
 
   // Repository
+  sl.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(sl()));
+  sl.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(remoteDatasource: sl()));
   sl.registerLazySingleton<RepositoryControl>(
       () => RepositoryControlImpl(sl()));
-  sl.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(sl()));
-  sl.registerLazySingleton<Repository>(
-      () => AuthRepositoryImpl(remoteDatasource: sl()));
 
   // DataSource
+  sl.registerLazySingleton<ChatRemoteDataSource>(
+      () => ChatRemoteDataSourceImpl(sl.get(instanceName: 'api_first')));
+  sl.registerLazySingleton<AuthRemoteDatasource>(
+      () => AuthRemoteDatasourceImpl(sl.get(instanceName: 'api_second')));
   sl.registerLazySingleton<ControlOrganDataSource>(
-    () => ControlOrganDataSourceImpl(sl()),
+    () => ControlOrganDataSourceImpl(sl.get(instanceName: 'api_first')),
   );
 
-  sl.registerLazySingleton<ChatRemoteDataSource>(
-      () => ChatRemoteDataSourceImpl(sl()));
-  sl.registerLazySingleton<AuthRemoteDatasource>(() => sl());
   // Core
   sl.registerLazySingleton(
-    () => Dio(BaseOptions(baseUrl: ApiEndpoints.hostUrl))
+    () => Dio(BaseOptions(baseUrl: ApiEndpoints.hostUrlFirst))
       ..interceptors.addAll(
         [
           PrettyDioLogger(
@@ -79,5 +81,22 @@ Future<void> init() async {
           ),
         ],
       ),
+    instanceName: 'api_first'
+  );
+  sl.registerLazySingleton(
+          () => Dio(BaseOptions(baseUrl: ApiEndpoints.hostUrlFirst))
+        ..interceptors.addAll(
+          [
+            PrettyDioLogger(
+              requestHeader: true,
+              requestBody: true,
+              responseBody: true,
+              error: true,
+              compact: true,
+              maxWidth: 90,
+            ),
+          ],
+        ),
+      instanceName: 'api_second'
   );
 }
