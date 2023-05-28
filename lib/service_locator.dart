@@ -10,6 +10,10 @@ import 'package:cyberbracy_mpt_original_front/presentation/auth/sign_up/controll
 import 'package:cyberbracy_mpt_original_front/presentation/chat_bot/presentation/cubit/chat_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/control_supervisory_body/state/control_supervisory_body_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement/state/requirements_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/data/datasource/auth_remote_datasource.dart';
+import 'package:cyberbracy_mpt_original_front/data/repositories/auth_repository_impl.dart';
+import 'package:cyberbracy_mpt_original_front/domain/repositories/auth_repository.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/state/requirement_body_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -40,6 +44,7 @@ Future<void> init() async {
   sl.registerFactory(() => PinCubit(verification: sl()));
   sl.registerFactory(() => ControlSupervisoryBodyCubit(sl()));
   sl.registerFactory(() => RequirementsCubit(sl()));
+  sl.registerFactory(() => RequirementBodyCubit(sl()));
 
   // UseCase
 
@@ -68,21 +73,20 @@ Future<void> init() async {
 
   // Core
   sl.registerLazySingleton(
-    () => Dio(BaseOptions(baseUrl: ApiEndpoints.hostUrlFirst))
-      ..interceptors.addAll(
-        [
-          PrettyDioLogger(
-            requestHeader: true,
-            requestBody: true,
-            responseBody: true,
-            error: true,
-            compact: true,
-            maxWidth: 90,
-          ),
-        ],
-      ),
-    instanceName: 'api_first'
-  );
+      () => Dio(BaseOptions(baseUrl: ApiEndpoints.hostUrlFirst))
+        ..interceptors.addAll(
+          [
+            PrettyDioLogger(
+              requestHeader: true,
+              requestBody: true,
+              responseBody: true,
+              error: true,
+              compact: true,
+              maxWidth: 90,
+            ),
+          ],
+        ),
+      instanceName: 'api_first');
   sl.registerLazySingleton(
           () => Dio(BaseOptions(baseUrl: ApiEndpoints.hostUrlSecond))
         ..interceptors.addAll(
@@ -97,6 +101,5 @@ Future<void> init() async {
             ),
           ],
         ),
-      instanceName: 'api_second'
-  );
+      instanceName: 'api_second');
 }

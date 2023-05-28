@@ -9,9 +9,9 @@ class NpasModel extends NpasEntity {
 
   factory NpasModel.fromJson(Map<String, dynamic> json) {
     return NpasModel(
-      text: json['text'],
-      date: json['date'],
-      fileInfo: json['fileInfo'],
+      text: json['text'] ?? json['desc'],
+      date: json['date'] ?? json['from'],
+      fileInfo: json['fileInfo'] ?? json['to'],
     );
   }
 }
