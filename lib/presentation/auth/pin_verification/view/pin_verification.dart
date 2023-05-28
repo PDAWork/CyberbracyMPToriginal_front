@@ -50,7 +50,11 @@ class _PinVerificationState extends State<PinVerification> {
     return BlocConsumer<PinCubit, PinState>(
       listener: (context, state) {
         if (state is PinLoadedState) {
-          Navigator.pushNamed(context, HomeRoute().routeName);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            HomeRoute().routeName,
+            (route) => false,
+          );
         }
       },
       builder: (context, state) {

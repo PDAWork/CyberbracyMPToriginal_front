@@ -8,7 +8,7 @@ import '../models/sign_in_model.dart';
 import '../models/sign_up_model.dart';
 import 'auth_remote_datasource.dart';
 
-class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
+class AuthRemoteDatasourceImpl implements AuthRemoteDataSource {
   final Dio dio;
   final storage = const FlutterSecureStorage();
 

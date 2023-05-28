@@ -55,7 +55,7 @@ class ControlOrganDataSourceImpl implements ControlOrganDataSource {
       return (result.data as List)
           .map((e) => ControlOrganModel.fromJson(e))
           .toList();
-    } on DioError catch (e) {
+    } on DioError {
       return <ControlOrganModel>[];
     }
   }
@@ -65,7 +65,7 @@ class ControlOrganDataSourceImpl implements ControlOrganDataSource {
     try {
       final result = await _dio.get(ApiEndpoints.controlOrganHead(lowName));
       return ControlOrganHeadModel.fromJson(result.data);
-    } on DioError catch (e) {
+    } on DioError {
       return null;
     }
   }
@@ -79,7 +79,7 @@ class ControlOrganDataSourceImpl implements ControlOrganDataSource {
       return (result.data as List)
           .map((e) => ControlSupervisoryOrganModel.fromJson(e))
           .toList();
-    } on DioError catch (e) {
+    } on DioError {
       return [];
     }
   }
@@ -95,7 +95,7 @@ class ControlOrganDataSourceImpl implements ControlOrganDataSource {
       return (result.data as List)
           .map((e) => RequirementsModel.fromJson(e))
           .toList();
-    } on DioError catch (e) {
+    } on DioError {
       return [];
     }
   }
@@ -105,7 +105,7 @@ class ControlOrganDataSourceImpl implements ControlOrganDataSource {
     try {
       final result = await _dio.get(ApiEndpoints.npas(lowName));
       return (result.data as List).map((e) => NpasModel.fromJson(e)).toList();
-    } on DioError catch (e) {
+    } on DioError {
       return [];
     }
   }
