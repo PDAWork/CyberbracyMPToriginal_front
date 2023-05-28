@@ -62,18 +62,20 @@ class _SignInState extends State<SignIn> {
                   const SizedBox(height: 15),
                   TextFieldCustom(
                     textEditingController: passwordController,
-                    suffixIcon: Icons.visibility,
+                    suffixIcon: Icons.visibility_off,
                     prefixIcon: Icons.lock,
+                    isPassword: true,
                     title: "Регистрация",
                     hint: "Пароль",
-                    isPassword: true,
                   ),
                   const SizedBox(height: 25),
                   ElevatedButton(
                     onPressed: () {
-                      context.read<SignInCubit>().signInUser(
-                          email: emailController.text,
-                          password: passwordController.text);
+                      if (emailController.text.contains('@')) {
+                        context.read<SignInCubit>().signInUser(
+                            email: emailController.text,
+                            password: passwordController.text);
+                      }
                     },
                     child: const Text('Войти в систему'),
                   ),

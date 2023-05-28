@@ -1,3 +1,4 @@
+import 'package:cyberbracy_mpt_original_front/core/const/input_formaters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -50,6 +51,7 @@ class _SignUpState extends State<SignUp> {
                   textEditingController: phoneNumberController,
                   prefixIcon: Icons.phone,
                   title: "Войти в систему",
+                  isNumber: true,
                   hint: "+7 (***) *** ** **",
                 ),
                 const SizedBox(height: 15),
@@ -76,31 +78,31 @@ class _SignUpState extends State<SignUp> {
                 const SizedBox(height: 15),
                 TextFieldCustom(
                   textEditingController: passwordController,
-                  suffixIcon: Icons.visibility,
+                  suffixIcon: Icons.visibility_off,
                   prefixIcon: Icons.lock,
+                  isPassword: true,
                   title: "Регистрация",
                   hint: "Пароль",
-                  isPassword: true,
                 ),
                 const SizedBox(height: 15),
                 TextFieldCustom(
                   textEditingController: repeatPassword,
-                  suffixIcon: Icons.visibility,
+                  suffixIcon: Icons.visibility_off,
                   prefixIcon: Icons.lock,
+                  isPassword: true,
                   title: "Регистрация",
                   hint: "Подтверждение пароля",
-                  isPassword: true,
                 ),
                 const SizedBox(height: 25),
                 OutlinedButton(
                   onPressed: () {
-                    if (passwordController.text == repeatPassword.text) {
+                    if (passwordController.text == repeatPassword.text && emailController.text.contains('@')) {
                       context.read<SignUpCubit>().signUpUser(
                             email: emailController.text,
                             password: passwordController.text,
                             firstName: nameController.text,
                             lastName: lastNameController.text,
-                            phoneNumber: phoneNumberController.text,
+                            phoneNumber: '+7${maskNumberFormatter.getUnmaskedText()}',
                           );
                     }
                   },
