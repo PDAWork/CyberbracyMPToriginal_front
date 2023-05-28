@@ -48,8 +48,10 @@ class RequirementBody extends StatelessWidget {
                 physics: const BouncingScrollPhysics(),
                 children: [
                   Review(requirement: state.requirement),
-                  Punishments(requirement:  state.requirement),
-                  Npas(npasList: state.requirement.npasList),
+                  Punishments(requirement: state.requirement),
+                  Npas(
+                      npasList: state.requirement.npasList,
+                      fileLink: state.requirement.fileLink),
                 ],
               );
             }

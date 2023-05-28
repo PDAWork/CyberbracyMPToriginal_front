@@ -1,12 +1,14 @@
 import 'package:cyberbracy_mpt_original_front/domain/entity/npas_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/const/colors_theme.dart';
 
 class Npas extends StatelessWidget {
   final List<NpasEntity> npasList;
-
-  const Npas({Key? key, required this.npasList}) : super(key: key);
+  final String fileLink;
+  const Npas({Key? key, required this.npasList, required this.fileLink})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,10 @@ class Npas extends StatelessWidget {
         return Card(
           child: InkWell(
             borderRadius: BorderRadius.circular(4),
-            onTap: () {},
+            onTap: () => launchUrl(
+              Uri.parse(fileLink),
+              mode: LaunchMode.externalApplication,
+            ),
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
