@@ -15,6 +15,9 @@ import 'package:cyberbracy_mpt_original_front/presentation/home/state/control_bo
 import 'package:cyberbracy_mpt_original_front/presentation/requirement/presentation/requirements.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement/state/requirements_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/presentation/requirement_body.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/state/requirement_body_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/support/cubit/support_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/support/support.dart';
 import 'package:cyberbracy_mpt_original_front/service_locator.dart';
 import 'package:cyberbracy_mpt_original_front/widget/show_message_error.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +57,7 @@ class MainApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        localizationsDelegates: [],
         scrollBehavior: ScrollWithoutSplash(),
         scaffoldMessengerKey: SnackBarService.scaffoldKey,
         debugShowCheckedModeBanner: false,
@@ -91,12 +95,30 @@ class MainApp extends StatelessWidget {
                   return BlocProvider(
                     create: (context) =>
                         sl<RequirementsCubit>()..init(lowName, idControl),
-                    child: const Requirements(),
+                    child: Requirements(lowName: lowName, idControl: idControl),
                   );
                 },
               ),
             'requirement_body' => MaterialPageRoute(
-                builder: (_) => const RequirementBody(),
+                builder: (_) {
+                  final String lowName =
+                      (settings.arguments as Map<String, dynamic>)['lowName'];
+                  final int idControl =
+                      (settings.arguments as Map<String, dynamic>)['idControl'];
+                  final int idRequire =
+                      (settings.arguments as Map<String, dynamic>)['idRequire'];
+                  return BlocProvider(
+                    create: (context) => sl<RequirementBodyCubit>()
+                      ..init(lowName, idControl, idRequire),
+                    child: const RequirementBody(),
+                  );
+                },
+              ),
+            "support" => MaterialPageRoute(
+                builder: (_) => BlocProvider(
+                  create: (context) => sl<SupportCubit>()..init(),
+                  child: Support(),
+                ),
               ),
             "home" => MaterialPageRoute(
                 builder: (_) => BlocProvider(
@@ -107,7 +129,7 @@ class MainApp extends StatelessWidget {
             _ => MaterialPageRoute(builder: (_) => const Placeholder())
           };
         },
-        initialRoute: 'sign_in',
+        initialRoute: 'home',
       ),
     );
   }

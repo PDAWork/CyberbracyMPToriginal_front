@@ -1,3 +1,4 @@
+import 'package:cyberbracy_mpt_original_front/core/screen_routes.dart';
 import 'package:flutter/material.dart';
 
 class FloatinActionButtonSupport extends StatelessWidget {
@@ -8,7 +9,9 @@ class FloatinActionButtonSupport extends StatelessWidget {
     return SizedBox(
       width: 155,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, SupportRoute().routeName);
+        },
         child: const Row(
           children: [Icon(Icons.add), Text('Задать вопрос')],
         ),

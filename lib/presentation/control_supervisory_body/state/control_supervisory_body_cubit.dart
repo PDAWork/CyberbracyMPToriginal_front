@@ -20,7 +20,7 @@ class ControlSupervisoryBodyCubit extends Cubit<ControlSupervisoryBodyState> {
     final controlOrganHead = await repositoryControl.controlOrganHead(lowName);
 
     final controlSupervisoryOrgan =
-    await repositoryControl.controlSupervisoryOrganAll(lowName);
+        await repositoryControl.controlSupervisoryOrganAll(lowName);
 
     final npas = await repositoryControl.npasAll(lowName);
 

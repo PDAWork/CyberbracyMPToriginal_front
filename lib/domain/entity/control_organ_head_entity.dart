@@ -21,6 +21,16 @@ class ControlOrganHeadEntity {
     required this.commonInfoList,
     required this.urlImage,
   });
+
+  factory ControlOrganHeadEntity.empty() {
+    return ControlOrganHeadEntity(
+      fio: 'fio',
+      post: 'post',
+      description: 'description',
+      commonInfoList: [],
+      urlImage: 'urlImage',
+    );
+  }
 }
 
 class CommonInfoEntity {

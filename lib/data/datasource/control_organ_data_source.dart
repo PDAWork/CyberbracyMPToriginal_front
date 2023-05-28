@@ -1,6 +1,7 @@
 import 'package:cyberbracy_mpt_original_front/data/models/control_organ_head_model.dart';
 import 'package:cyberbracy_mpt_original_front/data/models/control_organ_model.dart';
 import 'package:cyberbracy_mpt_original_front/data/models/npas_model.dart';
+import 'package:cyberbracy_mpt_original_front/data/models/requirement_body_model.dart';
 import 'package:cyberbracy_mpt_original_front/data/models/requirements_model.dart';
 import 'package:dio/dio.dart';
 
@@ -32,6 +33,14 @@ abstract class ControlOrganDataSource {
   ///  [GET] http://:3077/data/org/npas (lowName)
   ///  Получить НПА организации
   Future<List<NpasModel>> getAllNpas(String lowName);
+
+  /// [GET] http://:3077/data/org/requires/body (lowName, idControl, idRequire)
+  /// Получить всю инфу о конкретном требовании
+  Future<RequirementBodyModel?> getAllRequirementBody(
+    String lowName,
+    int idControl,
+    int idRequire,
+  );
 }
 
 class ControlOrganDataSourceImpl implements ControlOrganDataSource {
@@ -98,6 +107,24 @@ class ControlOrganDataSourceImpl implements ControlOrganDataSource {
       return (result.data as List).map((e) => NpasModel.fromJson(e)).toList();
     } on DioError {
       return [];
+    }
+  }
+
+  @override
+  Future<RequirementBodyModel?> getAllRequirementBody(
+    String lowName,
+    int idControl,
+    int idRequire,
+  ) async {
+    try {
+      final result = await _dio.get(ApiEndpoints.requirementsBody(
+        lowName,
+        idControl,
+        idRequire,
+      ));
+      return RequirementBodyModel.fromJson(result.data);
+    } on DioError catch (e) {
+      return null;
     }
   }
 }

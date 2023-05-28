@@ -14,10 +14,21 @@ class ControlOrganEntity {
   ///  Количество нормативных актов
   final int npas;
 
-  ControlOrganEntity(
-      {required this.name,
-      required this.lowName,
-      required this.typeControl,
-      required this.requirements,
-      required this.npas});
+  ControlOrganEntity({
+    required this.name,
+    required this.lowName,
+    required this.typeControl,
+    required this.requirements,
+    required this.npas,
+  });
+
+  factory ControlOrganEntity.empty() {
+    return ControlOrganEntity(
+      lowName: '',
+      name: '',
+      requirements: 0,
+      typeControl: 0,
+      npas: 0,
+    );
+  }
 }

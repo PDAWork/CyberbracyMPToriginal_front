@@ -21,6 +21,11 @@ import 'package:cyberbracy_mpt_original_front/presentation/chat_bot/presentation
 import 'package:cyberbracy_mpt_original_front/presentation/consult_calendar/cubit/consult_calendar_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/control_supervisory_body/state/control_supervisory_body_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement/state/requirements_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/data/datasource/auth_remote_datasource.dart';
+import 'package:cyberbracy_mpt_original_front/data/repositories/auth_repository_impl.dart';
+import 'package:cyberbracy_mpt_original_front/domain/repositories/auth_repository.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/state/requirement_body_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/support/cubit/support_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -52,6 +57,8 @@ Future<void> init() async {
   sl.registerFactory(() => PinCubit(verification: sl()));
   sl.registerFactory(() => ControlSupervisoryBodyCubit(sl()));
   sl.registerFactory(() => RequirementsCubit(sl()));
+  sl.registerFactory(() => RequirementBodyCubit(sl()));
+  sl.registerFactory(() => SupportCubit(sl()));
 
   // UseCase
 
