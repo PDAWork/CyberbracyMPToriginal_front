@@ -4,6 +4,7 @@ import 'package:cyberbracy_mpt_original_front/presentation/support/cubit/support
 import 'package:cyberbracy_mpt_original_front/widget/app_bar_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../core/const/colors_theme.dart';
 
@@ -16,6 +17,7 @@ class Support extends StatefulWidget {
 
 class _SupportState extends State<Support> {
   ControlOrganEntity? controlOrganEntity;
+  RequirementsEntity? requirementsEntity;
 
   // ControlOrganHeadEntity controlOrganHeadEntity =
   //     ControlOrganHeadEntity.empty();
@@ -35,9 +37,9 @@ class _SupportState extends State<Support> {
           padding: const EdgeInsets.all(10),
           child: ListView(
             children: [
-              const Text('Орган контроля'),
-              const SizedBox(
-                height: 5,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: const Text('Орган контроля'),
               ),
               BlocBuilder<SupportCubit, SupportState>(
                 builder: (context, state) {
@@ -65,41 +67,43 @@ class _SupportState extends State<Support> {
                       },
                     );
                   }
-                  return const SizedBox.shrink();
+                  return const EmptyDropDownButton();
                 },
               ),
-              const SizedBox(
-                height: 5,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: const Text('Требования'),
               ),
-              const Text('Требования'),
               BlocBuilder<SupportCubit, SupportState>(
                 builder: (context, state) {
                   if (state is SupportRequirmentsLoaded) {
                     return RequireDropDownButton(
                       items: state.requirments,
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        requirementsEntity = value;
+                      },
                     );
                   }
-                  return const SizedBox.shrink();
+                  return const EmptyDropDownButton();
                 },
               ),
-              const Text('Дата консультрования'),
-              const SizedBox(
-                height: 5,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: const Text('Дата консультирования'),
               ),
               TextFormField(
                 decoration: const InputDecoration(border: OutlineInputBorder()),
               ),
-              const Text('Время консультирования'),
-              const SizedBox(
-                height: 5,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: const Text('Время консультирования'),
               ),
               TextFormField(
                 decoration: const InputDecoration(border: OutlineInputBorder()),
               ),
-              const Text('Вопрос'),
-              const SizedBox(
-                height: 5,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: const Text('Вопрос'),
               ),
               TextFormField(
                 decoration: const InputDecoration(border: OutlineInputBorder()),
@@ -598,7 +602,7 @@ class _RequireDropDownButtonState extends State<RequireDropDownButton>
                           child: index == 0
                               ? Text(
                                   value[index].name,
-                                  overflow: TextOverflow.fade,
+                                  overflow: TextOverflow.ellipsis,
                                 )
                               : Text(
                                   value[index].name,
@@ -606,7 +610,7 @@ class _RequireDropDownButtonState extends State<RequireDropDownButton>
                                   style: TextStyle(
                                     color: Colors.grey.shade500,
                                   ),
-                                  overflow: TextOverflow.fade,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                         ),
                       ),
@@ -614,6 +618,40 @@ class _RequireDropDownButtonState extends State<RequireDropDownButton>
                   ),
                 ),
               ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class EmptyDropDownButton extends StatelessWidget {
+  const EmptyDropDownButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(6),
+            ),
+            border: Border.all(
+              color: ColorTheme.darkRed,
+            ),
+          ),
+          width: size.width,
+          child: Shimmer.fromColors(
+            period: const Duration(seconds: 2),
+            baseColor: Colors.white.withOpacity(.1),
+            highlightColor: ColorTheme.darkRed.withOpacity(.1),
+            child: Container(
+              color: Colors.white,
+              height: 50,
             ),
           ),
         ),
