@@ -24,6 +24,11 @@ abstract class RepositoryControl {
     int idControl,
   );
 
+  /// Получить список требований
+  Future<List<RequirementsEntity>?> requirementsAllByLowName(
+    String lowName,
+  );
+
   /// Получить список НПА организации
   Future<List<NpasEntity>> npasAll(String lowName);
 

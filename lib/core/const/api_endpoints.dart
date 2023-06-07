@@ -9,6 +9,7 @@ abstract final class ApiEndpoints {
   static const String signIn = 'api/token/';
   static const String signUp = 'api/user/create/';
   static const String verif = 'api/verify_code/';
+  static const requirementsByName = 'data/org/requires/list/full';
 
   static String controlOrganHead(String lowName) {
     return 'data/org/head?lowName=$lowName';

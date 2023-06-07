@@ -59,4 +59,13 @@ class RepositoryControlImpl implements RepositoryControl {
     );
     return result;
   }
+
+  @override
+  Future<List<RequirementsEntity>?> requirementsAllByLowName(
+      String lowName) async {
+    final result = await _dataSource.getAllRequirementsByLowName(
+      lowName,
+    );
+    return result;
+  }
 }

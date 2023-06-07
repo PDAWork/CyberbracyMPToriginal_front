@@ -30,6 +30,12 @@ abstract class ControlOrganDataSource {
     int idControl,
   );
 
+  ///  [GET] http://:3077/data/org/requires/list (lowName, idControl)
+  ///  Получить список требований
+  Future<List<RequirementsModel>?> getAllRequirementsByLowName(
+    String lowName,
+  );
+
   ///  [GET] http://:3077/data/org/npas (lowName)
   ///  Получить НПА организации
   Future<List<NpasModel>> getAllNpas(String lowName);
@@ -123,6 +129,22 @@ class ControlOrganDataSourceImpl implements ControlOrganDataSource {
         idRequire,
       ));
       return RequirementBodyModel.fromJson(result.data);
+    } on DioError catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<RequirementsModel>?> getAllRequirementsByLowName(
+      String lowName) async {
+    try {
+      final result = await _dio.get(
+        ApiEndpoints.requirementsByName,
+        queryParameters: {'lowName': lowName},
+      );
+      return (result.data as List)
+          .map((e) => RequirementsModel.fromJson(e))
+          .toList();
     } on DioError catch (e) {
       return null;
     }

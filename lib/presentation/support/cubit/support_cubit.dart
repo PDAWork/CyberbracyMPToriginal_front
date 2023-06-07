@@ -1,6 +1,5 @@
-import 'package:bloc/bloc.dart';
-import 'package:cyberbracy_mpt_original_front/data/datasource/control_organ_data_source.dart';
-import 'package:meta/meta.dart';
+import 'package:cyberbracy_mpt_original_front/domain/entity/requirements_entity.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/entity/control_organ_entity.dart';
 import '../../../domain/entity/control_organ_head_entity.dart';
@@ -12,10 +11,10 @@ class SupportCubit extends Cubit<SupportState> {
   SupportCubit(this.repositoryControl) : super(SupportInitial());
 
   final RepositoryControl repositoryControl;
-  List<ControlOrganEntity>? controlOrgan;
+  List<ControlOrganEntity> controlOrgan = [];
   ControlOrganHeadEntity? controlOrganHead;
 
-  init() async {
+  void init() async {
     emit(SupportLoad());
 
     final result =
@@ -30,12 +29,19 @@ class SupportCubit extends Cubit<SupportState> {
     emit(SupportSeccuse(result, result2!));
   }
 
-  selectControlOrganHead(String lowName) async {
+  // void selectControlOrganHead(String lowName) async {
+  //   emit(SupportLoad());
+  //   final result = await repositoryControl.controlOrganHead(lowName);
+  //   if (controlOrgan != null) {
+  //     emit(SupportSeccuse(controlOrgan!, result!));
+  //   }
+  // }
+
+  Future<void> getRequirments(String lowName) async {
     emit(SupportLoad());
-    final result =
-        controlOrganHead = await repositoryControl.controlOrganHead(lowName);
-    if (controlOrgan != null) {
-      emit(SupportSeccuse(controlOrgan!, result!));
+    final result = await repositoryControl.requirementsAllByLowName(lowName);
+    if (result != null) {
+      emit(SupportRequirmentsLoaded(result, controlOrgan));
     }
   }
 }
