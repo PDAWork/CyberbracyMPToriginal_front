@@ -4,4 +4,7 @@ import 'package:dartz/dartz.dart';
 
 abstract interface class ConsultCalendarRepository {
   Future<Either<Failure, List<ConsultDates>>> getConsultDates(int id);
+
+  Future<Either<Failure, List<ConsultDates>>> getAllConsultDates(
+      String lowName);
 }

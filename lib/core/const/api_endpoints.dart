@@ -10,6 +10,8 @@ abstract final class ApiEndpoints {
   static const String signUp = 'api/user/create/';
   static const String verif = 'api/verify_code/';
   static const requirementsByName = 'data/org/requires/list/full';
+  static String getConsultDates = 'user/consults/';
+  static String getAllConsultDates = 'user/consult/month';
 
   static String controlOrganHead(String lowName) {
     return 'data/org/head?lowName=$lowName';
@@ -26,8 +28,6 @@ abstract final class ApiEndpoints {
   static String npas(String lowName) {
     return 'data/org/npas?lowName=$lowName';
   }
-
-  static String getConsultDates = 'user/consults/';
 
   static String requirementsBody(
           String lowName, int idControl, int idRequire) =>

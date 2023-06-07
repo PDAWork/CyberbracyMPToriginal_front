@@ -9,6 +9,8 @@ class TextFieldCustom extends StatefulWidget {
   final bool? isNumber;
   final String title;
   final String hint;
+  final Color? fillColor;
+  final Color? borderColor;
   final bool isPassword;
   final TextEditingController? textEditingController;
 
@@ -21,6 +23,8 @@ class TextFieldCustom extends StatefulWidget {
     this.isPassword = false,
     required this.title,
     required this.hint,
+    this.fillColor,
+    this.borderColor,
   });
 
   @override
@@ -35,6 +39,7 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
       obscureText: widget.isPassword ? showPassword : false,
       controller: widget.textEditingController,
       inputFormatters: widget.isNumber! ? [maskNumberFormatter] : [],
+      cursorColor: ColorTheme.darkRed,
       decoration: InputDecoration(
         hintText: widget.hint,
         prefixIcon: widget.prefixIcon == null
@@ -63,18 +68,20 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
                 ),
               ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: BorderSide(color: ColorTheme.white),
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            color: widget.borderColor ?? ColorTheme.white,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: BorderSide(color: ColorTheme.white),
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: widget.borderColor ?? ColorTheme.white),
         ),
         border: OutlineInputBorder(
-          borderSide: BorderSide(color: ColorTheme.white),
-          borderRadius: BorderRadius.circular(15),
+          borderSide: BorderSide(color: widget.borderColor ?? ColorTheme.white),
+          borderRadius: BorderRadius.circular(10),
         ),
-        fillColor: ColorTheme.white,
+        fillColor: widget.fillColor ?? ColorTheme.white,
         filled: true,
       ),
     );

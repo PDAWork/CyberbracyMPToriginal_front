@@ -5,4 +5,9 @@ abstract interface class ConsultCalendarRemoteDataSource {
   ///
   ///Throws [ServerException] for all code errors
   Future<List<ConsultDates>> getConsultDates(int id);
+
+  ///Get all availible consult dates by lowName
+  ///
+  ///Throws [ServerException] for all code errors
+  Future<List<ConsultDates>> getAllConsultDates(String lowName);
 }

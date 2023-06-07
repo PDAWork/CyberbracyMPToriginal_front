@@ -26,4 +26,22 @@ class ConsultCalendarRemoteDataSourceImpl
       throw ServerException(e.toString());
     }
   }
+
+  @override
+  Future<List<ConsultDates>> getAllConsultDates(String lowName) async {
+    try {
+      var response = await _dio.get(
+        ApiEndpoints.getAllConsultDates,
+        queryParameters: {
+          'lowName': lowName,
+        },
+      );
+      var list = (response.data as List<dynamic>)
+          .map((e) => ConsultDatesModel.fromJson((e as Map<String, dynamic>)))
+          .toList();
+      return list;
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
 }

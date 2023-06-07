@@ -24,4 +24,21 @@ class ConsultCalendarRepositoryImpl implements ConsultCalendarRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, List<ConsultDates>>> getAllConsultDates(
+      String lowName) async {
+    return await _getAllConsultDates(
+        () => calendarRemoteDataSource.getAllConsultDates(lowName));
+  }
+
+  Future<Either<Failure, List<ConsultDates>>> _getAllConsultDates(
+      Future<List<ConsultDates>> Function() date) async {
+    try {
+      final model = await date();
+      return Right(model);
+    } catch (_) {
+      return Left(ServerFailure());
+    }
+  }
 }

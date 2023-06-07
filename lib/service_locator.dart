@@ -12,6 +12,7 @@ import 'package:cyberbracy_mpt_original_front/domain/repositories/auth_repositor
 import 'package:cyberbracy_mpt_original_front/domain/repositories/consult_calendar.dart';
 import 'package:cyberbracy_mpt_original_front/domain/repositories/repository_control.dart';
 import 'package:cyberbracy_mpt_original_front/domain/repositories/who_am_i.dart';
+import 'package:cyberbracy_mpt_original_front/domain/uses/get_all_consult_dates.dart';
 import 'package:cyberbracy_mpt_original_front/domain/uses/get_consult_dates.dart';
 import 'package:cyberbracy_mpt_original_front/domain/uses/who_am_i.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/auth/pin_verification/controller/pin_cubit.dart';
@@ -58,7 +59,7 @@ Future<void> init() async {
   sl.registerFactory(() => ControlSupervisoryBodyCubit(sl()));
   sl.registerFactory(() => RequirementsCubit(sl()));
   sl.registerFactory(() => RequirementBodyCubit(sl()));
-  sl.registerFactory(() => SupportCubit(sl()));
+  sl.registerFactory(() => SupportCubit(sl(), sl()));
 
   // UseCase
 
@@ -70,6 +71,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => SignIn(signInRepository: sl()));
   sl.registerLazySingleton(() => SignUp(repository: sl()));
   sl.registerLazySingleton(() => Verification(repository: sl()));
+  sl.registerLazySingleton(() => GetAllConsultDates(sl()));
 
   // Repository
   sl.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(sl()));

@@ -10,13 +10,13 @@ class SupportFailed extends SupportState {}
 
 class SupportSeccuse extends SupportState {
   final List<ControlOrganEntity> controlOrganList;
-  final ControlOrganHeadEntity controlOrganHead;
-  SupportSeccuse(this.controlOrganList, this.controlOrganHead);
+  SupportSeccuse(this.controlOrganList);
 }
 
 class SupportRequirmentsLoaded extends SupportState {
   final List<ControlOrganEntity> controlOrganList;
   final List<RequirementsEntity> requirments;
+  final List<ConsultDates> dates;
 
-  SupportRequirmentsLoaded(this.requirments, this.controlOrganList);
+  SupportRequirmentsLoaded(this.requirments, this.controlOrganList, this.dates);
 }
