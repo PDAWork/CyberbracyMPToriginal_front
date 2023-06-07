@@ -1,4 +1,5 @@
 class RequirementsEntity {
+  final int idControl;
   final int idRequire;
   final String name;
   final String typeControl;
@@ -6,6 +7,7 @@ class RequirementsEntity {
   final String responsibility;
 
   RequirementsEntity({
+    required this.idControl,
     required this.idRequire,
     required this.name,
     required this.typeControl,

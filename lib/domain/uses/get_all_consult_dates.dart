@@ -1,6 +1,6 @@
 import 'package:cyberbracy_mpt_original_front/core/error/failure.dart';
 import 'package:cyberbracy_mpt_original_front/core/usecase.dart';
-import 'package:cyberbracy_mpt_original_front/domain/entity/controls_date.dart';
+import 'package:cyberbracy_mpt_original_front/domain/entity/consult_date.dart';
 import 'package:cyberbracy_mpt_original_front/domain/repositories/consult_calendar.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';

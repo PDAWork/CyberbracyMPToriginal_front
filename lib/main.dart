@@ -19,7 +19,7 @@ import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/stat
 import 'package:cyberbracy_mpt_original_front/presentation/support/cubit/support_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/support/support.dart';
 import 'package:cyberbracy_mpt_original_front/service_locator.dart';
-import 'package:cyberbracy_mpt_original_front/widget/show_message_error.dart';
+import 'package:cyberbracy_mpt_original_front/core/snack_bar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';

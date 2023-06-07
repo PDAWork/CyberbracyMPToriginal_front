@@ -1,12 +1,14 @@
+import 'package:cyberbracy_mpt_original_front/core/const/types.dart';
 import 'package:cyberbracy_mpt_original_front/domain/entity/control_organ_entity.dart';
 import 'package:cyberbracy_mpt_original_front/domain/entity/requirements_entity.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/support/cubit/support_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/service_locator.dart';
 import 'package:cyberbracy_mpt_original_front/widget/app_bar_custom.dart';
 import 'package:cyberbracy_mpt_original_front/widget/custom_calendar.dart';
 import 'package:cyberbracy_mpt_original_front/widget/empty_drop_down_button.dart';
 import 'package:cyberbracy_mpt_original_front/widget/organ_drop_down_button.dart';
 import 'package:cyberbracy_mpt_original_front/widget/require_drop_down_button.dart';
-import 'package:cyberbracy_mpt_original_front/widget/show_message_error.dart';
+import 'package:cyberbracy_mpt_original_front/core/snack_bar_service.dart';
 import 'package:cyberbracy_mpt_original_front/widget/text_filed_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,12 +58,21 @@ class _SupportState extends State<Support> {
                 padding: EdgeInsets.symmetric(vertical: 8.0),
                 child: Text('Орган контроля'),
               ),
-              BlocBuilder<SupportCubit, SupportState>(
+              BlocConsumer<SupportCubit, SupportState>(
+                listener: (context, state) {
+                  if (state is SupportEntryAdded) {
+                    SnackBarService.showCompleteMessage(title: state.message);
+                  }
+                  if (state is SupportFailed) {
+                    SnackBarService.showErrorMessage(title: state.message);
+                  }
+                },
                 builder: (context, state) {
                   if (state is SupportSeccuse) {
                     context
                         .read<SupportCubit>()
                         .getRequirments(state.controlOrganList.first.lowName);
+                    controlOrganEntity = state.controlOrganList.first;
                     return OrganDropDownButton(
                       choosenEntity: controlOrganEntity,
                       items: state.controlOrganList,
@@ -74,6 +85,7 @@ class _SupportState extends State<Support> {
                     );
                   }
                   if (state is SupportRequirmentsLoaded) {
+                    requirementsEntity = state.requirments.first;
                     return OrganDropDownButton(
                       items: state.controlOrganList,
                       choosenEntity: controlOrganEntity,
@@ -112,6 +124,23 @@ class _SupportState extends State<Support> {
               BlocBuilder<SupportCubit, SupportState>(
                 builder: (context, state) {
                   if (state is SupportRequirmentsLoaded) {
+                    var list = state.dates.toList();
+                    for (var i = 0; i < state.dates.length; i++) {
+                      for (var j = 0;
+                          j < state.dates[i].consultDateList.length;
+                          j++) {
+                        var element = list[i];
+                        if (element.consultDate.day == DateTime.now().day) {
+                          element.consultDateList.removeWhere(
+                            (element) =>
+                                element.dateTime.hour < DateTime.now().hour,
+                          );
+                        }
+                        element.consultDateList.removeWhere(
+                          (element) => element.busy == true,
+                        );
+                      }
+                    }
                     return OutlinedButton(
                       style: Theme.of(context)
                           .outlinedButtonTheme
@@ -131,7 +160,7 @@ class _SupportState extends State<Support> {
                               child: AspectRatio(
                                 aspectRatio: size.width / size.height,
                                 child: CustomCalendar(
-                                  dates: state.dates,
+                                  dates: list,
                                   onItemTap: (value) {
                                     Navigator.pop(context);
                                     SnackBarService.showCompleteMessage(
@@ -181,7 +210,23 @@ class _SupportState extends State<Support> {
                 height: 16,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (controlOrganEntity != null &&
+                      requirementsEntity != null &&
+                      controller.text.isNotEmpty &&
+                      selectedTime.value.year != 0) {
+                    context.read<SupportCubit>().signUpOnConsult(
+                          sl.get<UserId>(),
+                          controlOrganEntity!.lowName,
+                          requirementsEntity!.idControl,
+                          requirementsEntity!.idRequire,
+                          selectedTime.value.millisecondsSinceEpoch,
+                          controller.text,
+                        );
+                  } else {
+                    SnackBarService.showErrorMessage(title: 'Заполните поля!');
+                  }
+                },
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

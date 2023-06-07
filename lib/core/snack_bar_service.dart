@@ -23,7 +23,8 @@ abstract final class SnackBarService {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500),
                 ),
                 SizedBox(
                   width: height,

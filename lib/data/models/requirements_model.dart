@@ -7,10 +7,12 @@ class RequirementsModel extends RequirementsEntity {
     required super.typeControl,
     required super.activities,
     required super.responsibility,
+    required super.idControl,
   });
 
   factory RequirementsModel.fromJson(Map<String, dynamic> json) {
     return RequirementsModel(
+      idControl: json['idControl'],
       idRequire: json['idRequire'],
       name: json['name'],
       typeControl: json['typeControl'],

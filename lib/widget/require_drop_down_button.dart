@@ -159,10 +159,10 @@ class _RequireDropDownButtonState extends State<RequireDropDownButton>
                       );
                       return ConstrainedBox(
                         constraints: BoxConstraints(
-                            minHeight: 30,
-                            maxHeight: 80,
-                            maxWidth: size.width * 0.8,
-                            minWidth: size.width * 0.8),
+                          minHeight: 30,
+                          maxWidth: size.width * 0.8,
+                          minWidth: size.width * 0.8,
+                        ),
                         child: TextField(
                           onTap: onTap,
                           maxLines: null,

@@ -2,7 +2,7 @@ import 'package:cyberbracy_mpt_original_front/core/const/api_endpoints.dart';
 import 'package:cyberbracy_mpt_original_front/core/error/exception.dart';
 import 'package:cyberbracy_mpt_original_front/data/datasource/consult_calendar_remote_datasource.dart';
 import 'package:cyberbracy_mpt_original_front/data/models/consult_dates_model.dart';
-import 'package:cyberbracy_mpt_original_front/domain/entity/controls_date.dart';
+import 'package:cyberbracy_mpt_original_front/domain/entity/consult_date.dart';
 import 'package:dio/dio.dart';
 
 class ConsultCalendarRemoteDataSourceImpl
@@ -42,6 +42,27 @@ class ConsultCalendarRemoteDataSourceImpl
       return list;
     } catch (e) {
       throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<String> signUpOnConsult(int userId, String lowName, int idControl,
+      int idRequire, int timestamp, String question) async {
+    try {
+      var response = await _dio.post(
+        ApiEndpoints.signUpOnConsult,
+        queryParameters: {
+          'userId': userId,
+          'lowName': lowName,
+          'idControl': idControl,
+          'idRequire': idRequire,
+          'from': timestamp,
+          'question': question,
+        },
+      );
+      return response.data;
+    } on DioError catch (e) {
+      throw ServerException(e.response.toString());
     }
   }
 }

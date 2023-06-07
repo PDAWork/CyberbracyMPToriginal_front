@@ -1,4 +1,4 @@
-import 'package:cyberbracy_mpt_original_front/domain/entity/controls_date.dart';
+import 'package:cyberbracy_mpt_original_front/domain/entity/consult_date.dart';
 import 'package:cyberbracy_mpt_original_front/domain/uses/get_consult_dates.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

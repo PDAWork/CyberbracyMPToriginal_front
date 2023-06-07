@@ -29,8 +29,13 @@ class Review extends StatelessWidget {
                     Row(
                       children: [
                         CircleAvatar(
-                          backgroundImage: NetworkImage(
+                          foregroundImage: NetworkImage(
                             controlOrganHeadEntity.urlImage,
+                          ),
+                          backgroundColor: ColorTheme.darkRed,
+                          child: const Icon(
+                            Icons.person,
+                            color: Colors.white,
                           ),
                         ),
                         const SizedBox(

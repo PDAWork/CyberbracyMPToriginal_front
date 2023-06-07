@@ -1,4 +1,4 @@
-import 'package:cyberbracy_mpt_original_front/domain/entity/controls_date.dart';
+import 'package:cyberbracy_mpt_original_front/domain/entity/consult_date.dart';
 
 abstract interface class ConsultCalendarRemoteDataSource {
   ///Get consult dates by id
@@ -10,4 +10,10 @@ abstract interface class ConsultCalendarRemoteDataSource {
   ///
   ///Throws [ServerException] for all code errors
   Future<List<ConsultDates>> getAllConsultDates(String lowName);
+
+  ///Sign up on consult
+  ///
+  ///Throws [ServerException] for all code errors
+  Future<String> signUpOnConsult(int userId, String lowName, int idControl,
+      int idRequire, int timestamp, String question);
 }

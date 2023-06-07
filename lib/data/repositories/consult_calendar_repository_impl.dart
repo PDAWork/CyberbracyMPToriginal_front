@@ -1,6 +1,6 @@
 import 'package:cyberbracy_mpt_original_front/core/error/failure.dart';
 import 'package:cyberbracy_mpt_original_front/data/datasource/consult_calendar_remote_datasource.dart';
-import 'package:cyberbracy_mpt_original_front/domain/entity/controls_date.dart';
+import 'package:cyberbracy_mpt_original_front/domain/entity/consult_date.dart';
 import 'package:cyberbracy_mpt_original_front/domain/repositories/consult_calendar.dart';
 import 'package:dartz/dartz.dart';
 
@@ -34,6 +34,24 @@ class ConsultCalendarRepositoryImpl implements ConsultCalendarRepository {
 
   Future<Either<Failure, List<ConsultDates>>> _getAllConsultDates(
       Future<List<ConsultDates>> Function() date) async {
+    try {
+      final model = await date();
+      return Right(model);
+    } catch (_) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> signUpOnConsult(int userId, String lowName,
+      int idControl, int idRequire, int timestamp, String question) async {
+    return await _signUpOnConsult(() =>
+        calendarRemoteDataSource.signUpOnConsult(
+            userId, lowName, idControl, idRequire, timestamp, question));
+  }
+
+  Future<Either<Failure, String>> _signUpOnConsult(
+      Future<String> Function() date) async {
     try {
       final model = await date();
       return Right(model);

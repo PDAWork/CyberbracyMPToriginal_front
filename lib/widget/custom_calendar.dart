@@ -1,7 +1,9 @@
 import 'dart:collection';
 
 import 'package:cyberbracy_mpt_original_front/core/const/colors_theme.dart';
-import 'package:cyberbracy_mpt_original_front/domain/entity/controls_date.dart';
+import 'package:cyberbracy_mpt_original_front/data/models/calendar_model.dart';
+import 'package:cyberbracy_mpt_original_front/domain/entity/calendar_entity.dart';
+import 'package:cyberbracy_mpt_original_front/domain/entity/consult_date.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -26,9 +28,9 @@ class _CustomCalendarState extends State<CustomCalendar> {
 
   DateTime _focusedDay = DateTime.now();
   final kToday = DateTime.now();
-  final Map<DateTime, List<DateTime>> _kEventSource = {};
-  late final ValueNotifier<List<DateTime>> _selectedEvents;
-  final Map<DateTime, List<DateTime>> kEvents = {};
+  final Map<DateTime, List<CalendarEntity>> _kEventSource = {};
+  late final ValueNotifier<List<CalendarEntity>> _selectedEvents;
+  final Map<DateTime, List<CalendarEntity>> kEvents = {};
 
   @override
   void initState() {
@@ -37,7 +39,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
     super.initState();
   }
 
-  List<DateTime> _getEventsForDay(DateTime day) {
+  List<CalendarEntity> _getEventsForDay(DateTime day) {
     var dt = DateTime(day.year, day.month, day.day);
     return kEvents[dt] ?? [];
   }
@@ -67,15 +69,15 @@ class _CustomCalendarState extends State<CustomCalendar> {
   @override
   Widget build(BuildContext context) {
     final kToday = DateTime.now();
-    for (var item in widget.dates) {
+    for (var i = 0; i < widget.dates.length; i++) {
       _kEventSource.addAll(
         {
-          item.consultDate: item.consultDateList,
+          widget.dates[i].consultDate: widget.dates[i].consultDateList,
         },
       );
     }
     kEvents.addAll(
-      LinkedHashMap<DateTime, List<DateTime>>(
+      LinkedHashMap<DateTime, List<CalendarEntity>>(
         equals: isSameDay,
         hashCode: getHashCode,
       )..addAll(_kEventSource),
@@ -157,7 +159,8 @@ class _CustomCalendarState extends State<CustomCalendar> {
                       kToday.hour,
                     );
                     var isLate = false;
-                    var isOverLate = value[index].hour > today.hour + 2;
+                    var isOverLate =
+                        value[index].dateTime.hour > today.hour + 2;
                     isOverLate ? isLate = false : isLate = true;
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -185,7 +188,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
                                   children: [
                                     Text(
                                       DateFormat.Hm()
-                                          .format(value[index])
+                                          .format(value[index].dateTime)
                                           .toString(),
                                     ),
                                     if (isLate && index != 0)
@@ -211,7 +214,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
                             child: InkWell(
                               onTap: () {
                                 if (widget.onItemTap != null) {
-                                  widget.onItemTap!(value[index]);
+                                  widget.onItemTap!(value[index].dateTime);
                                 }
                               },
                             ),

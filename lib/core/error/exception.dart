@@ -9,5 +9,3 @@ class ClientException implements Exception {
 
   ClientException(this.message);
 }
-
-class SaveException implements Exception {}
