@@ -1,5 +1,6 @@
 import 'package:cyberbracy_mpt_original_front/core/const/colors_theme.dart';
 import 'package:cyberbracy_mpt_original_front/core/const/images_url.dart';
+import 'package:cyberbracy_mpt_original_front/core/screen_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -208,7 +209,9 @@ class MessageTile extends StatelessWidget {
                           child: InkWell(
                             splashColor: Colors.red.shade300.withOpacity(.3),
                             borderRadius: borderRadius,
-                            onTap: () {},
+                            onTap: () => Navigator.of(context).pushNamed(
+                              SupportRoute().routeName,
+                            ),
                           ),
                         ),
                       )

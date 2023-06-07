@@ -202,7 +202,9 @@ class _SupportState extends State<Support> {
               TextFieldCustom(
                 title: 'Вопрос',
                 hint: 'Задайте вопрос',
+                isDense: true,
                 fillColor: Colors.white,
+                maxLines: null,
                 borderColor: Colors.grey.shade500,
                 textEditingController: controller,
               ),
