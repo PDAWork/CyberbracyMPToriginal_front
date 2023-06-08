@@ -35,6 +35,10 @@ class _CustomCalendarState extends State<CustomCalendar> {
   void initState() {
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier([]);
+    for (var element in widget.dates) {
+      element.consultDateList
+          .sort((a, b) => a.dateTime.hour.compareTo(b.dateTime.hour));
+    }
     super.initState();
   }
 

@@ -132,11 +132,17 @@ class _OrganDropDownButtonState extends State<OrganDropDownButton>
 
     return Column(
       children: [
-        Container(
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 100),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(borderRadius),
-            ),
+            borderRadius: isOpen
+                ? BorderRadius.only(
+                    topLeft: Radius.circular(borderRadius),
+                    topRight: Radius.circular(borderRadius),
+                  )
+                : BorderRadius.all(
+                    Radius.circular(borderRadius),
+                  ),
             color: Colors.white,
             border: Border.all(
               color: Colors.grey.shade400,
@@ -218,8 +224,7 @@ class _OrganDropDownButtonState extends State<OrganDropDownButton>
                     itemCount: value.length,
                     controller: scrollController,
                     itemBuilder: (context, index) => Material(
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(borderRadius)),
+                      color: Colors.white,
                       child: InkWell(
                         onTap: () => onItemTap(value[index]),
                         child: Padding(

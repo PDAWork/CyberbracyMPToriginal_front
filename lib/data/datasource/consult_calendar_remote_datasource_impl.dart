@@ -62,7 +62,7 @@ class ConsultCalendarRemoteDataSourceImpl
       );
       return response.data;
     } on DioError catch (e) {
-      throw ServerException(e.response.toString());
+      throw ServerException(e.toString());
     }
   }
 }
