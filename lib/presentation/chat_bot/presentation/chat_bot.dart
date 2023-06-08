@@ -2,6 +2,7 @@ import 'package:cyberbracy_mpt_original_front/core/const/colors_theme.dart';
 import 'package:cyberbracy_mpt_original_front/core/const/types.dart';
 import 'package:cyberbracy_mpt_original_front/service_locator.dart';
 import 'package:cyberbracy_mpt_original_front/widget/app_bar_custom.dart';
+import 'package:cyberbracy_mpt_original_front/widget/chat_down_button.dart';
 import 'package:cyberbracy_mpt_original_front/widget/chat_text_field.dart';
 import 'package:cyberbracy_mpt_original_front/widget/message_tile.dart';
 import 'package:cyberbracy_mpt_original_front/widget/send_button.dart';
@@ -52,6 +53,9 @@ class _ChatBotState extends State<ChatBot> {
     if (buttonDelta < _scrollController.position.extentAfter) {
       isFloatButtonVisible.value = true;
     } else {
+      isFloatButtonVisible.value = false;
+    }
+    if (_scrollController.position.extentBefore == 0) {
       isFloatButtonVisible.value = false;
     }
     buttonDelta = _scrollController.position.extentAfter;
@@ -192,11 +196,11 @@ class _ChatBotState extends State<ChatBot> {
                       ),
                     ),
                   ),
-                  DownButton(
+                  ChatDownButton(
                     value: isFloatButtonVisible,
                     onTap: () {
                       animateToEnd();
-                      Future.delayed(const Duration(milliseconds: 800),
+                      Future.delayed(const Duration(milliseconds: 500),
                           () => isFloatButtonVisible.value = false);
                     },
                   ),
@@ -266,69 +270,6 @@ class _ChatBotState extends State<ChatBot> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class DownButton extends StatefulWidget {
-  final ValueNotifier<bool> value;
-  final VoidCallback onTap;
-  const DownButton({
-    super.key,
-    required this.value,
-    required this.onTap,
-  });
-
-  @override
-  State<DownButton> createState() => _DownButtonState();
-}
-
-class _DownButtonState extends State<DownButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController animationController;
-  @override
-  void initState() {
-    animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 250),
-    );
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    animationController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomRight,
-      child: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: ValueListenableBuilder(
-          valueListenable: widget.value,
-          builder: (context, value, child) {
-            if (value) {
-              animationController.forward();
-              return FadeTransition(
-                opacity: animationController,
-                child: FloatingActionButton(
-                  backgroundColor: ColorTheme.darkRed,
-                  onPressed: widget.onTap,
-                  child: const Icon(
-                    Icons.arrow_downward,
-                  ),
-                ),
-              );
-            } else {
-              animationController.reverse();
-              return const SizedBox.shrink();
-            }
-          },
         ),
       ),
     );
