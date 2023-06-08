@@ -1,4 +1,5 @@
 import 'package:cyberbracy_mpt_original_front/core/const/types.dart';
+import 'package:cyberbracy_mpt_original_front/core/snack_bar_service.dart';
 import 'package:cyberbracy_mpt_original_front/domain/entity/control_organ_entity.dart';
 import 'package:cyberbracy_mpt_original_front/domain/entity/requirements_entity.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/support/cubit/support_cubit.dart';
@@ -8,7 +9,6 @@ import 'package:cyberbracy_mpt_original_front/widget/custom_calendar.dart';
 import 'package:cyberbracy_mpt_original_front/widget/empty_drop_down_button.dart';
 import 'package:cyberbracy_mpt_original_front/widget/organ_drop_down_button.dart';
 import 'package:cyberbracy_mpt_original_front/widget/require_drop_down_button.dart';
-import 'package:cyberbracy_mpt_original_front/core/snack_bar_service.dart';
 import 'package:cyberbracy_mpt_original_front/widget/text_filed_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,6 +61,7 @@ class _SupportState extends State<Support> {
               BlocConsumer<SupportCubit, SupportState>(
                 listener: (context, state) {
                   if (state is SupportEntryAdded) {
+                    debugPrint(state.message);
                     SnackBarService.showCompleteMessage(title: state.message);
                   }
                   if (state is SupportFailed) {
@@ -72,7 +73,9 @@ class _SupportState extends State<Support> {
                     context
                         .read<SupportCubit>()
                         .getRequirments(state.controlOrganList.first.lowName);
-                    controlOrganEntity = state.controlOrganList.first;
+                    if (state.controlOrganList.isNotEmpty) {
+                      controlOrganEntity = state.controlOrganList.first;
+                    }
                     return OrganDropDownButton(
                       choosenEntity: controlOrganEntity,
                       items: state.controlOrganList,
@@ -85,7 +88,9 @@ class _SupportState extends State<Support> {
                     );
                   }
                   if (state is SupportRequirmentsLoaded) {
-                    requirementsEntity = state.requirments.first;
+                    if (state.requirments.isNotEmpty) {
+                      requirementsEntity = state.requirments.first;
+                    }
                     return OrganDropDownButton(
                       items: state.controlOrganList,
                       choosenEntity: controlOrganEntity,
@@ -107,12 +112,22 @@ class _SupportState extends State<Support> {
               BlocBuilder<SupportCubit, SupportState>(
                 builder: (context, state) {
                   if (state is SupportRequirmentsLoaded) {
-                    return RequireDropDownButton(
-                      items: state.requirments,
-                      onChanged: (value) {
-                        requirementsEntity = value;
-                      },
-                    );
+                    if (state.requirments.isNotEmpty) {
+                      return RequireDropDownButton(
+                        items: state.requirments,
+                        onChanged: (value) {
+                          requirementsEntity = value;
+                        },
+                      );
+                    } else {
+                      Future.delayed(
+                        const Duration(microseconds: 1),
+                        () => SnackBarService.showErrorMessage(
+                          title: 'Требования отсутсвуют',
+                        ),
+                      );
+                      return const EmptyDropDownButton();
+                    }
                   }
                   return const EmptyDropDownButton();
                 },

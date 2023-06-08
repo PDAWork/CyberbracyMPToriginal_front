@@ -33,10 +33,14 @@ class _RequireDropDownButtonState extends State<RequireDropDownButton>
       duration: const Duration(milliseconds: 300),
     );
 
-    choosenEntity = ValueNotifier(widget.items.first);
-    textEditingController = TextEditingController(
-      text: choosenEntity.value.name,
-    );
+    if (widget.items.isNotEmpty) {
+      choosenEntity = ValueNotifier(widget.items.first);
+      textEditingController = TextEditingController(
+        text: choosenEntity.value.name,
+      );
+    } else {
+      textEditingController = TextEditingController();
+    }
 
     scrollController = ScrollController();
 
@@ -74,7 +78,9 @@ class _RequireDropDownButtonState extends State<RequireDropDownButton>
   @override
   void dispose() {
     controller.dispose();
-    choosenEntity.dispose();
+    if (widget.items.isNotEmpty) {
+      choosenEntity.dispose();
+    }
     super.dispose();
   }
 
@@ -112,7 +118,9 @@ class _RequireDropDownButtonState extends State<RequireDropDownButton>
   void onItemTap(RequirementsEntity entity) {
     setState(
       () {
-        choosenEntity.value = entity;
+        if (widget.items.isNotEmpty) {
+          choosenEntity.value = entity;
+        }
         isOpen = false;
         widget.onChanged(entity);
         iconAnimation();
@@ -129,11 +137,22 @@ class _RequireDropDownButtonState extends State<RequireDropDownButton>
 
     return Column(
       children: [
-        Container(
+        AnimatedContainer(
+          constraints: BoxConstraints(
+            minHeight: 30,
+            maxWidth: size.width,
+            minWidth: size.width,
+          ),
+          duration: const Duration(milliseconds: 100),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(borderRadius),
-            ),
+            borderRadius: isOpen
+                ? BorderRadius.only(
+                    topLeft: Radius.circular(borderRadius),
+                    topRight: Radius.circular(borderRadius),
+                  )
+                : BorderRadius.all(
+                    Radius.circular(borderRadius),
+                  ),
             color: Colors.white,
             border: Border.all(
               color: Colors.grey.shade400,
@@ -149,44 +168,54 @@ class _RequireDropDownButtonState extends State<RequireDropDownButton>
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: onTap,
-                  child: ValueListenableBuilder(
-                    valueListenable: choosenEntity,
-                    builder: (context, value, child) {
-                      textEditingController.text = value.name;
-                      textEditingController.selection =
-                          TextSelection.fromPosition(
-                        TextPosition(offset: textEditingController.text.length),
-                      );
-                      return ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: 30,
-                          maxWidth: size.width * 0.8,
-                          minWidth: size.width * 0.8,
-                        ),
-                        child: TextField(
-                          onTap: onTap,
-                          maxLines: null,
-                          controller: textEditingController,
-                          cursorColor: ColorTheme.darkRed,
-                          textAlignVertical: TextAlignVertical.center,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(vertical: 6),
-                            isDense: true,
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                  child: widget.items.isNotEmpty
+                      ? ValueListenableBuilder(
+                          valueListenable: choosenEntity,
+                          builder: (context, value, child) {
+                            textEditingController.text = value.name;
+                            textEditingController.selection =
+                                TextSelection.fromPosition(
+                              TextPosition(
+                                  offset: textEditingController.text.length),
+                            );
+                            return ConstrainedBox(
+                              constraints: BoxConstraints(
+                                minHeight: 30,
+                                maxWidth: size.width * 0.8,
+                                minWidth: size.width * 0.8,
+                              ),
+                              child: TextField(
+                                onTap: onTap,
+                                maxLines: null,
+                                controller: textEditingController,
+                                cursorColor: ColorTheme.darkRed,
+                                textAlignVertical: TextAlignVertical.center,
+                                decoration: const InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.symmetric(vertical: 6),
+                                  isDense: true,
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                      : const SizedBox.shrink(),
                 ),
                 GestureDetector(
+                  behavior: HitTestBehavior.opaque,
                   onTap: onIconTap,
-                  child: AnimatedIcon(
-                    icon: AnimatedIcons.menu_close,
-                    size: 18,
-                    progress: animation,
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 40,
+                    width: 30,
+                    child: AnimatedIcon(
+                      icon: AnimatedIcons.menu_close,
+                      size: 18,
+                      progress: animation,
+                    ),
                   ),
                 ),
               ],
@@ -220,6 +249,7 @@ class _RequireDropDownButtonState extends State<RequireDropDownButton>
                     itemCount: value.length,
                     controller: scrollController,
                     itemBuilder: (context, index) => Material(
+                      color: Colors.white,
                       borderRadius:
                           BorderRadius.all(Radius.circular(borderRadius)),
                       child: InkWell(

@@ -1,7 +1,6 @@
 import 'dart:collection';
 
 import 'package:cyberbracy_mpt_original_front/core/const/colors_theme.dart';
-import 'package:cyberbracy_mpt_original_front/data/models/calendar_model.dart';
 import 'package:cyberbracy_mpt_original_front/domain/entity/calendar_entity.dart';
 import 'package:cyberbracy_mpt_original_front/domain/entity/consult_date.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +35,10 @@ class _CustomCalendarState extends State<CustomCalendar> {
   void initState() {
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier([]);
+    for (var element in widget.dates) {
+      element.consultDateList
+          .sort((a, b) => a.dateTime.hour.compareTo(b.dateTime.hour));
+    }
     super.initState();
   }
 
