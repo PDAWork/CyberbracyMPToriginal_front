@@ -19,8 +19,8 @@ class WhoAmIRepositoryImpl implements WhoAmIRepository {
     try {
       final model = await date();
       return Right(model);
-    } catch (_) {
-      return Left(ServerFailure());
+    } catch (e) {
+      return Left(ServerFailure(e is Failure ? e.message : e.toString()));
     }
   }
 }

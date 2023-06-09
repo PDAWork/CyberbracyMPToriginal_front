@@ -1,3 +1,4 @@
+import 'package:cyberbracy_mpt_original_front/core/snack_bar_service.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/auth/pin_verification/controller/pin_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/auth/pin_verification/view/pin_verification.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/auth/sign_in/controller/sign_in_cubit.dart';
@@ -12,6 +13,7 @@ import 'package:cyberbracy_mpt_original_front/presentation/control_supervisory_b
 import 'package:cyberbracy_mpt_original_front/presentation/control_supervisory_body/state/control_supervisory_body_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/home/presentation/home.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/home/state/control_body_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/profile/profile.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement/presentation/requirements.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement/state/requirements_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/presentation/requirement_body.dart';
@@ -19,9 +21,9 @@ import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/stat
 import 'package:cyberbracy_mpt_original_front/presentation/support/cubit/support_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/support/support.dart';
 import 'package:cyberbracy_mpt_original_front/service_locator.dart';
-import 'package:cyberbracy_mpt_original_front/core/snack_bar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'core/const/theme_data.dart';
@@ -57,7 +59,15 @@ class MainApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-        localizationsDelegates: [],
+        supportedLocales: const [
+          Locale('ru'),
+          Locale('en'),
+        ],
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
         scrollBehavior: ScrollWithoutSplash(),
         scaffoldMessengerKey: SnackBarService.scaffoldKey,
         debugShowCheckedModeBanner: false,
@@ -117,8 +127,11 @@ class MainApp extends StatelessWidget {
             "support" => MaterialPageRoute(
                 builder: (_) => BlocProvider(
                   create: (context) => sl<SupportCubit>()..init(),
-                  child: Support(),
+                  child: const Support(),
                 ),
+              ),
+            "profile" => MaterialPageRoute(
+                builder: (_) => const Profile(),
               ),
             "home" => MaterialPageRoute(
                 builder: (_) => BlocProvider(

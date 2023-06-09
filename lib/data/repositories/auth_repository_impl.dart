@@ -18,7 +18,7 @@ class AuthRepositoryImpl implements AuthRepository {
           await remoteDatasource.signIn(email: email, password: password);
       return Right(data);
     } catch (e) {
-      return Left(ServerFailure());
+      return Left(ServerFailure(e is Failure ? e.message : e.toString()));
     }
   }
 
@@ -38,7 +38,7 @@ class AuthRepositoryImpl implements AuthRepository {
           password: password);
       return Right(data);
     } catch (e) {
-      return Left(ServerFailure());
+      return Left(ServerFailure(e is Failure ? e.message : e.toString()));
     }
   }
 
@@ -49,7 +49,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final data = await remoteDatasource.verification(code: code, id: id);
       return Right(data);
     } catch (e) {
-      return Left(ServerFailure());
+      return Left(ServerFailure(e is Failure ? e.message : e.toString()));
     }
   }
 }

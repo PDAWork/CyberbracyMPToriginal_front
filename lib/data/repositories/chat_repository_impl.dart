@@ -1,6 +1,6 @@
-import '../../core/error/failure.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../core/error/failure.dart';
 import '../../domain/entity/message.dart';
 import '../../domain/repositories/chat_repository.dart';
 import '../datasource/chat_remote_datasource.dart';
@@ -21,8 +21,8 @@ class ChatRepositoryImpl implements ChatRepository {
     try {
       final model = await message();
       return Right(model);
-    } catch (_) {
-      return Left(ServerFailure());
+    } catch (e) {
+      return Left(ServerFailure(e is Failure ? e.message : e.toString()));
     }
   }
 
@@ -38,8 +38,8 @@ class ChatRepositoryImpl implements ChatRepository {
     try {
       final model = await message();
       return Right(model);
-    } catch (_) {
-      return Left(ServerFailure());
+    } catch (e) {
+      return Left(ServerFailure(e is Failure ? e.message : e.toString()));
     }
   }
 
@@ -53,8 +53,8 @@ class ChatRepositoryImpl implements ChatRepository {
     try {
       final model = await maxPages();
       return Right(model);
-    } catch (_) {
-      return Left(ServerFailure());
+    } catch (e) {
+      return Left(ServerFailure(e is Failure ? e.message : e.toString()));
     }
   }
 }

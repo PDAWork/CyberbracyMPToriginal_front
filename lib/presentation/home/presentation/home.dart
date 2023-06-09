@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cyberbracy_mpt_original_front/presentation/consult_calendar/consult_calendar.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/home/presentation/control_body/control_body.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/profile/profile.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/const/colors_theme.dart';
@@ -22,7 +23,7 @@ class _HomeState extends State<Home> {
   List page = [
     const ControlBody(),
     const ConsultCalendar(),
-    const Center(child: CircularProgressIndicator()),
+    const Profile(),
   ];
 
   @override
@@ -33,7 +34,8 @@ class _HomeState extends State<Home> {
       extendBody: true,
       bottomNavigationBar: SafeArea(
         child: Container(
-          margin: EdgeInsets.only(left: 15, right: 15, bottom: Platform.isIOS ? 0 : 15),
+          margin: EdgeInsets.only(
+              left: 15, right: 15, bottom: Platform.isIOS ? 0 : 15),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: Theme(

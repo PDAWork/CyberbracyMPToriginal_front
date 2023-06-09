@@ -126,7 +126,7 @@ class _ChatBotState extends State<ChatBot> {
     return Scaffold(
       appBar: const AppBarCustom(
         isChatBot: true,
-        title: 'Бот-надзор',
+        title: 'Бот консультант',
       ),
       body: SafeArea(
         child: Column(
@@ -160,8 +160,14 @@ class _ChatBotState extends State<ChatBot> {
                         },
                         builder: (context, state) {
                           if (messages.isEmpty) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
+                            return Center(
+                              child: Text(
+                                'Нет сообщений',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(color: Colors.grey.shade500),
+                              ),
                             );
                           }
                           return ListView.separated(

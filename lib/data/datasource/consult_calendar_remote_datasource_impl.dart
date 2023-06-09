@@ -62,7 +62,11 @@ class ConsultCalendarRemoteDataSourceImpl
       );
       return response.data;
     } on DioError catch (e) {
-      throw ServerException(e.toString());
+      if (e.response?.statusCode == 448) {
+        throw ServerException(e.response?.data['msg']);
+      } else {
+        throw ServerException(e.toString());
+      }
     }
   }
 }

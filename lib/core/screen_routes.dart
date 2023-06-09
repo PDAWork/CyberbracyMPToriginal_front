@@ -19,6 +19,11 @@ class SignUpRoute implements ScreenRoute {
   String get routeName => "sign_up";
 }
 
+class ProfileRoute implements ScreenRoute {
+  @override
+  String get routeName => "profile";
+}
+
 class PinVerificationRoute implements ScreenRoute {
   @override
   String get routeName => "pin_verification";
@@ -48,6 +53,7 @@ class RequirementsBodyRoute implements ScreenRoute {
   @override
   String get routeName => "requirement_body";
 }
+
 class SupportRoute implements ScreenRoute {
   @override
   String get routeName => "support";

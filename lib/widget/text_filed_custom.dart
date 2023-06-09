@@ -7,12 +7,14 @@ class TextFieldCustom extends StatefulWidget {
   final IconData? prefixIcon;
   IconData? suffixIcon;
   final bool? isNumber;
-  final String title;
-  final String hint;
+  final String? title;
+  final String? hint;
   final Color? fillColor;
   final Color? borderColor;
   final bool? isDense;
+  final TextInputType? keyboardType;
   final int? maxLines;
+  final int? maxLength;
   final bool isPassword;
   final TextEditingController? textEditingController;
 
@@ -23,12 +25,14 @@ class TextFieldCustom extends StatefulWidget {
     this.suffixIcon,
     this.isNumber = false,
     this.isPassword = false,
-    required this.title,
-    required this.hint,
+    this.title,
+    this.hint,
     this.fillColor,
     this.borderColor,
     this.isDense,
     this.maxLines = 1,
+    this.keyboardType,
+    this.maxLength,
   });
 
   @override
@@ -40,11 +44,13 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLength: widget.maxLength,
       obscureText: widget.isPassword ? showPassword : false,
       controller: widget.textEditingController,
       inputFormatters: widget.isNumber! ? [maskNumberFormatter] : [],
       cursorColor: ColorTheme.darkRed,
       maxLines: widget.maxLines,
+      keyboardType: widget.keyboardType,
       decoration: InputDecoration(
         isDense: widget.isDense,
         hintText: widget.hint,

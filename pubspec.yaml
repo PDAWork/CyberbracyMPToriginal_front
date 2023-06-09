@@ -9,7 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
+  flutter_localizations:
+    sdk: flutter
   flutter_svg: ^2.0.6
   flutter_bloc:
   dio:
@@ -26,7 +27,6 @@ dependencies:
   url_launcher:
   mask_text_input_formatter:
   table_calendar:
-  
   flutter_secure_storage: ^8.0.0
   flutter_native_splash: ^2.3.0
 
@@ -51,4 +51,10 @@ flutter:
     - family: CustomIcon
       fonts:
         - asset: fonts/CustomIcon.ttf
+    - family: PTSerif
+      fonts:
+        - asset: fonts/PTSerif-Regular.ttf
+    - family: Inter
+      fonts:
+        - asset: fonts/Inter-Regular.ttf
 
