@@ -3,7 +3,9 @@ import 'package:cyberbracy_mpt_original_front/domain/uses/who_am_i.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/auth/sign_in/controller/sign_in_state.dart';
 import 'package:cyberbracy_mpt_original_front/service_locator.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class SignInCubit extends Cubit<SignInState> {
   final SignIn signIn;
@@ -31,7 +33,17 @@ class SignInCubit extends Cubit<SignInState> {
           var response = await _whoAmI.call(WhoAmIParams());
           response.fold(
             (error) => emit(SignInErrorState(message: error.toString())),
-            (data) => sl.registerSingleton(data),
+            (data) async {
+              sl.registerSingleton(data);
+
+              OneSignal.shared.setExternalUserId(email).then((results) {
+                debugPrint(
+                  results.toString(),
+                );
+              }).catchError((error) {
+                emit(SignInErrorState(message: error.toString()));
+              });
+            },
           );
         },
       );

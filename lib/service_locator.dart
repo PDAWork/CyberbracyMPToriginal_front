@@ -30,6 +30,7 @@ import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/stat
 import 'package:cyberbracy_mpt_original_front/presentation/support/cubit/support_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'core/const/api_endpoints.dart';
@@ -49,6 +50,14 @@ import 'presentation/home/state/control_body_cubit.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  //OneSignal
+  //Remove this method to stop OneSignal Debugging
+  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+
+  OneSignal.shared.setAppId("8ced7149-ca5f-471c-b828-23677f82feb7");
+
+  // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+  OneSignal.shared.promptUserForPushNotificationPermission();
   // Bloc / Cubit
 
   sl.registerFactory(() => ChatCubit(sl(), sl(), sl()));
