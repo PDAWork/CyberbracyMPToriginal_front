@@ -35,14 +35,15 @@ class SignInCubit extends Cubit<SignInState> {
             (error) => emit(SignInErrorState(message: error.toString())),
             (data) async {
               sl.registerSingleton(data);
-
               OneSignal.shared.setExternalUserId(email).then((results) {
                 debugPrint(
                   results.toString(),
                 );
-              }).catchError((error) {
-                emit(SignInErrorState(message: error.toString()));
-              });
+              }).catchError(
+                (error) {
+                  emit(SignInErrorState(message: error.toString()));
+                },
+              );
             },
           );
         },

@@ -60,13 +60,31 @@ class ConsultCalendarRemoteDataSourceImpl
           'question': question,
         },
       );
-      return response.data;
+      return response.data['msg'];
     } on DioError catch (e) {
-      if (e.response?.statusCode == 448) {
+      if (e.response?.statusCode == 440) {
         throw ServerException(e.response?.data['msg']);
       } else {
         throw ServerException(e.toString());
       }
+    }
+  }
+
+  @override
+  Future<String> confirmConsult(
+      int userId, int timestamp, String lowName) async {
+    try {
+      var response = await _dio.post(
+        ApiEndpoints.confirmConsult,
+        queryParameters: {
+          'userId': userId,
+          'lowName': lowName,
+          'from': timestamp,
+        },
+      );
+      return response.data['msg'];
+    } catch (e) {
+      throw ServerException(e.toString());
     }
   }
 }

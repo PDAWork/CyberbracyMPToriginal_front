@@ -11,6 +11,7 @@ class ConsultCalendarCubit extends Cubit<ConsultCalendarState> {
 
   Future<void> getConsulDates(int id) async {
     try {
+      emit(ConsultCalendarInitial());
       var response = await _getConsultDates.call(GetConsultDatesParams(id));
       response.fold(
         (error) => emit(

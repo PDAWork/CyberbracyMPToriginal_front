@@ -2,11 +2,9 @@ import 'package:cyberbracy_mpt_original_front/domain/entity/consult_date.dart';
 import 'package:cyberbracy_mpt_original_front/domain/entity/requirements_entity.dart';
 import 'package:cyberbracy_mpt_original_front/domain/uses/get_all_consult_dates.dart';
 import 'package:cyberbracy_mpt_original_front/domain/uses/sign_up_on_consult.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/entity/control_organ_entity.dart';
-import '../../../domain/entity/control_organ_head_entity.dart';
 import '../../../domain/repositories/repository_control.dart';
 
 part 'support_state.dart';

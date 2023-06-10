@@ -10,4 +10,7 @@ abstract interface class ConsultCalendarRepository {
 
   Future<Either<Failure, String>> signUpOnConsult(int userId, String lowName,
       int idControl, int idRequire, int timestamp, String question);
+
+  Future<Either<Failure, String>> confirmConsult(
+      int userId, int timestamp, String lowName);
 }

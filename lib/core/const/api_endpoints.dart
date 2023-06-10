@@ -12,6 +12,7 @@ abstract final class ApiEndpoints {
   static const requirementsByName = 'data/org/requires/list/full';
   static String getConsultDates = 'user/consults/';
   static String getAllConsultDates = 'user/consult/month';
+  static String confirmConsult = 'user/confirmConsult';
   static String signUpOnConsult = '/user/consultBook/';
 
   static String controlOrganHead(String lowName) {

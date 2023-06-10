@@ -12,6 +12,7 @@ import 'package:cyberbracy_mpt_original_front/domain/repositories/auth_repositor
 import 'package:cyberbracy_mpt_original_front/domain/repositories/consult_calendar.dart';
 import 'package:cyberbracy_mpt_original_front/domain/repositories/repository_control.dart';
 import 'package:cyberbracy_mpt_original_front/domain/repositories/who_am_i.dart';
+import 'package:cyberbracy_mpt_original_front/domain/uses/confirm_consult.dart';
 import 'package:cyberbracy_mpt_original_front/domain/uses/get_all_consult_dates.dart';
 import 'package:cyberbracy_mpt_original_front/domain/uses/get_consult_dates.dart';
 import 'package:cyberbracy_mpt_original_front/domain/uses/sign_up_on_consult.dart';
@@ -22,6 +23,7 @@ import 'package:cyberbracy_mpt_original_front/presentation/auth/sign_up/controll
 import 'package:cyberbracy_mpt_original_front/presentation/chat_bot/presentation/cubit/chat_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/consult_calendar/cubit/consult_calendar_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/control_supervisory_body/state/control_supervisory_body_cubit.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/one_signal_wrapper.dart/cubit/one_signal_wrapper_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement/state/requirements_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/state/requirement_body_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/support/cubit/support_cubit.dart';
@@ -56,9 +58,11 @@ Future<void> init() async {
 
   // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
   OneSignal.shared.promptUserForPushNotificationPermission();
+
   // Bloc / Cubit
 
   sl.registerFactory(() => ChatCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => OneSignalWrapperCubit(sl()));
   sl.registerFactory(() => ControlBodyCubit(sl()));
   sl.registerFactory(() => SignInCubit(signIn: sl(), sl()));
   sl.registerFactory(() => ConsultCalendarCubit(sl()));
@@ -76,6 +80,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetMessages(sl()));
   sl.registerLazySingleton(() => WhoAmI(sl()));
   sl.registerLazySingleton(() => GetConsultDates(sl()));
+  sl.registerLazySingleton(() => ConfirmConsult(sl()));
   sl.registerLazySingleton(() => GetMaxPages(sl()));
   sl.registerLazySingleton(() => SignIn(signInRepository: sl()));
   sl.registerLazySingleton(() => SignUp(repository: sl()));
