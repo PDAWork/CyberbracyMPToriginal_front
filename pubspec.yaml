@@ -33,7 +33,7 @@ dependencies:
   flutter_webrtc:
   web_socket_channel:
   shimmer:
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

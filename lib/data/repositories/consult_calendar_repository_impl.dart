@@ -59,4 +59,21 @@ class ConsultCalendarRepositoryImpl implements ConsultCalendarRepository {
       return Left(ServerFailure(e is Failure ? e.message : e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> confirmConsult(
+      int userId, int timestamp, String lowName) async {
+    return await _confirmConsult(() =>
+        calendarRemoteDataSource.confirmConsult(userId, timestamp, lowName));
+  }
+
+  Future<Either<Failure, String>> _confirmConsult(
+      Future<String> Function() date) async {
+    try {
+      final model = await date();
+      return Right(model);
+    } catch (e) {
+      return Left(ServerFailure(e is Failure ? e.message : e.toString()));
+    }
+  }
 }

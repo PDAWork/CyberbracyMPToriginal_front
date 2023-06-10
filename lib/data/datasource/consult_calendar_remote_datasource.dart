@@ -16,4 +16,6 @@ abstract interface class ConsultCalendarRemoteDataSource {
   ///Throws [ServerException] for all code errors
   Future<String> signUpOnConsult(int userId, String lowName, int idControl,
       int idRequire, int timestamp, String question);
+
+  Future<String> confirmConsult(int userId, int timestamp, String lowName);
 }

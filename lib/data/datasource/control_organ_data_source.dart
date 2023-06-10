@@ -129,7 +129,7 @@ class ControlOrganDataSourceImpl implements ControlOrganDataSource {
         idRequire,
       ));
       return RequirementBodyModel.fromJson(result.data);
-    } on DioError catch (e) {
+    } on DioError {
       return null;
     }
   }
@@ -145,7 +145,7 @@ class ControlOrganDataSourceImpl implements ControlOrganDataSource {
       return (result.data as List)
           .map((e) => RequirementsModel.fromJson(e))
           .toList();
-    } on DioError catch (e) {
+    } on DioError catch (_) {
       return null;
     }
   }
