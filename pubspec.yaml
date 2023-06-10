@@ -33,6 +33,8 @@ dependencies:
   flutter_webrtc:
   web_socket_channel:
   shimmer:
+  hydrated_bloc: ^9.1.1
+  permission_handler: ^10.3.0
 
 dev_dependencies:
   flutter_test:

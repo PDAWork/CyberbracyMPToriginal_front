@@ -20,6 +20,7 @@ import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/pres
 import 'package:cyberbracy_mpt_original_front/presentation/requirement_body/state/requirement_body_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/support/cubit/support_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/support/support.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/video_call/controller/video_call_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,6 +57,9 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<ConsultCalendarCubit>(),
+        ),
+        BlocProvider<VideoCallCubit>(
+          create: (context) => sl<VideoCallCubit>(),
         )
       ],
       child: MaterialApp(
