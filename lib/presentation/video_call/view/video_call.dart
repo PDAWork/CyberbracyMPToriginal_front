@@ -1,31 +1,31 @@
 import 'dart:convert';
 
+import 'package:cyberbracy_mpt_original_front/core/const/types.dart';
+import 'package:cyberbracy_mpt_original_front/presentation/auth/sign_in/controller/sign_in_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/video_call/controller/video_call_cubit.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/video_call/controller/video_call_state.dart';
+import 'package:cyberbracy_mpt_original_front/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-class VideoCall extends StatelessWidget {
-  const VideoCall({super.key});
+class VideoCall extends StatefulWidget {
+  final String roomId;
+  int toId;
+  int fromId;
+  VideoCall({
+    super.key,
+    required this.toId,
+    required this.fromId,
+    required this.roomId,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Homepage(),
-    );
-  }
+  State<VideoCall> createState() => _VideoCallState();
 }
 
-class Homepage extends StatefulWidget {
-  const Homepage({Key? key}) : super(key: key);
-
-  @override
-  State<Homepage> createState() => _HomepageState();
-}
-
-class _HomepageState extends State<Homepage> {
+class _VideoCallState extends State<VideoCall> {
   final RTCVideoRenderer localVideo = RTCVideoRenderer();
   final RTCVideoRenderer remoteVideo = RTCVideoRenderer();
   late final MediaStream localStream;
@@ -37,7 +37,7 @@ class _HomepageState extends State<Homepage> {
   void connectToServer() {
     try {
       channel = WebSocketChannel.connect(
-          Uri.parse("ws://46.243.201.240:8000/video/room1/"));
+          Uri.parse("ws://46.243.201.240:8000/video/${widget.roomId}/"));
       // Listening to the socket event as a stream
       channel.stream.listen(
         (message) async {
@@ -48,7 +48,7 @@ class _HomepageState extends State<Homepage> {
           // If the client receive an offer
           if (decoded["type"] == "sending_offer") {
             // Set the offer SDP to remote description
-            if (decoded['from'] == 1) {
+            if (decoded['from'] == widget.fromId) {
               return;
             }
             await peerConnection?.setRemoteDescription(
@@ -66,8 +66,8 @@ class _HomepageState extends State<Homepage> {
               jsonEncode(
                 {
                   "type": "sending_answer",
-                  'from': 1,
-                  'to': 2,
+                  'from': widget.fromId,
+                  'to': widget.toId,
                   "answer": answer.toMap(),
                 },
               ),
@@ -76,7 +76,7 @@ class _HomepageState extends State<Homepage> {
           // If client receive an Ice candidate from the peer
           else if (decoded["type"] == "sending_candidate") {
             // It add to the RTC peer connection
-            if (decoded['from'] == 1) {
+            if (decoded['from'] == widget.fromId) {
               return;
             }
             peerConnection?.addCandidate(
@@ -84,13 +84,13 @@ class _HomepageState extends State<Homepage> {
                 decoded["candidate"]["candidate"],
                 decoded["candidate"]["sdpMid"],
                 decoded["candidate"]["sdpMLineIndex"],
-              ),   
+              ),
             );
           }
           // If Client recive an reply of their offer as answer
 
           else if (decoded["type"] == "sending_answer") {
-            if (decoded['from'] == 1) {
+            if (decoded['from'] == widget.fromId) {
               return;
             }
             await peerConnection?.setRemoteDescription(
@@ -139,8 +139,8 @@ class _HomepageState extends State<Homepage> {
     localVideo.srcObject = localStream;
     // Initializing the peer connecion
     peerConnection = await createPeerConnection(configuration);
-    
-    Helper.switchCamera(localStream.getVideoTracks()[0]);
+
+    // Helper.switchCamera(localStream.getVideoTracks()[0]);
     setState(() {});
     // Adding the local media to peer connection
     // When connection establish, it send to the remote peer
@@ -161,8 +161,8 @@ class _HomepageState extends State<Homepage> {
       jsonEncode(
         {
           "type": "sending_offer",
-          "from": 1,
-          'to': 2,
+          "from": widget.fromId,
+          'to': widget.toId,
           'offer': offer.toMap(),
         },
       ),
@@ -180,8 +180,8 @@ class _HomepageState extends State<Homepage> {
         jsonEncode(
           {
             "type": "sending_candidate",
-            "from": 1,
-            'to': 2,
+            "from": widget.fromId,
+            'to': widget.toId,
             "candidate": candidate.toMap(),
           },
         ),
@@ -211,6 +211,11 @@ class _HomepageState extends State<Homepage> {
 
   @override
   void initState() {
+    if (widget.fromId != sl<UserId>()) {
+      int num = widget.fromId;
+      widget.fromId = widget.toId;
+      widget.toId = num;
+    }
     connectToServer();
 
     localVideo.initialize();
@@ -222,8 +227,8 @@ class _HomepageState extends State<Homepage> {
       jsonEncode(
         {
           'type': 'new_user_joined',
-          'from': 1,
-          'user_full_name': 'testuser2@mail.ru',
+          'from': widget.fromId,
+          'user_full_name': sl<UserEmail>(),
         },
       ),
     );
@@ -234,84 +239,92 @@ class _HomepageState extends State<Homepage> {
   @override
   void dispose() {
     peerConnection?.close();
+    localVideo.srcObject = null;
     localVideo.dispose();
     remoteVideo.dispose();
+    localStream.clone();
+    remoteStream?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<VideoCallCubit, VideoCallState>(
-      builder: (context, state) {
-        if (state is VideoCallInitialState) {
-          context.read<VideoCallCubit>().setupCalling();
-        }
-        return Scaffold(
-          body: Stack(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: RTCVideoView(
-                  remoteVideo,
-                  mirror: false,
-                ),
-              ),
-              Positioned(
-                right: 10,
-                child: SizedBox(
-                  height: 200,
-                  width: 200,
-                  child: RTCVideoView(
-                    localVideo,
-                    mirror: true,
+    return Scaffold(
+      body: BlocBuilder<VideoCallCubit, VideoCallState>(
+        builder: (context, state) {
+          if (state is VideoCallInitialState) {
+            context.read<VideoCallCubit>().setupCalling();
+            registerPeerConnectionListeners();
+          }
+          return Scaffold(
+            body: SafeArea(
+              child: Stack(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: RTCVideoView(
+                      remoteVideo,
+                      mirror: false,
+                    ),
                   ),
-                ),
-              ),
-            ],
-          ),
-          floatingActionButton: Padding(
-            padding: const EdgeInsets.only(bottom: 100),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                FloatingActionButton(
-                  backgroundColor: Colors.amberAccent,
-                  onPressed: () => registerPeerConnectionListeners(),
-                  child: const Icon(Icons.settings_applications_rounded),
-                ),
-                const SizedBox(width: 10),
-                FloatingActionButton(
-                  backgroundColor: Colors.green,
-                  onPressed: () => {
-                    makeCall(),
-                  },
-                  child: const Icon(Icons.call_outlined),
-                ),
-                const SizedBox(width: 10),
-                FloatingActionButton(
-                  backgroundColor: Colors.redAccent,
-                  onPressed: () {
-                    channel.sink.add(
-                      jsonEncode(
-                        {
-                          "event": "msg",
-                          "data": "Hi this is an offer",
-                        },
+                  Positioned(
+                    right: 10,
+                    child: SizedBox(
+                      height: 200,
+                      width: 200,
+                      child: RTCVideoView(
+                        localVideo,
+                        mirror: true,
                       ),
-                    );
-                  },
-                  child: const Icon(
-                    Icons.call_end_outlined,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-        );
-      },
+            floatingActionButton: Padding(
+              padding: const EdgeInsets.only(bottom: 100),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // FloatingActionButton(
+                  //   backgroundColor: Colors.amberAccent,
+                  //   onPressed: () => registerPeerConnectionListeners(),
+                  //   child: const Icon(Icons.settings_applications_rounded),
+                  // ),
+                  // const SizedBox(width: 10),
+                  FloatingActionButton(
+                    backgroundColor: Colors.green,
+                    onPressed: () => {
+                      makeCall(),
+                    },
+                    child: const Icon(Icons.call_outlined),
+                  ),
+                  const SizedBox(width: 10),
+                  FloatingActionButton(
+                    backgroundColor: Colors.redAccent,
+                    onPressed: () {
+                      channel.sink.add(
+                        jsonEncode(
+                          {
+                            "event": "msg",
+                            "data": "Hi this is an offer",
+                          },
+                        ),
+                      );
+                    },
+                    child: const Icon(
+                      Icons.call_end_outlined,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+          );
+        },
+      ),
     );
   }
 }

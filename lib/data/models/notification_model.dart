@@ -7,3 +7,13 @@ class NotificationModel extends NotificationEntity {
     return NotificationModel(json['lowName'], json['from']);
   }
 }
+
+class VideoCallModel extends VideoCallEntiti {
+  VideoCallModel(
+      {required super.toId, required super.fromId, required super.roomId});
+  factory VideoCallModel.fromJson(Map<String, dynamic> json) => VideoCallModel(
+        toId: json['toId'],
+        fromId: json['fromId'],
+        roomId: json['roomId'],
+      );
+}

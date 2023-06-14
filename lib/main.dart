@@ -67,98 +67,95 @@ class MainApp extends StatelessWidget {
           create: (context) => sl<OneSignalWrapperCubit>(),
         ),
       ],
-      child: OneSignalWrapper(
-        child: MaterialApp(
-          supportedLocales: const [
-            Locale('ru'),
-            Locale('en'),
-          ],
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          scrollBehavior: ScrollWithoutSplash(),
-          scaffoldMessengerKey: SnackBarService.scaffoldKey,
-          debugShowCheckedModeBanner: false,
-          theme: themeData,
-          onGenerateRoute: (settings) {
-            return switch (settings.name!) {
-              "sign_in" => MaterialPageRoute(builder: (_) => const SignIn()),
-              "sign_up" => MaterialPageRoute(builder: (_) => const SignUp()),
-              "consult_calendar" =>
-                MaterialPageRoute(builder: (_) => const ConsultCalendar()),
-              "pin_verification" => MaterialPageRoute(
-                  builder: (_) => const PinVerification(),
+      child: MaterialApp(
+        supportedLocales: const [
+          Locale('ru'),
+          Locale('en'),
+        ],
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        scrollBehavior: ScrollWithoutSplash(),
+        scaffoldMessengerKey: SnackBarService.scaffoldKey,
+        debugShowCheckedModeBanner: false,
+        theme: themeData,
+        onGenerateRoute: (settings) {
+          return switch (settings.name!) {
+            "sign_in" => MaterialPageRoute(builder: (_) => const SignIn()),
+            "sign_up" => MaterialPageRoute(builder: (_) => const SignUp()),
+            "consult_calendar" =>
+              MaterialPageRoute(builder: (_) => const ConsultCalendar()),
+            "pin_verification" => MaterialPageRoute(
+                builder: (_) => const PinVerification(),
+              ),
+            "control_supervisory_body" => MaterialPageRoute(
+                builder: (_) {
+                  String lowName =
+                      (settings.arguments as Map<String, String>)['lowName']!;
+                  return BlocProvider(
+                    create: (context) => sl<ControlSupervisoryBodyCubit>(),
+                    child: ControlSupervisoryBody(
+                      lowName: lowName,
+                    ),
+                  );
+                },
+              ),
+            "chat_bot" => MaterialPageRoute(
+                builder: (_) => const ChatBot(),
+              ),
+            "requirements" => MaterialPageRoute(
+                builder: (_) {
+                  final String lowName =
+                      (settings.arguments as Map<String, dynamic>)['lowName'];
+                  final int idControl =
+                      (settings.arguments as Map<String, dynamic>)['idControl'];
+                  return BlocProvider(
+                    create: (context) =>
+                        sl<RequirementsCubit>()..init(lowName, idControl),
+                    child: Requirements(lowName: lowName, idControl: idControl),
+                  );
+                },
+              ),
+            'requirement_body' => MaterialPageRoute(
+                builder: (_) {
+                  final String lowName =
+                      (settings.arguments as Map<String, dynamic>)['lowName'];
+                  final int idControl =
+                      (settings.arguments as Map<String, dynamic>)['idControl'];
+                  final int idRequire =
+                      (settings.arguments as Map<String, dynamic>)['idRequire'];
+                  return BlocProvider(
+                    create: (context) => sl<RequirementBodyCubit>()
+                      ..init(lowName, idControl, idRequire),
+                    child: const RequirementBody(),
+                  );
+                },
+              ),
+            "support" => MaterialPageRoute(
+                builder: (_) => BlocProvider(
+                  create: (context) => sl<SupportCubit>()..init(),
+                  child: const Support(),
                 ),
-              "control_supervisory_body" => MaterialPageRoute(
-                  builder: (_) {
-                    String lowName =
-                        (settings.arguments as Map<String, String>)['lowName']!;
-                    return BlocProvider(
-                      create: (context) => sl<ControlSupervisoryBodyCubit>(),
-                      child: ControlSupervisoryBody(
-                        lowName: lowName,
-                      ),
-                    );
-                  },
+              ),
+            "profile" => MaterialPageRoute(
+                builder: (_) => const Profile(),
+              ),
+            "home" => MaterialPageRoute(
+                builder: (_) => BlocProvider(
+                  create: (_) => sl<ControlBodyCubit>()..init(),
+                  child: const OneSignalWrapper(child: Home()),
                 ),
-              "chat_bot" => MaterialPageRoute(
-                  builder: (_) => const ChatBot(),
+              ),
+            _ => MaterialPageRoute(
+                builder: (_) => const Center(
+                  child: CircularProgressIndicator(),
                 ),
-              "requirements" => MaterialPageRoute(
-                  builder: (_) {
-                    final String lowName =
-                        (settings.arguments as Map<String, dynamic>)['lowName'];
-                    final int idControl = (settings.arguments
-                        as Map<String, dynamic>)['idControl'];
-                    return BlocProvider(
-                      create: (context) =>
-                          sl<RequirementsCubit>()..init(lowName, idControl),
-                      child:
-                          Requirements(lowName: lowName, idControl: idControl),
-                    );
-                  },
-                ),
-              'requirement_body' => MaterialPageRoute(
-                  builder: (_) {
-                    final String lowName =
-                        (settings.arguments as Map<String, dynamic>)['lowName'];
-                    final int idControl = (settings.arguments
-                        as Map<String, dynamic>)['idControl'];
-                    final int idRequire = (settings.arguments
-                        as Map<String, dynamic>)['idRequire'];
-                    return BlocProvider(
-                      create: (context) => sl<RequirementBodyCubit>()
-                        ..init(lowName, idControl, idRequire),
-                      child: const RequirementBody(),
-                    );
-                  },
-                ),
-              "support" => MaterialPageRoute(
-                  builder: (_) => BlocProvider(
-                    create: (context) => sl<SupportCubit>()..init(),
-                    child: const Support(),
-                  ),
-                ),
-              "profile" => MaterialPageRoute(
-                  builder: (_) => const Profile(),
-                ),
-              "home" => MaterialPageRoute(
-                  builder: (_) => BlocProvider(
-                    create: (_) => sl<ControlBodyCubit>()..init(),
-                    child: const Home(),
-                  ),
-                ),
-              _ => MaterialPageRoute(
-                  builder: (_) => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-            };
-          },
-          initialRoute: 'sign_in',
-        ),
+              )
+          };
+        },
+        initialRoute: 'sign_in',
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:cyberbracy_mpt_original_front/core/const/types.dart';
 import 'package:cyberbracy_mpt_original_front/domain/uses/sign_in.dart';
 import 'package:cyberbracy_mpt_original_front/domain/uses/who_am_i.dart';
 import 'package:cyberbracy_mpt_original_front/presentation/auth/sign_in/controller/sign_in_state.dart';
@@ -34,7 +35,8 @@ class SignInCubit extends Cubit<SignInState> {
           response.fold(
             (error) => emit(SignInErrorState(message: error.toString())),
             (data) async {
-              sl.registerSingleton(data);
+              sl.registerSingleton<UserEmail>(email);
+              sl.registerSingleton<UserId>(data);
               OneSignal.shared.setExternalUserId(email).then((results) {
                 debugPrint(
                   results.toString(),
@@ -53,3 +55,5 @@ class SignInCubit extends Cubit<SignInState> {
     }
   }
 }
+
+typedef UserEmail = String;
